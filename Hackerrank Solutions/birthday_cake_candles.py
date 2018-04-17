@@ -1,30 +1,15 @@
-class Command:
-    def execute(self): pass
+#!/bin/python3
 
-class test1(Command):
-    def execute(self):
-        print("You're in  test1.")
+import sys
 
-class test2(Command):
-    def execute(self):
-        print("You are in test2")
 
-class test3(Command):
-    def execute(self):
-        print("you are in test3")
+n = int(input().strip())
+height = [int(height_temp) for height_temp in input().strip().split(' ')]
+height.sort()
+h = height[-1]
+count =0
+for val in height :
+    if val == h:
+        count +=1
 
-# An object that holds commands:
-class processor:
-    def __init__(self):
-        self.commands = []
-    def add(self, command):
-        self.commands.append(command)
-    def run(self):
-        for c in self.commands:
-            c.execute()
-
-processor = processor()
-processor.add(test1())
-processor.add(test2())
-processor.add(test3())
-processor.run()
+print (count)      
