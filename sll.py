@@ -6,6 +6,9 @@ class Node(object):
     def get_data(self):
         return self.data
 
+    def set_data(self, data):
+        self.data = data
+    
     def get_next(self):
         return self.next_node
 
@@ -31,7 +34,7 @@ class Sll(object):
         self.head = head
         self.tail = None
 
-    def insert_end(self,data):
+    def insert(self,data):
         new_node = Node(data)
         if not self.head:
             self.head = new_node
@@ -174,6 +177,7 @@ class Sll(object):
             self.head = new_node
             return
 
+
     def search(self, value):
         curr = self.head
         while curr:
@@ -197,22 +201,91 @@ class Sll(object):
 
     def __repr__(self,head= None):
         return '->'.join(self.linkedlist_builder(head))
+
+def add(fnode, snode):
+    """Function to add two linked lists. the resultant linked list will be added
+       to first linked list or to the bigger linked list
+    """
+    fnode.linked_reverse2()
+    snode.linked_reverse2()
+    f_len = fnode.size()
+    s_len = snode.size()
+    
+    carry = 0
+    #Smaller digit is added to bigger digit
+    if s_len >f_len:
+        temp = fnode
+        fnode = snode
+        snode = temp
+    
+    s_curr = snode.head
+    f_curr = fnode.head
+    
+    #loop through smaller digit and keep adding
+    while s_curr:
+        #check if any carry from previous addition exists
+        if carry ==0:
+            data = s_curr.data + f_curr.data
+        elif carry ==1:
+            data = s_curr.data + f_curr.data + 1
+            carry=0
+        #After addition if total sum is more than 10 update carry flag
+        #and change current value to mod of sum
+        if data <10:
+            f_curr.data = data
+        elif data >=10 :
+            data = data % 10
+            f_curr.data = data
+            carry = 1
+        s_curr = s_curr.next_node
+        f_curr = f_curr.next_node
+
+    #if carry is 1 from previous calculation update the values
+    #of bigger digit rest of values
+    if carry == 1 and f_curr != None:#case when carry=1 and unequal digits are added
+        if f_curr.data != 9:# when digit is not 9 simply add value
+            f_curr.data = f_curr.data +1
+        else:
+            f_curr.data = 0
+            while f_curr: # when digit is 9 simply pass the carry to other digits
+                if f_curr.data ==9:
+                    f_curr.data = 0
+                f_curr = f_curr.next_node
+            
+            fnode.linked_reverse2()
+            snode.linked_reverse2()
+            fnode.insert_head(1)
+            
+            return fnode
+        
+    elif carry == 1 and f_curr == None:#case when carry=1 and equal digits are added
+        fnode.linked_reverse2()
+        snode.linked_reverse2()
+        fnode.insert_head(1)    
+        return fnode
+    
+    fnode.linked_reverse2()
+    snode.linked_reverse2()
+    return fnode
+
+        
+    
     
 s = Sll()
 #print (s, s.head)
-s.insert_end(11)
+s.insert(11)
 
 #print (s,s.head,s.head.next_node,'11',s.head.data)
-s.insert_end(12)
+s.insert(12)
 s.insert_between(21,2)
 print (s)
 #print (s.head,s.head.data,s.head.next_node,s.head.next_node.data, s.head.next_node.next_node, )
 
 #print (s.head, s.head.next_node,s.head.next_node.next_node,s)
-s.insert_end(13)
+s.insert(13)
 #print (s.head, s.head.next_node,s.head.next_node.next_node,s)
-s.insert_end(14)
-s.insert_end(15)
+s.insert(14)
+s.insert(15)
 #linked list and its size
 print (s, s.size())
 #linked list size when a head node is passed
@@ -239,7 +312,7 @@ print (s,s.head.data)
 s.insert_between(16,8)
 print (s)
 
-s.insert_end(99)
+s.insert(99)
 print (s)
 
 import time
@@ -256,18 +329,33 @@ print (s, t2-t1)
 
 
 q = Sll()
-q.insert_end(9)
-q.insert_end(9)
-q.insert_end(8)
-q.insert_end(9)
-q.insert_end(9)
+q.insert(9)
+q.insert(9)
+q.insert(8)
+q.insert(9)
+q.insert(9)
 print (q)
 
 
 
 
-##q.increment1()
-##print (q)
+q.increment1()
+print (q, 'increment by 1')
 
 q.increment()
-print (q)
+print (q, 'increment by 1 another method')
+
+
+n1= Sll()
+n1.insert(9)
+n1.insert(9)
+n1.insert(9)
+n1.insert(9)
+
+n2= Sll()
+#n2.insert(9)
+#n2.insert(9)
+n2.insert(9)
+
+res = add(n1,n2)
+print (res, 'add two linked list. Result will go to either first list or bigger list')
