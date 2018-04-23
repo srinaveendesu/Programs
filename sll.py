@@ -202,12 +202,13 @@ class Sll(object):
     def __repr__(self,head= None):
         return '->'.join(self.linkedlist_builder(head))
 
-def add(fnode, snode):
+def add(fnode, snode, mode =0):
     """Function to add two linked lists. the resultant linked list will be added
        to first linked list or to the bigger linked list
     """
-    fnode.linked_reverse2()
-    snode.linked_reverse2()
+    if mode==0:
+        fnode.linked_reverse2()
+        snode.linked_reverse2()
     f_len = fnode.size()
     s_len = snode.size()
     
@@ -359,3 +360,30 @@ n2.insert(9)
 
 res = add(n1,n2)
 print (res, 'add two linked list. Result will go to either first list or bigger list')
+
+n1= Sll()
+n1.insert(1)
+n1.insert(2)
+n1.insert(3)
+
+
+n2= Sll()
+n2.insert(7)
+n2.insert(8)
+
+reverse_add = 1
+res = add(n1,n2)
+print (res, 'add two linked list straight order. Result will go to either first list or bigger list')
+
+n1= Sll()
+n1.insert(1)
+n1.insert(2)
+n1.insert(3)
+
+
+n2= Sll()
+n2.insert(7)
+n2.insert(8)
+
+res = add(n1,n2, reverse_add)
+print (res, 'add two linked list reverse order. Result will go to either first list or bigger list')
