@@ -83,5 +83,23 @@ def calc_arr(a,b):
 ##9. Check if another user of same bucket is uploaing file
 ##10 Check his session is active/not
 
+######################################################
 
-        
+""" Round 2
+Given an array find all triplets summing to a given value.
+Optimize problem.
+time complexity.
+
+Asumming that the given triplet function is written already. You as an automation engineer need to wite test automation suite for testing te function
+"""
+
+""" Round 3
+Given an array with an intial value, each next element is either +1 or -1 of previous element . Task is to find the first occurrance of the given value
+optimize optimize optimize.. find best possible solution
+
+Given a linked list find if its a palindrome.
+optimize optimize optimize ....find better solution
+
+Have you done anything for any other teams other than your own project. If so why? 
+"""
+

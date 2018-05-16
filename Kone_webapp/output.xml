@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.0.4 (Python 3.6.1 on win32)" generated="20180515 18:09:16.363">
+<suite id="s1" name="Kone webapp" source="C:\Users\sd186076\Desktop\Udemy\Kone_assignment\Kone_webapp">
+<suite id="s1-s1" name="Tests" source="C:\Users\sd186076\Desktop\Udemy\Kone_assignment\Kone_webapp\Tests">
+<suite id="s1-s1-s1" name="Kone Webapp Testcases" source="C:\Users\sd186076\Desktop\Udemy\Kone_assignment\Kone_webapp\Tests\kone_webapp_testcases.robot">
+<test id="s1-s1-s1-t1" name="Testcase for Invalid URL Accessing portal">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Different types of invalid URL's are given</arg>
+</arguments>
+<msg timestamp="20180515 18:09:18.126" level="INFO">Different types of invalid URL's are given</msg>
+<status status="PASS" starttime="20180515 18:09:18.126" endtime="20180515 18:09:18.126"></status>
+</kw>
+<kw name="Open Weblink" library="kone_webapp">
+<arguments>
+<arg>${INVALID_URL1}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20180515 18:09:18.127" level="INFO">INVALID URL GIVEN -&gt; https://koneiot-portal-uat.eu-gb.mybluemix</msg>
+<msg timestamp="20180515 18:09:18.127" level="INFO">${result} = Invalid URL</msg>
+<status status="PASS" starttime="20180515 18:09:18.127" endtime="20180515 18:09:18.127"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Invalid URL</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:09:18.128" endtime="20180515 18:09:18.128"></status>
+</kw>
+<kw name="Open Weblink" library="kone_webapp">
+<arguments>
+<arg>${INVALID_URL2}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20180515 18:09:18.129" level="INFO">INVALID URL GIVEN -&gt; https://koneiot-portal-uat.eu-gb.mybluemix</msg>
+<msg timestamp="20180515 18:09:18.129" level="INFO">${result} = Invalid URL</msg>
+<status status="PASS" starttime="20180515 18:09:18.128" endtime="20180515 18:09:18.129"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Invalid URL</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:09:18.130" endtime="20180515 18:09:18.131"></status>
+</kw>
+<kw name="Open Weblink" library="kone_webapp">
+<arguments>
+<arg>${INVALID_URL3}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20180515 18:09:18.132" level="INFO">INVALID URL GIVEN -&gt; https://random.link.which.does.not.exit</msg>
+<msg timestamp="20180515 18:09:18.132" level="INFO">${result} = Invalid URL</msg>
+<status status="PASS" starttime="20180515 18:09:18.131" endtime="20180515 18:09:18.132"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Invalid URL</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:09:18.134" endtime="20180515 18:09:18.134"></status>
+</kw>
+<kw name="Open Weblink" library="kone_webapp">
+<arguments>
+<arg>${INVALID_URL4}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20180515 18:09:18.135" level="INFO">INVALID URL GIVEN -&gt; https://random.link.which.does.not.exit</msg>
+<msg timestamp="20180515 18:09:18.135" level="INFO">${result} = Invalid URL</msg>
+<status status="PASS" starttime="20180515 18:09:18.135" endtime="20180515 18:09:18.135"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Invalid URL</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:09:18.135" endtime="20180515 18:09:18.136"></status>
+</kw>
+<kw name="Open Weblink" library="kone_webapp">
+<arguments>
+<arg>${INVALID_URL5}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20180515 18:09:18.137" level="INFO">INVALID URL GIVEN -&gt; this-is-just-a-random-text</msg>
+<msg timestamp="20180515 18:09:18.137" level="INFO">${result} = Invalid URL</msg>
+<status status="PASS" starttime="20180515 18:09:18.137" endtime="20180515 18:09:18.137"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Invalid URL</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:09:18.138" endtime="20180515 18:09:18.138"></status>
+</kw>
+<status status="PASS" starttime="20180515 18:09:18.123" endtime="20180515 18:09:18.139" critical="yes"></status>
+</test>
+<test id="s1-s1-s1-t2" name="Testcase for valid URL to access the portal">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Open browser and enter the KONE web link</arg>
+</arguments>
+<msg timestamp="20180515 18:09:18.148" level="INFO">Open browser and enter the KONE web link</msg>
+<status status="PASS" starttime="20180515 18:09:18.147" endtime="20180515 18:09:18.148"></status>
+</kw>
+<kw name="Open Weblink" library="kone_webapp">
+<arguments>
+<arg>${URL}</arg>
+</arguments>
+<assign>
+<var>${browser}</var>
+<var>${title}</var>
+<var>${page_source}</var>
+</assign>
+<msg timestamp="20180515 18:09:46.337" level="INFO">${browser} = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session="7f80974bcab81c9b27152ee56ff3bdeb")&gt;</msg>
+<msg timestamp="20180515 18:09:46.338" level="INFO">${title} = Sign In</msg>
+<msg timestamp="20180515 18:09:46.338" level="INFO">${page_source} = &lt;!--?xml version="1.0" encoding="UTF-8"?--&gt;&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;&lt;head&gt;
+  	&lt;m...</msg>
+<status status="PASS" starttime="20180515 18:09:18.149" endtime="20180515 18:09:46.338"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>${DELAY}</arg>
+</arguments>
+<msg timestamp="20180515 18:09:51.353" level="INFO">Slept 5 seconds</msg>
+<status status="PASS" starttime="20180515 18:09:46.339" endtime="20180515 18:09:51.353"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Verify the obtained page by verifying the title and two buttons</arg>
+</arguments>
+<msg timestamp="20180515 18:09:51.355" level="INFO">Verify the obtained page by verifying the title and two buttons</msg>
+<status status="PASS" starttime="20180515 18:09:51.354" endtime="20180515 18:09:51.355"></status>
+</kw>
+<kw name="Validate Page Signin" library="kone_webapp">
+<arguments>
+<arg>${title}</arg>
+<arg>${page_source}</arg>
+<arg>1</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20180515 18:09:51.358" level="INFO">${result} = 1</msg>
+<status status="PASS" starttime="20180515 18:09:51.356" endtime="20180515 18:09:51.358"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>1</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:09:51.359" endtime="20180515 18:09:51.360"></status>
+</kw>
+<kw name="Teardown" library="kone_webapp">
+<arguments>
+<arg>${browser}</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:09:51.361" endtime="20180515 18:09:54.508"></status>
+</kw>
+<status status="PASS" starttime="20180515 18:09:18.144" endtime="20180515 18:09:54.508" critical="yes"></status>
+</test>
+<test id="s1-s1-s1-t3" name="Testcase for Navigating across the portal">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Navigation test to kone user page</arg>
+</arguments>
+<msg timestamp="20180515 18:09:54.508" level="INFO">Navigation test to kone user page</msg>
+<status status="PASS" starttime="20180515 18:09:54.508" endtime="20180515 18:09:54.508"></status>
+</kw>
+<kw name="Navigatelinkbutton" library="kone_webapp">
+<arguments>
+<arg>${BUTTON2}</arg>
+<arg>${URL}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+<var>${browser}</var>
+</assign>
+<msg timestamp="20180515 18:10:35.888" level="INFO">${result} = Navigated to invalid page</msg>
+<msg timestamp="20180515 18:10:35.888" level="INFO">${browser} = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session="eaf3b919999eb2dc4a5ad1706ab600a6")&gt;</msg>
+<status status="PASS" starttime="20180515 18:09:54.524" endtime="20180515 18:10:35.888"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Navigated to invalid page</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:10:35.888" endtime="20180515 18:10:35.903"></status>
+</kw>
+<kw name="Teardown" library="kone_webapp">
+<arguments>
+<arg>${browser}</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:10:35.903" endtime="20180515 18:10:39.049"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Invalid button given</arg>
+</arguments>
+<msg timestamp="20180515 18:10:39.049" level="INFO">Invalid button given</msg>
+<status status="PASS" starttime="20180515 18:10:39.049" endtime="20180515 18:10:39.049"></status>
+</kw>
+<kw name="Navigatelinkbutton" library="kone_webapp">
+<arguments>
+<arg>${INVALID_BUTTON}</arg>
+<arg>${URL}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+<var>${browser}</var>
+</assign>
+<msg timestamp="20180515 18:11:04.495" level="INFO">${result} = Invalid button given</msg>
+<msg timestamp="20180515 18:11:04.495" level="INFO">${browser} = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session="47b1edc3e64884c108d35398b1915f23")&gt;</msg>
+<status status="PASS" starttime="20180515 18:10:39.049" endtime="20180515 18:11:04.495"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Invalid button given</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:11:04.495" endtime="20180515 18:11:04.495"></status>
+</kw>
+<kw name="Teardown" library="kone_webapp">
+<arguments>
+<arg>${browser}</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:11:04.495" endtime="20180515 18:11:07.617"></status>
+</kw>
+<status status="PASS" starttime="20180515 18:09:54.508" endtime="20180515 18:11:07.617" critical="yes"></status>
+</test>
+<test id="s1-s1-s1-t4" name="Testcase for Logging-In to the portal">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Navigation test to kone user page</arg>
+</arguments>
+<msg timestamp="20180515 18:11:07.617" level="INFO">Navigation test to kone user page</msg>
+<status status="PASS" starttime="20180515 18:11:07.617" endtime="20180515 18:11:07.617"></status>
+</kw>
+<kw name="Navigatelinkbutton" library="kone_webapp">
+<arguments>
+<arg>${BUTTON1}</arg>
+<arg>${URL}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+<var>${browser}</var>
+</assign>
+<msg timestamp="20180515 18:11:44.359" level="INFO">${result} = Valid page</msg>
+<msg timestamp="20180515 18:11:44.359" level="INFO">${browser} = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session="c232952d5af5027e39a48e3dad491b5a")&gt;</msg>
+<status status="PASS" starttime="20180515 18:11:07.617" endtime="20180515 18:11:44.359"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Valid page</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:11:44.359" endtime="20180515 18:11:44.359"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>logging-In using invalid-user</arg>
+</arguments>
+<msg timestamp="20180515 18:11:44.359" level="INFO">logging-In using invalid-user</msg>
+<status status="PASS" starttime="20180515 18:11:44.359" endtime="20180515 18:11:44.359"></status>
+</kw>
+<kw name="Correct Signin" library="kone_webapp">
+<doc>This function tests at script level if correct password is</doc>
+<arguments>
+<arg>${browser}</arg>
+<arg>${INVALID_USERNAME}</arg>
+<arg>${PASSWORD}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+<var>${browser}</var>
+</assign>
+<msg timestamp="20180515 18:11:44.374" level="INFO">${result} = Invalid Username</msg>
+<msg timestamp="20180515 18:11:44.374" level="INFO">${browser} = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session="c232952d5af5027e39a48e3dad491b5a")&gt;</msg>
+<status status="PASS" starttime="20180515 18:11:44.359" endtime="20180515 18:11:44.374"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Invalid Username</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:11:44.374" endtime="20180515 18:11:44.374"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>logging-In using invalid-password</arg>
+</arguments>
+<msg timestamp="20180515 18:11:44.374" level="INFO">logging-In using invalid-password</msg>
+<status status="PASS" starttime="20180515 18:11:44.374" endtime="20180515 18:11:44.374"></status>
+</kw>
+<kw name="Correct Signin" library="kone_webapp">
+<doc>This function tests at script level if correct password is</doc>
+<arguments>
+<arg>${browser}</arg>
+<arg>${USERNAME}</arg>
+<arg>${INVALID_PASSWORD}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+<var>${browser}</var>
+</assign>
+<msg timestamp="20180515 18:11:44.374" level="INFO">${result} = Invalid Password</msg>
+<msg timestamp="20180515 18:11:44.374" level="INFO">${browser} = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session="c232952d5af5027e39a48e3dad491b5a")&gt;</msg>
+<status status="PASS" starttime="20180515 18:11:44.374" endtime="20180515 18:11:44.374"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Invalid Password</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:11:44.374" endtime="20180515 18:11:44.374"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>logging-In using invalid-user,password</arg>
+</arguments>
+<msg timestamp="20180515 18:11:44.374" level="INFO">logging-In using invalid-user,password</msg>
+<status status="PASS" starttime="20180515 18:11:44.374" endtime="20180515 18:11:44.374"></status>
+</kw>
+<kw name="Correct Signin" library="kone_webapp">
+<doc>This function tests at script level if correct password is</doc>
+<arguments>
+<arg>${browser}</arg>
+<arg>${INVALID_USERNAME}</arg>
+<arg>${INVALID_PASSWORD}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+<var>${browser}</var>
+</assign>
+<msg timestamp="20180515 18:11:44.374" level="INFO">${result} = Invalid Username</msg>
+<msg timestamp="20180515 18:11:44.374" level="INFO">${browser} = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session="c232952d5af5027e39a48e3dad491b5a")&gt;</msg>
+<status status="PASS" starttime="20180515 18:11:44.374" endtime="20180515 18:11:44.374"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Invalid Username</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:11:44.374" endtime="20180515 18:11:44.374"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>logging-In using valid-user,password</arg>
+</arguments>
+<msg timestamp="20180515 18:11:44.374" level="INFO">logging-In using valid-user,password</msg>
+<status status="PASS" starttime="20180515 18:11:44.374" endtime="20180515 18:11:44.374"></status>
+</kw>
+<kw name="Correct Signin" library="kone_webapp">
+<doc>This function tests at script level if correct password is</doc>
+<arguments>
+<arg>${browser}</arg>
+<arg>${USERNAME}</arg>
+<arg>${PASSWORD}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+<var>${browser}</var>
+</assign>
+<msg timestamp="20180515 18:12:13.732" level="INFO">${result} = Logged in to system</msg>
+<msg timestamp="20180515 18:12:13.732" level="INFO">${browser} = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session="c232952d5af5027e39a48e3dad491b5a")&gt;</msg>
+<status status="PASS" starttime="20180515 18:11:44.374" endtime="20180515 18:12:13.732"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Logged in to system</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:12:13.732" endtime="20180515 18:12:13.732"></status>
+</kw>
+<kw name="Teardown" library="kone_webapp">
+<arguments>
+<arg>${browser}</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:12:13.732" endtime="20180515 18:12:17.071"></status>
+</kw>
+<status status="PASS" starttime="20180515 18:11:07.617" endtime="20180515 18:12:17.071" critical="yes"></status>
+</test>
+<test id="s1-s1-s1-t5" name="Testcase for testing Incorrect logging handling in the website">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Navigation test to kone user page</arg>
+</arguments>
+<msg timestamp="20180515 18:12:17.071" level="INFO">Navigation test to kone user page</msg>
+<status status="PASS" starttime="20180515 18:12:17.071" endtime="20180515 18:12:17.071"></status>
+</kw>
+<kw name="Navigatelinkbutton" library="kone_webapp">
+<arguments>
+<arg>${BUTTON1}</arg>
+<arg>${URL}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+<var>${browser}</var>
+</assign>
+<msg timestamp="20180515 18:12:53.993" level="INFO">${result} = Valid page</msg>
+<msg timestamp="20180515 18:12:53.993" level="INFO">${browser} = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session="d42885aeb66a87e0ec815c202268eb72")&gt;</msg>
+<status status="PASS" starttime="20180515 18:12:17.071" endtime="20180515 18:12:53.993"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Valid page</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:12:53.993" endtime="20180515 18:12:53.993"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>logging-In using invalid-user</arg>
+</arguments>
+<msg timestamp="20180515 18:12:53.993" level="INFO">logging-In using invalid-user</msg>
+<status status="PASS" starttime="20180515 18:12:53.993" endtime="20180515 18:12:53.993"></status>
+</kw>
+<kw name="In Correct Signin" library="kone_webapp">
+<doc>This function tests behaviour in page if incorrect username/password is</doc>
+<arguments>
+<arg>${browser}</arg>
+<arg>${INVALID_USERNAME}</arg>
+<arg>${PASSWORD}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20180515 18:13:00.116" level="INFO">${result} = 1</msg>
+<status status="PASS" starttime="20180515 18:12:53.993" endtime="20180515 18:13:00.116"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>1</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:13:00.117" endtime="20180515 18:13:00.117"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>logging-In using invalid-password</arg>
+</arguments>
+<msg timestamp="20180515 18:13:00.118" level="INFO">logging-In using invalid-password</msg>
+<status status="PASS" starttime="20180515 18:13:00.117" endtime="20180515 18:13:00.118"></status>
+</kw>
+<kw name="In Correct Signin" library="kone_webapp">
+<doc>This function tests behaviour in page if incorrect username/password is</doc>
+<arguments>
+<arg>${browser}</arg>
+<arg>${USERNAME}</arg>
+<arg>${INVALID_PASSWORD}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20180515 18:13:05.991" level="INFO">${result} = 1</msg>
+<status status="PASS" starttime="20180515 18:13:00.118" endtime="20180515 18:13:05.991"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>1</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:13:05.991" endtime="20180515 18:13:05.991"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>logging-In using invalid-user,password</arg>
+</arguments>
+<msg timestamp="20180515 18:13:06.007" level="INFO">logging-In using invalid-user,password</msg>
+<status status="PASS" starttime="20180515 18:13:06.007" endtime="20180515 18:13:06.007"></status>
+</kw>
+<kw name="In Correct Signin" library="kone_webapp">
+<doc>This function tests behaviour in page if incorrect username/password is</doc>
+<arguments>
+<arg>${browser}</arg>
+<arg>${INVALID_USERNAME}</arg>
+<arg>${INVALID_PASSWORD}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20180515 18:13:12.390" level="INFO">${result} = 1</msg>
+<status status="PASS" starttime="20180515 18:13:06.007" endtime="20180515 18:13:12.390"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>1</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:13:12.390" endtime="20180515 18:13:12.390"></status>
+</kw>
+<kw name="Teardown" library="kone_webapp">
+<arguments>
+<arg>${browser}</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:13:12.390" endtime="20180515 18:13:15.545"></status>
+</kw>
+<status status="PASS" starttime="20180515 18:12:17.071" endtime="20180515 18:13:15.545" critical="yes"></status>
+</test>
+<test id="s1-s1-s1-t6" name="Testcase for validating forgot Username page">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Navigation test to kone user page</arg>
+</arguments>
+<msg timestamp="20180515 18:13:15.545" level="INFO">Navigation test to kone user page</msg>
+<status status="PASS" starttime="20180515 18:13:15.545" endtime="20180515 18:13:15.545"></status>
+</kw>
+<kw name="Navigatelinkbutton" library="kone_webapp">
+<arguments>
+<arg>${BUTTON1}</arg>
+<arg>${URL}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+<var>${browser}</var>
+</assign>
+<msg timestamp="20180515 18:13:52.250" level="INFO">${result} = Valid page</msg>
+<msg timestamp="20180515 18:13:52.250" level="INFO">${browser} = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session="71b95de2eb28298320133476c65beeef")&gt;</msg>
+<status status="PASS" starttime="20180515 18:13:15.545" endtime="20180515 18:13:52.250"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Valid page</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:13:52.250" endtime="20180515 18:13:52.250"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Select the forgot username link</arg>
+</arguments>
+<msg timestamp="20180515 18:13:52.250" level="INFO">Select the forgot username link</msg>
+<status status="PASS" starttime="20180515 18:13:52.250" endtime="20180515 18:13:52.250"></status>
+</kw>
+<kw name="Username Forgot Validate" library="kone_webapp">
+<arguments>
+<arg>${browser}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20180515 18:13:58.496" level="INFO">${result} = Forgot Username Page</msg>
+<status status="PASS" starttime="20180515 18:13:52.250" endtime="20180515 18:13:58.496"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Forgot Username Page</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:13:58.496" endtime="20180515 18:13:58.496"></status>
+</kw>
+<kw name="Teardown" library="kone_webapp">
+<arguments>
+<arg>${browser}</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:13:58.496" endtime="20180515 18:14:01.648"></status>
+</kw>
+<status status="PASS" starttime="20180515 18:13:15.545" endtime="20180515 18:14:01.648" critical="yes"></status>
+</test>
+<test id="s1-s1-s1-t7" name="Testcase for validating forgot Password page">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Navigation test to kone user page</arg>
+</arguments>
+<msg timestamp="20180515 18:14:01.648" level="INFO">Navigation test to kone user page</msg>
+<status status="PASS" starttime="20180515 18:14:01.648" endtime="20180515 18:14:01.648"></status>
+</kw>
+<kw name="Navigatelinkbutton" library="kone_webapp">
+<arguments>
+<arg>${BUTTON1}</arg>
+<arg>${URL}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+<var>${browser}</var>
+</assign>
+<msg timestamp="20180515 18:14:38.616" level="INFO">${result} = Valid page</msg>
+<msg timestamp="20180515 18:14:38.616" level="INFO">${browser} = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session="b1be39221af0e720c74e956cf71468e9")&gt;</msg>
+<status status="PASS" starttime="20180515 18:14:01.648" endtime="20180515 18:14:38.616"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Valid page</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:14:38.616" endtime="20180515 18:14:38.616"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Select the forgot password link</arg>
+</arguments>
+<msg timestamp="20180515 18:14:38.616" level="INFO">Select the forgot password link</msg>
+<status status="PASS" starttime="20180515 18:14:38.616" endtime="20180515 18:14:38.616"></status>
+</kw>
+<kw name="Userpassw Forgot Validate" library="kone_webapp">
+<arguments>
+<arg>${browser}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20180515 18:14:44.820" level="INFO">${result} = Forgot Password Page</msg>
+<status status="PASS" starttime="20180515 18:14:38.616" endtime="20180515 18:14:44.820"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Forgot Password Page</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:14:44.820" endtime="20180515 18:14:44.820"></status>
+</kw>
+<kw name="Teardown" library="kone_webapp">
+<arguments>
+<arg>${browser}</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:14:44.820" endtime="20180515 18:14:47.960"></status>
+</kw>
+<status status="PASS" starttime="20180515 18:14:01.648" endtime="20180515 18:14:47.960" critical="yes"></status>
+</test>
+<test id="s1-s1-s1-t8" name="Testcase for finding the Equipment-id from the portal">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Navigation test to kone user page</arg>
+</arguments>
+<msg timestamp="20180515 18:14:47.960" level="INFO">Navigation test to kone user page</msg>
+<status status="PASS" starttime="20180515 18:14:47.960" endtime="20180515 18:14:47.960"></status>
+</kw>
+<kw name="Navigatelinkbutton" library="kone_webapp">
+<arguments>
+<arg>${BUTTON1}</arg>
+<arg>${URL}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+<var>${browser}</var>
+</assign>
+<msg timestamp="20180515 18:15:25.846" level="INFO">${result} = Valid page</msg>
+<msg timestamp="20180515 18:15:25.846" level="INFO">${browser} = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session="fd0b22414ffe323b6b296c128b46715a")&gt;</msg>
+<status status="PASS" starttime="20180515 18:14:47.960" endtime="20180515 18:15:25.846"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Valid page</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:15:25.846" endtime="20180515 18:15:25.861"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>logging-In using valid-user,password</arg>
+</arguments>
+<msg timestamp="20180515 18:15:25.861" level="INFO">logging-In using valid-user,password</msg>
+<status status="PASS" starttime="20180515 18:15:25.861" endtime="20180515 18:15:25.861"></status>
+</kw>
+<kw name="Correct Signin" library="kone_webapp">
+<doc>This function tests at script level if correct password is</doc>
+<arguments>
+<arg>${browser}</arg>
+<arg>${USERNAME}</arg>
+<arg>${PASSWORD}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+<var>${browser}</var>
+</assign>
+<msg timestamp="20180515 18:15:56.793" level="INFO">${result} = Logged in to system</msg>
+<msg timestamp="20180515 18:15:56.793" level="INFO">${browser} = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session="fd0b22414ffe323b6b296c128b46715a")&gt;</msg>
+<status status="PASS" starttime="20180515 18:15:25.861" endtime="20180515 18:15:56.793"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Logged in to system</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:15:56.793" endtime="20180515 18:15:56.793"></status>
+</kw>
+<kw name="Search Equipment" library="kone_webapp">
+<arguments>
+<arg>${browser}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20180515 18:16:05.071" level="INFO">${result} = Equipment found</msg>
+<status status="PASS" starttime="20180515 18:15:56.793" endtime="20180515 18:16:05.071"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Equipment found</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:16:05.071" endtime="20180515 18:16:05.071"></status>
+</kw>
+<kw name="Teardown" library="kone_webapp">
+<arguments>
+<arg>${browser}</arg>
+</arguments>
+<status status="PASS" starttime="20180515 18:16:05.071" endtime="20180515 18:16:08.175"></status>
+</kw>
+<status status="PASS" starttime="20180515 18:14:47.960" endtime="20180515 18:16:08.177" critical="yes"></status>
+</test>
+<doc>A resource file with reusable keywords and variables.
+
+The system specific keywords created here form our own
+domain specific language. They utilize keywords provided
+by the imported Selenium2Library.</doc>
+<status status="PASS" starttime="20180515 18:09:16.465" endtime="20180515 18:16:08.184"></status>
+</suite>
+<status status="PASS" starttime="20180515 18:09:16.465" endtime="20180515 18:16:08.202"></status>
+</suite>
+<status status="PASS" starttime="20180515 18:09:16.378" endtime="20180515 18:16:08.202"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="8" fail="0">Critical Tests</stat>
+<stat pass="8" fail="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="8" fail="0" id="s1" name="Kone webapp">Kone webapp</stat>
+<stat pass="8" fail="0" id="s1-s1" name="Tests">Kone webapp.Tests</stat>
+<stat pass="8" fail="0" id="s1-s1-s1" name="Kone Webapp Testcases">Kone webapp.Tests.Kone Webapp Testcases</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
