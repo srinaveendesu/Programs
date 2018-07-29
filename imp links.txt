@@ -1,0 +1,13 @@
+https://colab.research.google.com/github/garybake/kaggle_entries/blob/master/CrimPredict.ipynb
+
+
+http://nbviewer.jupyter.org/github/garybake/kaggle_entries/blob/4f061f43d4aea2810610d492602ad403ca32c98a/CrimPredict.ipynb
+
+http://garybake.com/predicting-criminals.html#predicting-criminals
+
+
+
+https://github.com/dhavalmj007/DL3-transfer-learning-starter-kit/blob/master/Mobilenet-StarterKit.ipynb
+
+https://github.com/shubham3121/DL-3/blob/master/DL%233_EDA.ipynb
+
