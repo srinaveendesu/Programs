@@ -188,3 +188,44 @@ if __name__ == '__main__':
 
     fptr.close()
 
+#QQ# https://www.hackerrank.com/challenges/beautiful-triplets/problem
+
+# !/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+
+# Complete the beautifulTriplets function below.
+def beautifulTriplets(d, arr):
+    lst = []
+
+    for val in arr:
+        a = val
+        b = val + d
+        c = val + (2 * d)
+        if b in arr and c in arr:
+            lst.append(str(a) + str(b) + str(c))
+    print(lst)
+    return len(lst)
+
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    nd = input().split()
+
+    n = int(nd[0])
+
+    d = int(nd[1])
+
+    arr = list(map(int, input().rstrip().split()))
+
+    result = beautifulTriplets(d, arr)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
