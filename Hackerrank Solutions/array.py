@@ -79,3 +79,60 @@ if __name__ == '__main__':
 
     fptr.close()
 
+#QQ# https://www.hackerrank.com/challenges/missing-numbers/problem
+
+
+# !/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+
+# Complete the missingNumbers function below.
+def missingNumbers(arr, brr):
+    arr.sort()
+    brr.sort()
+
+    d1 = {}
+    for val in arr:
+        if val not in d1.keys():
+            d1[val] = 1
+        else:
+            d1[val] = d1[val] + 1
+    d2 = {}
+    for val in brr:
+        if val not in d1.keys():
+            d1[val] = -1
+        else:
+            d1[val] = d1[val] - 1
+
+    lst = []
+
+    for val in d1.keys():
+        if d1[val] < 0:
+            lst.append(val)
+    print(d1)
+    lst.sort()
+    return lst
+
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = int(input())
+
+    arr = list(map(int, input().rstrip().split()))
+
+    m = int(input())
+
+    brr = list(map(int, input().rstrip().split()))
+
+    result = missingNumbers(arr, brr)
+
+    fptr.write(' '.join(map(str, result)))
+    fptr.write('\n')
+
+    fptr.close()
