@@ -136,3 +136,55 @@ if __name__ == '__main__':
     fptr.write('\n')
 
     fptr.close()
+
+
+#QQ# https://www.hackerrank.com/challenges/sherlock-and-array/problem
+
+
+# !/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+
+# Complete the balancedSums function below.
+def balancedSums(arr):
+    flag = False
+    s = sum(arr)
+    half = 0
+    index = 0
+    n = len(arr)
+
+    for i in range(0, n):
+        temp_s = (s - arr[i]) / 2
+        if temp_s == half:
+            index = i
+            i = n
+            flag = True
+        else:
+            half = half + arr[i]
+
+    if not flag:
+        return 'NO'
+    return 'YES'
+
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    T = int(input().strip())
+
+    for T_itr in range(T):
+        n = int(input().strip())
+
+        arr = list(map(int, input().rstrip().split()))
+
+        result = balancedSums(arr)
+
+        fptr.write(result + '\n')
+
+    fptr.close()
+
