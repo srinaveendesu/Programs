@@ -6,7 +6,7 @@ return an array counting the consecutive digits in the format of [digit1,count,d
  [1,3,2,2,3,4,4,3]
 """
 
-N = [1,1,1,2,2,3,3,3,3,4,4,4]
+N = [1,1,1,2,2,3,3,3,3,4,4,4,5]
 
 def func(N):
     lst = []
