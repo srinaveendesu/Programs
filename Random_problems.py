@@ -25,3 +25,57 @@ def func(N):
 
 
 print (func(N))
+
+#QQ#
+"""
+Given an array N and a value v.
+find all the possible ways the values of the array could be summed to value 
+N = [1,2]
+v = 3
+Solution:
+lst [ [1,1,1]
+        [1,2]
+        [2,1]
+    ]
+"""
+
+
+N = [1,2]
+v = 5
+# This give the total number of ways we sum can be obtained
+def func2(N,v ):
+    count =0
+    if v >0:
+        for val in list(N):
+            count = count + func2( N,v - val )
+    elif v==0:
+        count =1
+        return count
+    else:
+        pass
+    return count
+
+print (func2(N,v) )
+
+## this function tries to give the ways it can take
+## partially complete
+lst = []
+def func3(N,v ,kst):
+    global lst
+    #N = N[::-1]
+    if v > 0:
+        for val in list(N):
+            kst = kst + [val]
+            v = v - val
+            print (kst, v,v-val)
+            func3(N, v, kst)
+        #print (v, kst)
+    elif v == 0:
+        #print(kst)
+        #lst = []
+        return lst.append(kst)
+    else:
+        pass
+    return lst
+kst = []
+print (func3(N,v,kst) )
