@@ -53,6 +53,15 @@ all_paths = []
 for val in temp_list:
     all_paths.append(DFS(G, val))
 
+# another way to get all_paths
+# all_paths = [p for ps in [DFS(G, n) for n in set(G)] for p in ps]
+
+# or
+
+# for node in set(G.keys()):
+#     for path in DFS(G, node):
+#         all_paths.append(path)
+
 all_len = []
 for paths in all_paths:
     for val in paths:
