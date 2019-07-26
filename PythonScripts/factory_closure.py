@@ -3,7 +3,7 @@ A closure simply causes the inner function to remember the state
 of its environment when called. Beginners often think that a
 closure is the inner function, but it’s really caused by the inner
 function. The closure “closes” the local variable on the stack, and
-this stays around after the stack creation has finished executing.
+this stays around after the stack creation has finished executing .
 """
 
 def has_permission(page):

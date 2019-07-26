@@ -15,7 +15,7 @@ Take a look at what is going on in that example:
 
         Call the outer function: generate_power(2).
         Build nth_power(), which takes a single argument power.
-        Take a snapshot of the state of nth_power(), which includes number=2.
+        Take a snapshot of the state of nth_power(), which includes number=2 .
         Pass that snapshot into generate_power().
         Return nth_power().
 
