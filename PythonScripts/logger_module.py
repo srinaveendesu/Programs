@@ -67,7 +67,7 @@ logging.basicConfig(format='%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d
     datefmt='%d-%m-%Y:%H:%M:%S',
     level=logging.DEBUG,
     filename='logs.txt')
-
+logger = logging.getLogger(__name__)
 """
 If you call `logging.getLogger('my_app')` from many different files, you’ll always get the same `Logger` object—so any configuration changes and the handler added will be reflected throughout all the app.
 
