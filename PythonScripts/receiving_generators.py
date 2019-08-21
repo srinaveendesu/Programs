@@ -70,3 +70,51 @@ greeter.send(None)
 greeter.send('Hello')
 print('Hello, world! Multitasking...')
 greeter.send('How are you,')
+
+
+# ####### Simple Generator########
+# 10
+# 5
+# 20
+# 9
+# 4
+# 19
+# 8
+# 3
+# 18
+# 7
+# 2
+# 17
+# 6
+# 1
+# 16
+# 5
+# Task finished
+# 15
+# 4
+# 14
+# 3
+# 13
+# 2
+# 12
+# 1
+# 11
+# Task finished
+# 10
+# 9
+# 8
+# 7
+# 6
+# 5
+# 4
+# 3
+# 2
+# 1
+# Task finished
+# ############Two way Generators############
+# HELLO Rolf
+# HELLO Jose
+# #########enerator receiving through yield#############
+# Hello ROLF
+# Hello, world! Multitasking...
+# How are you, JOSE
