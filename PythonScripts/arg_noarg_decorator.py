@@ -26,3 +26,9 @@ def greet(name):
 
 say_whee()
 greet("Penny")
+
+# Whee!
+# Whee!
+# Hello Penny
+# Hello Penny
+# Hello Penny
