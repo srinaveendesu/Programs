@@ -57,3 +57,24 @@ with ProcessPoolExecutor(max_workers=2) as pool:
 print('Two process total time: ', time.time() - start)
 
 # Run this and see what happens!
+
+
+# Enter your name: a
+# Hello, a
+# ask_user:  3.3599350452423096
+# Started calculating...
+# complex_calculation:  4.805688142776489
+# Single thread total time:  8.16568112373352
+#
+#
+# Enter your name: Started calculating...
+# a
+# Hello, a
+# ask_user:  2.0295188426971436
+# complex_calculation:  4.769603729248047
+# Two process total time:  4.773864984512329
+# Started calculating...
+# Started calculating...
+# complex_calculation:  4.9664881229400635
+# complex_calculation:  4.981385946273804
+# Two process total time:  4.990784168243408
