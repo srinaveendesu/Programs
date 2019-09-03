@@ -20,3 +20,9 @@ def say_whee():
 say_whee()
 say_whee()
 print (say_whee.num_calls)
+
+# Call 1 of 'say_whee'
+# Whee!
+# Call 2 of 'say_whee'
+# Whee!
+# 2
