@@ -25,4 +25,8 @@ another_one = TheOne()
 print (id(first_one))
 print (id(another_one))
 
-first_one is another_one
+print(first_one is another_one)
+
+# 4416392080
+# 4416392080
+# True
