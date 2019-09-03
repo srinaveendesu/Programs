@@ -83,3 +83,31 @@ with ThreadPoolExecutor(max_workers=2) as pool:
 
 print('ThreadPool: Two thread total time: ', time.time() - start)
 # ThreadPool: Two thread total time:  7.850630283355713
+
+
+# Enter your name: a
+# Hello, a
+# ask_user:  2.8042290210723877
+# Started calculating...
+# complex_calculation:  4.744001626968384
+# Single thread total time:  7.5482869148254395
+#
+#
+# Started calculating...
+# Enter your name: a
+# Hello, a
+# ask_user:  2.2089498043060303
+# complex_calculation:  4.773831129074097
+# Two thread total time:  4.77407693862915
+# Started calculating...
+# Started calculating...
+# complex_calculation:  9.374473810195923
+# complex_calculation:  9.67544412612915
+#
+# Two computation thread total time:  9.69346308708191
+# Started calculating...
+# Enter your name: a
+# Hello, a
+# ask_user:  2.50736403465271
+# complex_calculation:  4.84187912940979
+# ThreadPool: Two thread total time:  4.842121124267578
