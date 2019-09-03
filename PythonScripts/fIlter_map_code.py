@@ -16,9 +16,13 @@ It goes like this:
 friends = ['Rolf', 'Jose', 'Randy', 'Anna', 'Mary']
 start_with_r = filter(lambda x: x.startswith('R'), friends)
 print(start_with_r)  # generator!
+# <filter object at 0x10848b690>
 
 print(list(start_with_r))
 print(list(start_with_r))  # won't work, the generator has already gone through all its elements
+
+# ['Rolf', 'Randy']
+# []
 
 """
 The function, which is the first argument, must return `True` or `False`. It must also have one parameter which is the current element of the list we’re working with.
@@ -67,8 +71,10 @@ friends = ['Rolf', 'Charlie', 'Anna']
 friends_lower = map(lambda x: x.lower(), friends)
 
 print(friends_lower)
+# <map object at 0x10848b9d0>
 
 print(list(friends_lower))
+# ['rolf', 'charlie', 'anna']
 
 """
 This of course could be written (arguably better / more pythonically) as a list or generator comprehension:
