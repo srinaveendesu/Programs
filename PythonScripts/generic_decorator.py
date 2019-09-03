@@ -27,3 +27,7 @@ print(my_function.__name__)
 
 print(my_function('movies'))
 print(another())
+
+# my_function
+# Password for movies panel is 1234.
+# None
