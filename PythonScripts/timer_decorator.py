@@ -22,3 +22,6 @@ def waste_some_time(num_times):
 
 waste_some_time(1)
 waste_some_time(999)
+
+# Finished 'waste_some_time' in 0.0028 secs
+# Finished 'waste_some_time' in 2.3299 secs
