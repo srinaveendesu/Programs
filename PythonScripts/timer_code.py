@@ -53,3 +53,8 @@ print(timeit.timeit("map(lambda x: x**2, range(10))"))
 """
 This runs the statement a default of 10,000 times to check how long it runs for. Notice how `map()` is faster than list comprehension!
 """
+
+# 1.2079260349273682
+# 0.13422393798828125
+# 2.362416663
+# 0.32305107700000013
