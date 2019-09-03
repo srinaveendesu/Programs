@@ -28,3 +28,7 @@ print(my_function('movies'))
 user_has_p = user_has_permission('user')
 my_func = user_has_p(my_function)
 print (my_func('games'))
+
+# my_function
+# Password for movies panel is 1234.
+# Password for games panel is 1234.
