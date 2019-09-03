@@ -25,3 +25,5 @@ d = Dog('Bob')
 #a = Animal()
 
 d.walk()
+
+# Walking...
