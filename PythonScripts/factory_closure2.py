@@ -37,9 +37,10 @@ def generate_power(number):
 raise_two = generate_power(2)
 raise_three = generate_power(3)
 print(raise_two(7))
+# 128
 
 print(raise_three(5))
-
+# 243
 
 #####################################
 # Decorator implementation of the same
@@ -58,10 +59,11 @@ def raise_two(n):
     return n
 
 print(raise_two(7))
-
+# 128
 
 @generate_power(3)
 def raise_three(n):
     return n
 
 print(raise_three(5))
+# 243

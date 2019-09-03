@@ -22,3 +22,6 @@ random_user = has_permission('Admin Area')
 
 print(current_user('Admin'))
 print(random_user('Not Admin'))
+
+# 'Admin' does have access to Admin Area.
+# 'Not Admin' does NOT have access to Admin Area.
