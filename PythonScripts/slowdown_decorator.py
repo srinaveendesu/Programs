@@ -25,3 +25,8 @@ def countdown(from_number):
 
 
 countdown(3)
+
+# 3
+# 2
+# 1
+# Liftoff!
