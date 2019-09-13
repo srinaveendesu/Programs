@@ -1,0 +1,141 @@
+root@blue-automation:~# service stackstate-agent info
+2019-09-13 10:02:56,451 | INFO | dd.collector | config(config.py:805) | Certificate file NOT found at /opt/stackstate-agent/agent/stackstate-cert.pem
+2019-09-13 10:02:56,692 | ERROR | dd.collector | utils.dockerutil(dockerutil.py:135) | Failed to initialize the docker client. Docker-related features will fail. Will retry 0 time(s). Error: Error while fetching server API version: ('Connection aborted.', error(13, 'Permission denied'))
+===================
+Collector (v x.x.x)
+===================
+
+  Status date: 2019-09-13 10:02:53 (3s ago)
+  Pid: 13907
+  Platform: Linux-4.15.0-54-generic-x86_64-with-Ubuntu-18.04-bionic
+  Python Version: 2.7.13, 64bit
+  Logs: <stderr>, /var/log/stackstate/collector.log
+
+  Clocks
+  ======
+
+    NTP offset: 0.0028 s
+    System UTC time: 2019-09-13 10:02:56.814037
+
+  Paths
+  =====
+
+    conf.d: /etc/sts-agent/conf.d
+    checks.d: /opt/stackstate-agent/agent/checks.d
+
+  Hostnames
+  =========
+
+    ec2-hostname: blue-automation.pdsea.f5net.com
+    local-ipv4: 10.145.76.169
+    local-hostname: blue-automation.pdsea.f5net.com
+    socket-hostname: blue-automation
+    public-hostname: blue-automation.pdsea.f5net.com
+    hostname: blue-automation
+    instance-id: i-00032c53
+    socket-fqdn: blue-automation
+
+  Checks
+  ======
+
+    statsd (x.x.x)
+    --------------
+      - instance #0 [ERROR]: 'could not convert string to float: text/plain; charset=utf-8'
+      - Collected 0 metrics, 0 events & 1 service check
+
+    network (x.x.x)
+    ---------------
+      - instance #0 [OK]
+      - Collected 0 metrics, 0 events & 0 service checks
+
+    nginx (x.x.x)
+    -------------
+      - instance #0 [OK]
+      - Collected 4 metrics, 0 events & 1 service check
+
+    apache (x.x.x)
+    --------------
+      - instance #0 [OK]
+      - Collected 10 metrics, 0 events & 1 service check
+
+    ntp (x.x.x)
+    -----------
+      - instance #0 [OK]
+      - Collected 1 metric, 0 events & 1 service check
+
+    twitter (x.x.x)
+    ---------------
+      - instance #0 [OK]
+      - instance #1 [OK]
+      - Collected 19 metrics, 1 event & 0 service checks
+  
+    disk (x.x.x)
+    ------------
+      - instance #0 [OK]
+      - Collected 84 metrics, 0 events & 0 service checks
+
+    hello (x.x.x)
+    -------------
+      - instance #0 [OK]
+      - Collected 1 metric, 0 events & 0 service checks
+
+    example (x.x.x)
+    ---------------
+      - instance #0 [OK]
+      - instance #1 [OK]
+      - instance #2 [OK]
+      - Collected 1 metric, 2 events & 0 service checks
+
+
+  Emitters
+  ========
+
+    - http_emitter [OK]
+
+2019-09-13 10:02:57,212 | INFO | dd.stsstatsd | config(config.py:805) | Certificate file NOT found at /opt/stackstate-agent/agent/stackstate-cert.pem
+===================
+StsStatsD (v x.x.x)
+===================
+
+  StsStatsD is not running.
+  You can get more details in the logs:
+    <stderr>
+
+===================
+Forwarder (v x.x.x)
+===================
+
+  Status date: 2019-09-13 10:02:53 (3s ago)
+  Pid: 13902
+  Platform: Linux-4.15.0-54-generic-x86_64-with-Ubuntu-18.04-bionic
+  Python Version: 2.7.13, 64bit
+  Logs: <stderr>, /var/log/stackstate/forwarder.log
+
+  Queue Size: 20193 bytes
+  Queue Length: 2
+  Flush Count: 5
+  Transactions received: 2
+  Transactions flushed: 0
+  Transactions rejected: 0
+
+
+=====================
+Trace Agent (v 1.0.3)
+=====================
+
+  Pid: 13909
+  Uptime: 20 seconds
+  Mem alloc: 1087784 bytes
+
+  Hostname: blue-automation
+  Receiver: localhost:8126
+  API Endpoint: http://localhost/stsAgent
+
+  --- Receiver stats (1 min) ---
+
+
+  --- Writer stats (1 min) ---
+
+  Traces: 0 payloads, 0 traces, 0 bytes
+  Stats: 0 payloads, 0 stats buckets, 0 bytes
+  Services: 0 payloads, 0 services, 0 bytes

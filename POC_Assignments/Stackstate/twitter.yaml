@@ -1,0 +1,15 @@
+init_config:
+
+instances:
+        -    test: twitter_metrics
+             client_key: 'xxxxxxxxxxxx'
+             client_secret: 'xxxxxxxxx'
+             access_key: "xxxxxxxxx"
+             access_secret: "xxxxxxx"
+             screen_name: '@gostackstate'
+        -    test: twitter_events
+             client_key: 'xxxxxxxxx'
+             client_secret: 'xxxxxxxx'
+             access_key: "xxxxxxxx"
+             access_secret: "xxxxxxxxx"
+             screen_name: 'srinaveen_desu'
