@@ -1,4 +1,4 @@
-root@blue-automation:~# service stackstate-agent info
+root@xxxx:~# service stackstate-agent info
 2019-09-13 10:02:56,451 | INFO | dd.collector | config(config.py:805) | Certificate file NOT found at /opt/stackstate-agent/agent/stackstate-cert.pem
 2019-09-13 10:02:56,692 | ERROR | dd.collector | utils.dockerutil(dockerutil.py:135) | Failed to initialize the docker client. Docker-related features will fail. Will retry 0 time(s). Error: Error while fetching server API version: ('Connection aborted.', error(13, 'Permission denied'))
 ===================
@@ -26,14 +26,14 @@ Collector (v x.x.x)
   Hostnames
   =========
 
-    ec2-hostname: blue-automation.pdsea.f5net.com
-    local-ipv4: 10.145.76.169
-    local-hostname: blue-automation.pdsea.f5net.com
-    socket-hostname: blue-automation
-    public-hostname: blue-automation.pdsea.f5net.com
-    hostname: blue-automation
-    instance-id: i-00032c53
-    socket-fqdn: blue-automation
+    ec2-hostname: xxxx
+    local-ipv4: x.x.x.x
+    local-hostname: xxxx
+    socket-hostname: xxxx
+    public-hostname: xxxx
+    hostname: xxxx
+    instance-id: xxxx
+    socket-fqdn: xxxx
 
   Checks
   ======
