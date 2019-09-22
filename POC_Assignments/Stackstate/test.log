@@ -1,0 +1,89 @@
+ddev test twitter
+
+Running tests for `twitter`
+---------------------------
+GLOB sdist-make: /Users/desu/PycharmProjects/xebra_new/twitter/integrations-extras/twitter/setup.py
+py27 develop-inst-noop: /Users/desu/PycharmProjects/xebra_new/twitter/integrations-extras/twitter
+py27 installed: DEPRECATION: Python 2.7 will reach the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 won't be maintained after that date. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support,atomicwrites==1.3.0,attrs==19.1.0,binary==1.0.0,certifi==2019.9.11,chardet==3.0.4,configparser==4.0.2,contextlib2==0.5.5,coverage==4.5.4,datadog-checks-base==9.3.0,datadog-checks-dev==0.33.0,-e git+https://github.com/DataDog/integrations-extras.git@f4158c4876bf5f27af68ee941e3356704e19689d#egg=datadog_twitter&subdirectory=twitter,ddtrace==0.13.0,docutils==0.15.2,funcsigs==1.0.2,idna==2.8,importlib-metadata==0.23,mock==3.0.5,more-itertools==5.0.0,msgpack-python==0.5.6,oauthlib==3.1.0,packaging==19.2,pathlib2==2.3.4,pluggy==0.13.0,prometheus-client==0.3.0,protobuf==3.7.0,psutil==5.6.3,py==1.8.0,py-cpuinfo==5.0.0,pyparsing==2.4.2,PySocks==1.7.1,pytest==4.6.5,pytest-benchmark==3.2.2,pytest-cov==2.7.1,pytest-mock==1.10.4,PyYAML==5.1,requests==2.22.0,requests-oauthlib==1.2.0,scandir==1.10.0,shutilwhich==1.1.0,simplejson==3.6.5,six==1.12.0,statistics==1.0.3.5,subprocess32==3.5.4,tweepy==3.8.0,uptime==3.0.1,urllib3==1.25.5,wcwidth==0.1.7,wrapt==1.11.2,zipp==0.6.0
+py27 run-test-pre: PYTHONHASHSEED='3491796721'
+py27 run-test: commands[0] | pip install -r requirements.in
+DEPRECATION: Python 2.7 will reach the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 won't be maintained after that date. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support
+Requirement already satisfied: tweepy in ./.tox/py27/lib/python2.7/site-packages (from -r requirements.in (line 1)) (3.8.0)
+Requirement already satisfied: pytest in ./.tox/py27/lib/python2.7/site-packages (from -r requirements.in (line 2)) (4.6.5)
+Requirement already satisfied: six>=1.10.0 in ./.tox/py27/lib/python2.7/site-packages (from tweepy->-r requirements.in (line 1)) (1.12.0)
+Requirement already satisfied: requests-oauthlib>=0.7.0 in ./.tox/py27/lib/python2.7/site-packages (from tweepy->-r requirements.in (line 1)) (1.2.0)
+Requirement already satisfied: requests>=2.11.1 in ./.tox/py27/lib/python2.7/site-packages (from tweepy->-r requirements.in (line 1)) (2.22.0)
+Requirement already satisfied: PySocks>=1.5.7 in ./.tox/py27/lib/python2.7/site-packages (from tweepy->-r requirements.in (line 1)) (1.7.1)
+Requirement already satisfied: funcsigs>=1.0; python_version < "3.0" in ./.tox/py27/lib/python2.7/site-packages (from pytest->-r requirements.in (line 2)) (1.0.2)
+Requirement already satisfied: importlib-metadata>=0.12 in ./.tox/py27/lib/python2.7/site-packages (from pytest->-r requirements.in (line 2)) (0.23)
+Requirement already satisfied: pathlib2>=2.2.0; python_version < "3.6" in ./.tox/py27/lib/python2.7/site-packages (from pytest->-r requirements.in (line 2)) (2.3.4)
+Requirement already satisfied: pluggy<1.0,>=0.12 in ./.tox/py27/lib/python2.7/site-packages (from pytest->-r requirements.in (line 2)) (0.13.0)
+Requirement already satisfied: packaging in ./.tox/py27/lib/python2.7/site-packages (from pytest->-r requirements.in (line 2)) (19.2)
+Requirement already satisfied: more-itertools<6.0.0,>=4.0.0; python_version <= "2.7" in ./.tox/py27/lib/python2.7/site-packages (from pytest->-r requirements.in (line 2)) (5.0.0)
+Requirement already satisfied: atomicwrites>=1.0 in ./.tox/py27/lib/python2.7/site-packages (from pytest->-r requirements.in (line 2)) (1.3.0)
+Requirement already satisfied: wcwidth in ./.tox/py27/lib/python2.7/site-packages (from pytest->-r requirements.in (line 2)) (0.1.7)
+Requirement already satisfied: py>=1.5.0 in ./.tox/py27/lib/python2.7/site-packages (from pytest->-r requirements.in (line 2)) (1.8.0)
+Requirement already satisfied: attrs>=17.4.0 in ./.tox/py27/lib/python2.7/site-packages (from pytest->-r requirements.in (line 2)) (19.1.0)
+Requirement already satisfied: oauthlib>=3.0.0 in ./.tox/py27/lib/python2.7/site-packages (from requests-oauthlib>=0.7.0->tweepy->-r requirements.in (line 1)) (3.1.0)
+Requirement already satisfied: certifi>=2017.4.17 in ./.tox/py27/lib/python2.7/site-packages (from requests>=2.11.1->tweepy->-r requirements.in (line 1)) (2019.9.11)
+Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,<1.26,>=1.21.1 in ./.tox/py27/lib/python2.7/site-packages (from requests>=2.11.1->tweepy->-r requirements.in (line 1)) (1.25.5)
+Requirement already satisfied: chardet<3.1.0,>=3.0.2 in ./.tox/py27/lib/python2.7/site-packages (from requests>=2.11.1->tweepy->-r requirements.in (line 1)) (3.0.4)
+Requirement already satisfied: idna<2.9,>=2.5 in ./.tox/py27/lib/python2.7/site-packages (from requests>=2.11.1->tweepy->-r requirements.in (line 1)) (2.8)
+Requirement already satisfied: contextlib2; python_version < "3" in ./.tox/py27/lib/python2.7/site-packages (from importlib-metadata>=0.12->pytest->-r requirements.in (line 2)) (0.5.5)
+Requirement already satisfied: configparser>=3.5; python_version < "3" in ./.tox/py27/lib/python2.7/site-packages (from importlib-metadata>=0.12->pytest->-r requirements.in (line 2)) (4.0.2)
+Requirement already satisfied: zipp>=0.5 in ./.tox/py27/lib/python2.7/site-packages (from importlib-metadata>=0.12->pytest->-r requirements.in (line 2)) (0.6.0)
+Requirement already satisfied: scandir; python_version < "3.5" in ./.tox/py27/lib/python2.7/site-packages (from pathlib2>=2.2.0; python_version < "3.6"->pytest->-r requirements.in (line 2)) (1.10.0)
+Requirement already satisfied: pyparsing>=2.0.2 in ./.tox/py27/lib/python2.7/site-packages (from packaging->pytest->-r requirements.in (line 2)) (2.4.2)
+py27 run-test: commands[1] | pytest -v
+========================================================== test session starts ==========================================================
+platform darwin -- Python 2.7.10, pytest-4.6.5, py-1.8.0, pluggy-0.13.0 -- /Users/desu/PycharmProjects/xebra_new/twitter/integrations-extras/twitter/.tox/py27/bin/python
+cachedir: .tox/py27/.pytest_cache
+benchmark: 3.2.2 (defaults: timer=time.time disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
+rootdir: /Users/desu/PycharmProjects/xebra_new/twitter/integrations-extras/twitter
+plugins: datadog-checks-dev-0.33.0, benchmark-3.2.2, cov-2.7.1, mock-1.10.4
+collected 3 items
+
+tests/test_twitter.py::test_check PASSED                                                                                          [ 33%]
+tests/test_twitter.py::test_message PASSED                                                                                        [ 66%]
+tests/test_twitter.py::test_event PASSED                                                                                          [100%]
+
+======================================================= 3 passed in 1.88 seconds ========================================================
+py37 develop-inst-noop: /Users/desu/PycharmProjects/xebra_new/twitter/integrations-extras/twitter
+py37 installed: atomicwrites==1.3.0,attrs==19.1.0,binary==1.0.0,certifi==2019.9.11,chardet==3.0.4,contextlib2==0.5.5,coverage==4.5.4,datadog-checks-base==9.3.0,datadog-checks-dev==0.33.0,-e git+https://github.com/DataDog/integrations-extras.git@f4158c4876bf5f27af68ee941e3356704e19689d#egg=datadog_twitter&subdirectory=twitter,ddtrace==0.13.0,idna==2.8,importlib-metadata==0.23,mock==3.0.5,more-itertools==7.2.0,msgpack-python==0.5.6,oauthlib==3.1.0,packaging==19.2,pluggy==0.13.0,prometheus-client==0.3.0,protobuf==3.7.0,psutil==5.6.3,py==1.8.0,py-cpuinfo==5.0.0,pyparsing==2.4.2,PySocks==1.7.1,pytest==5.1.3,pytest-benchmark==3.2.2,pytest-cov==2.7.1,pytest-mock==1.10.4,PyYAML==5.1,requests==2.22.0,requests-oauthlib==1.2.0,simplejson==3.6.5,six==1.12.0,tweepy==3.8.0,uptime==3.0.1,urllib3==1.25.5,wcwidth==0.1.7,wrapt==1.11.2,zipp==0.6.0
+py37 run-test-pre: PYTHONHASHSEED='3491796721'
+py37 run-test: commands[0] | pip install -r requirements.in
+Requirement already satisfied: tweepy in ./.tox/py37/lib/python3.7/site-packages (from -r requirements.in (line 1)) (3.8.0)
+Requirement already satisfied: pytest in ./.tox/py37/lib/python3.7/site-packages (from -r requirements.in (line 2)) (5.1.3)
+Requirement already satisfied: requests-oauthlib>=0.7.0 in ./.tox/py37/lib/python3.7/site-packages (from tweepy->-r requirements.in (line 1)) (1.2.0)
+Requirement already satisfied: six>=1.10.0 in ./.tox/py37/lib/python3.7/site-packages (from tweepy->-r requirements.in (line 1)) (1.12.0)
+Requirement already satisfied: requests>=2.11.1 in ./.tox/py37/lib/python3.7/site-packages (from tweepy->-r requirements.in (line 1)) (2.22.0)
+Requirement already satisfied: PySocks>=1.5.7 in ./.tox/py37/lib/python3.7/site-packages (from tweepy->-r requirements.in (line 1)) (1.7.1)
+Requirement already satisfied: wcwidth in ./.tox/py37/lib/python3.7/site-packages (from pytest->-r requirements.in (line 2)) (0.1.7)
+Requirement already satisfied: packaging in ./.tox/py37/lib/python3.7/site-packages (from pytest->-r requirements.in (line 2)) (19.2)
+Requirement already satisfied: py>=1.5.0 in ./.tox/py37/lib/python3.7/site-packages (from pytest->-r requirements.in (line 2)) (1.8.0)
+Requirement already satisfied: importlib-metadata>=0.12; python_version < "3.8" in ./.tox/py37/lib/python3.7/site-packages (from pytest->-r requirements.in (line 2)) (0.23)
+Requirement already satisfied: atomicwrites>=1.0 in ./.tox/py37/lib/python3.7/site-packages (from pytest->-r requirements.in (line 2)) (1.3.0)
+Requirement already satisfied: pluggy<1.0,>=0.12 in ./.tox/py37/lib/python3.7/site-packages (from pytest->-r requirements.in (line 2)) (0.13.0)
+Requirement already satisfied: more-itertools>=4.0.0 in ./.tox/py37/lib/python3.7/site-packages (from pytest->-r requirements.in (line 2)) (7.2.0)
+Requirement already satisfied: attrs>=17.4.0 in ./.tox/py37/lib/python3.7/site-packages (from pytest->-r requirements.in (line 2)) (19.1.0)
+Requirement already satisfied: oauthlib>=3.0.0 in ./.tox/py37/lib/python3.7/site-packages (from requests-oauthlib>=0.7.0->tweepy->-r requirements.in (line 1)) (3.1.0)
+Requirement already satisfied: certifi>=2017.4.17 in ./.tox/py37/lib/python3.7/site-packages (from requests>=2.11.1->tweepy->-r requirements.in (line 1)) (2019.9.11)
+Requirement already satisfied: chardet<3.1.0,>=3.0.2 in ./.tox/py37/lib/python3.7/site-packages (from requests>=2.11.1->tweepy->-r requirements.in (line 1)) (3.0.4)
+Requirement already satisfied: idna<2.9,>=2.5 in ./.tox/py37/lib/python3.7/site-packages (from requests>=2.11.1->tweepy->-r requirements.in (line 1)) (2.8)
+Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,<1.26,>=1.21.1 in ./.tox/py37/lib/python3.7/site-packages (from requests>=2.11.1->tweepy->-r requirements.in (line 1)) (1.25.5)
+Requirement already satisfied: pyparsing>=2.0.2 in ./.tox/py37/lib/python3.7/site-packages (from packaging->pytest->-r requirements.in (line 2)) (2.4.2)
+Requirement already satisfied: zipp>=0.5 in ./.tox/py37/lib/python3.7/site-packages (from importlib-metadata>=0.12; python_version < "3.8"->pytest->-r requirements.in (line 2)) (0.6.0)
+py37 run-test: commands[1] | pytest -v
+========================================================== test session starts ==========================================================
+platform darwin -- Python 3.7.3, pytest-5.1.3, py-1.8.0, pluggy-0.13.0 -- /Users/desu/PycharmProjects/xebra_new/twitter/integrations-extras/twitter/.tox/py37/bin/python
+cachedir: .tox/py37/.pytest_cache
+benchmark: 3.2.2 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
+rootdir: /Users/desu/PycharmProjects/xebra_new/twitter/integrations-extras/twitter
+plugins: datadog-checks-dev-0.33.0, benchmark-3.2.2, cov-2.7.1, mock-1.10.4
+collected 3 items
+
+tests/test_twitter.py::test_check PASSED                                                                                          [ 33%]
+tests/test_twitter.py::test_message PASSED                                                                                        [ 66%]
+tests/test_twitter.py::test_event PASSED                                                                                          [100%]
+
+=========================================================== 3 passed in 1.77s ===========================================================
