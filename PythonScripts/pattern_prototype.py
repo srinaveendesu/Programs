@@ -46,3 +46,5 @@ prototype.register_object('Benz', c)
 c1 = prototype.clone('Benz')
 
 print(c1)
+
+# Benz | Red | Ex
