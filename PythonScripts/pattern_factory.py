@@ -5,6 +5,7 @@
 # Problem
 #    When unsure of type of objects needed eventually in the system
 #    Decisions to be made at run time for what class to use
+# It does not rely on polymorphism
 
 class Dog:
 
