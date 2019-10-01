@@ -4,6 +4,7 @@
 
 # Abstract factories are related to factory
 # Concrete factories are usually Singleton
+# It does not rely on polymorphism
 
 class Dog:
 	"""One of the objects to be returned"""
