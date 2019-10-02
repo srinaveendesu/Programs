@@ -1,6 +1,7 @@
 # Implementation of Binary Search Tree
 # Recursion is used for most implementations
 import functools as fn
+import re
 
 class Node():
     def __init__(self, data):
@@ -9,7 +10,10 @@ class Node():
         self.left = None
 
     def __str__(self):
+        #up = '{}{}\n{}{}{}'.format(len(str(self.left))*' ',self.data,self.left,len(str(self.data))*' ',self.right)
+
         return ('[{}] <- {} -> [{}]'.format(self.left, self.data, self.right))
+        #return up
 
 
 class Tree():
@@ -251,7 +255,7 @@ class Tree():
 '''
 
 
-A = [8, 3, 6, 1, 10, 14, 13, 4, 7]
+A = [8, 3, 6, 1, 10, 14, 13, 4, 7,5]
 
 BST = Tree()
 for val in A:
@@ -286,3 +290,65 @@ print(BST.display(BST.root))
 # 1  6      14
 #   / \    /
 #   4 7   13
+
+
+def decorate_tree(func):
+    fn.wraps(func)
+    def modify(data):
+        print (data,'in decorator',)
+        data = str(data)
+        reg = r'\[None\] <- (\d+) -> \[None\]'
+        m = re.search(reg,data)
+        while m:
+            if m:
+                data = re.sub(reg,m.group(1),data,1)
+                m = re.search(reg, data)
+        print (data)
+
+        return func(data)
+    return modify
+
+def modify_tree(data):
+    print (data,'in modify',)
+    #data = str(data)
+    reg = r'\[None\] <- (\d+) -> \[None\]'
+    m = re.search(reg,data)
+    while m:
+        if m:
+            data = re.sub(reg,m.group(1),data,1)
+            m = re.search(reg, data)
+    #print (data)
+
+    return data
+
+counter  =0
+def printbtre(data):
+    global counter
+    counter +=1
+
+    print(data,type(data))
+
+    l_open_b = 0
+    pos = 0
+    for i in range(0,len(data)):
+        if data[i] == '[':
+            l_open_b = l_open_b +1
+        if data[i] == ']':
+            l_open_b = l_open_b -1
+        if l_open_b ==0:
+            pos = i
+            break
+    print(pos,data[pos+1:])
+
+
+
+    m = re.findall('\d+',data[0:pos+1])
+    if m:
+        print(m)
+        print(data[1:pos])
+        printbtre(data[1:pos])
+    pass
+
+data = modify_tree(str(BST.root))
+printbtre(data)
+print (counter)
