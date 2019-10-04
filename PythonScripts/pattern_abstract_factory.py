@@ -1,10 +1,25 @@
 # Creational Pattern
-# The user expects a family of related objects, but don have to
-# know which family until run time
 
-# Abstract factories are related to factory
-# Concrete factories are usually Singleton
-# It does not rely on polymorphism
+# Abstract Factory is especially useful when a client expects to
+# receive a family of related objects at a given time, but don't
+# have to know which family it is until run time. Here is the
+# scenario we'll be using. We'll first build a pet factory whose
+# concrete factories include Dog factory and Cat factory. Both dog
+# and cat factories produce related products such as dog food and
+# cat food. At least in theory our solution, Abstract Factory,
+# consists of Abstract factory, Concrete factory, Abstract product,
+# and Concrete product. For the Abstract factory we use pet factory
+# in our example. For concrete factory we use dog factory and cat
+# factory in our example. And finally for the concrete product we'll
+# be creating the dog, which is a pet, and the dog food, and also cat
+# and the cat food.
+#
+# We implement our Abstract Factory without using inheritance, mainly
+# because Python is a dynamically typed language and therefore does
+# not require abstract classes.
+#
+#
+# Abstract Factory is related to factory method and the concrete factories are often singletons.
 
 class Dog:
 	"""One of the objects to be returned"""
