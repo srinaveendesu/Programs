@@ -1,9 +1,21 @@
 # Structural Pattern
 
-# Uses a tree data structure to maintain a part-whole relationship
-# Here we like to build a recursive tree data structure so that an
-# element of the tree can have its own sub-elements.
-
+# The composite design pattern maintains a tree data structure
+# to represent part-whole relationships. Here we like to build
+# a recursive tree data structure so that an element of the tree
+# can have its own sub-elements. An example of this problem is
+# creating menu and submenu items. The submenu items can have
+# their own sub-submenu items. So our coding challenge is to
+# display menu and submenu items using this composite design pattern.
+# Our solution consists of three major elements. The first one is
+# component, the second one is child, and the third one is composite.
+# The component element is an abstract class. A concrete class called
+# child inherits from this component class. And then we have another
+# concrete class called composite, which is also inheriting from the
+# component class. Finally, our composite class maintains child objects
+# by adding and removing them to a tree data structure.
+#
+#
 # Decorator, iterator, and visitor are related to the composite design pattern.
 
 class Component(object):
