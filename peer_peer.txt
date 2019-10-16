@@ -1,0 +1,258 @@
+
+eval()
+---------------------------------DAY 5------------------------------------------------
+day 5
+
+
+1) l = [1,2,3,4,5]
+
+i need to get elements in this order [4,3,2]
+
+use slicing to get the same?
+l[1:4][::-1]
+
+2) write a function which returns a list. fcuntion should take argument which will appedn to a list and return the list -> f(*args)
+
+f(1) -> [1]
+f('no) -> [1, 'no']
+f(3) -> [1,'no',3]
+
+
+def f (val, lst = []):
+    lst.append(val)
+    return lst
+
+
+
+
+
+
+
+3) x = 'a','b'
+y = ('a','b')
+
+what will be the output of print (x==y) ?
+
+
+4) d = [(4,5) ,(2,3),(6,7)]
+
+4 5 6
+2 3 6 4
+6 7 2
+3 7 5
+
+[j for i,j in d]
+
+write a list comprehension which will return a list whose sum is equal to 15?
+
+
+5) t = ('hi','hello','bye')
+
+lst = [1,2,3,4,5,6,7,8,9]
+
+what will this do t * (lst.len() - sum(lst[:4]) + 1)
+()
+
+6) t = ('jaanu baby') * 7
+
+print (type(t))
+string
+
+7) d = {(1,2):1 , (2,1):2}
+d[1,2] what will be output of this?
+1
+
+8) d= {1:'a', 1.0 :'b'}
+
+print (d)
+
+{1:'b'}
+
+print(type(list(d.keys())[0]))	int
+
+9) t = ('jaanu baby',) * 7
+
+print (type(t))
+tuple
+print (t)
+('jaanu baby', 'jaanu baby'...)
+
+10) d = {1.0:'a', 1:'b'}
+print (d)
+{1.0:'b'}
+
+print(type(list(d.keys())[0])	float
+
+-----------------------------------------------------------------------------------
+
+
+------------------------------ DAY 6 ----------------------------------------
+
+1) [('a',89),('b',90),('c',91),('c',92)] merge all the keys to form a list a value
+o/p {'a':[89], 'b':[90], 'c':[91,92]}
+
+d= {}
+for k,v in lst:
+    if k not in d:
+        d[k] = [v]
+    else:
+        d[k] = d[k] +[v] work iyindha?
+        but in any case you can use defaultdict for inistization
+        d = defaultdict(list)
+
+2) convert the string "srinaveen" to "Desu Srinaveen Mr" without using string operations
+
+print ('Desu ' + 'srinaveen' + 'Mr'  )b -> no string operations
+
+hint: can you it using deque -> but i don have 'desu' and 'mr' kada??
+  okay you have something called appendleft() in deque which will append to the left of the list and "extend()" to the right -> i din know this
+ohh i can use 'desu '  and 'mr' ah.. haan
+
+1) s = {1,2,3,4,5,6}
+print (s[3]) -> 4  wrong
+chusa
+sets are unordered and unindexed
+
+
+
+2) x = [1,2,3,4,5,6,7,8,9]
+
+single line code to convert it like this -> [(1,2,3),(4,5,6),(7,8,9)]
+
+
+y =set()
+print([y.add(j) for i in range(0,len(x),3) for j in x[i]])
+
+try another way
+Soln:
+
+--->  list(zip(*iter(x) *3)) *3?
+
+big explnation:
+
+  iter(X)creates an iterator of the list
+
+  iter(X) *3 gives three iterator objects
+
+  (*) is used to unpack the elements. So effectively our objects will look like following
+
+  [1,2,3,4,5,6,7,8,9]  [1,2,3,4,5,6,7,8,9] [1,2,3,4,5,6,7,8,9] -> using zip on this will be (1,1,1) ....
+
+  since these are iterator objects of same list during each run the zip runs as following
+  [1] [2] [3]
+  [1,4] [2,5] [3,6]
+  [1,4,7] [2,5,8] [3,6,9]
+  zipping the last line will givee
+  [1,2,3] [4,5,6] [7,8,9]
+
+
+  try chestha repu
+  enti nidra potunava??
+
+  haan :(migita answer cheyuu
+
+
+3) len(set([1,2,3,4,1,2,3,4])) ->error
+wrong answer
+
+answer -> 4
+
+4) l = [[1,2] ,[3,4] ,[5,6],[7,8,9]]
+flaten out  this list into [1,2,3,4,5,6] in one line
+
+print([j for i in l for j in i]) -> this is robust re
+
+sum(l,[])
+
+
+unava?
+
+
+
+DOUBTS:
+
+Why set cannot be indexed?
+
+----------------------------------------------------------------------
+
+------------------------ DAY 7 ---------------------------
+
+
+https://www.datacamp.com/community/tutorials/18-most-common-python-list-questions-learn-python
+
+1) s = {1,2,3,4}
+b = {5,6,4,3}
+
+outout -> {1,2,3,4,5,6}
+
+
+2)
+
+
+
+
+
+print(*[iter(x)] * 3)
+>>> print(zip([iter(x)]*3))
+<zip object at 0x104b74b48>
+
+for val in zip([iter(x)] * 3):
+    print(val)
+    for v in val:
+        print(v)
+        for i in v:
+            print(i)
+
+
+
+(<list_iterator object at 0x10c1ad8d0>,)
+<list_iterator object at 0x10c1ad8d0>
+1
+2
+3
+4
+5
+6
+7
+8
+9
+(<list_iterator object at 0x10c1ad8d0>,) val
+<list_iterator object at 0x10c1ad8d0> v
+(<list_iterator object at 0x10c1ad8d0>,) val
+<list_iterator object at 0x10c1ad8d0> v
+
+>>> for i in zip(*[iter(x)]*3):
+...     print(i)
+...
+(1, 2, 3)
+(4, 5, 6)
+(7, 8, 9)
+
+for val in zip([1]*3):
+    print(val)
+
+for val in zip([1,1,1]):
+	 print (val)
+
+
+(1,)
+(1,)
+(1,)
+
+print (*[1,1,1])
+1 1 1
+
+
+
+
+
+DOUBTS:
+
+1) Where can a starred expression be used?
+2) https://docs.python.org/3/library/functions.html#zip
+3) https://docs.python.org/3/whatsnew/3.0.html
+4) https://www.python.org/dev/peps/pep-3132/
+
+
+---------------------------------------------------------------
+
