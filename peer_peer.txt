@@ -256,3 +256,59 @@ DOUBTS:
 
 ---------------------------------------------------------------
 
+
+ ------------------------- DAY 8 -------------------------------------------------
+
+
+1) print (r'foo\\bar\ndes')
+foo\\bar\ndes
+
+2) name = "I am naveen"
+o/p: "n ee vanmai"
+
+for i in range(int(name)):
+    spc = []
+    str1 = str(input())
+    print(str1)
+    for i in str1:
+        if i in string.whitespace:
+            spc.append(str1.index(i))
+    revstr = ''.join(str1.split())[::-1]
+    print(revstr)
+    for j in spc:
+        print(revstr[:j]+ ' '+revstr[j:])
+
+
+3) val = b'u r my jaanu'
+convert val to string ?
+str(val, 'utf-8')
+
+
+4) how to remove the keys in dictionary?what happens when pop is used in dict?
+del d[key]
+pop will be used to remove the last inserted key
+
+5) can python tuples have mutable objects? what happens if mutable object is modified? write an example
+yes
+a = ([1,2], 3, 4)
+a[0].append(3)
+print(a)
+([1,2,3],3,4)
+
+6) what will be o/p of
+ l = [1,2,3]
+ l.extend([4,5,6])
+
+l = [1,2,3,4,5,6]
+
+l.append([4,5,6])
+l = [1,2,3 ,[4,5,6]]
+
+6) a,b = 1,2,3
+
+7) list -> remove() vs pop() ?
+
+
+
+
+---------------------------------------------------------------------------------
