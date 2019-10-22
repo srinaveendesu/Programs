@@ -312,3 +312,97 @@ l = [1,2,3 ,[4,5,6]]
 
 
 ---------------------------------------------------------------------------------
+
+ >
+---------------------------------- DAY 9 -----------------------------------
+
+1) lst = [1,2,3,4,5,6] -> create a dictionary using the list without using defaultdict
+
+d = {k:0 for k in lst}
+
+d ={}
+for k in lst:
+    if k not in d.keys():
+        d[k] = 0
+
+{}.fromkeys(lst,0)
+
+
+
+
+2) l = [1,2,3]
+
+for val in l:
+    if val > 0 and val <-3:
+        val = val + 3
+
+
+ ANS ) 3
+
+
+3) a = [how for how in l if how > 5 else 33]
+print (how)
+
+ANS) val not exist error
+
+
+
+4) l = [1,'srilekhya',3]
+for l[1] in 'lanka': print(l)
+
+ANS)
+[1, 'l', 3]
+[1, 'a', 3]
+[1, 'n', 3]
+[1, 'k', 3]
+[1, 'a', 3]
+
+5) cities = {'san frnas': 'US', 'london': 'UK', 'manchester': 'UK', 'LA': 'US'}
+o/p {'us':['San frans', 'LA'], 'UK':['london','mancherster']} -> without using dictionary comprehension
+
+d ={}
+for k,v in cities.items():
+    if v not in d.keys():
+        d[v] = [k]
+    else:
+        d[v] = d[v] + [k]
+
+d.setdefault(cities.keys(),[]).append(
+d2 = {}
+for k,v in cities.items():
+       d2.setdefault(v,[]).append(k))
+
+6) I want to use break statement in a function . how can i do it?
+Ans)
+def fun(a):
+for i in range(10):
+	if a < 10:
+  	break
+
+
+6a) how can i write 'break' outside the for loop?
+Ans) break is used to exit out of a loop, hence it cannot be used outside a for loop
+
+
+7)  difference between array and list
+https://www.geeksforgeeks.org/array-python-set-1-introduction-functions/
+ANS )
+Data Types
+Introduction to DataTypes
+Strings
+List
+Tuples
+Sets
+Dictionary
+Arrays Set 1, Set 2
+
+8) Difference map,reduce and filter
+lst = [1,2,3,4]
+map => map(lambda x:x**2,lst)
+
+
+filter => filter (lambda x:(x%2 ==0), lst)
+
+reduce => reduce (lambda x:x>5,lst)
+
+----------------------------------------------------------------
