@@ -486,3 +486,83 @@ Note:
 1) what does range return when called as range(5)?
 
 -------------------------------------------------------------------------------
+
+
+
+
+
+-----------------------------------DAY 11-----------------------------------------
+
+
+1) Create a generator which ranges from 10 to 25?
+gen = (x for x in range(10,25))
+print(next(gen))
+
+2) create a generator for generating odd numbers
+gen = (x for x in range(10,25) if x%2 != 0)
+print(next(gen))
+
+3) create a generator for generating even numbers
+gen = (x for x in range(10,25) if x%2 == 0)
+print(next(gen))
+
+4) create a generator which generates alphabets from 'a' to 'z'
+def alphabet_gen():
+	for i in range(65, 92):
+  	yield chr(i)
+
+
+5) difference between an iterator and an iterable?
+?
+
+6) create a iterable using class dunder methods
+
+ class generator:
+...     def __init__(self, x):
+...             self.x = x
+...     def __iter__(self):
+...             self.i = 0
+...             return self
+...     def __next__(self):
+...             j = self.i
+...             self.i = j+1
+...             return j
+
+
+7) create a generator using yield method
+def genmethod():
+	for i in range(5):
+  	yield i
+
+
+8) Write code to print only first line of the file without using readline
+
+def r():
+		with open(filename, r) as f:
+         for line in f:
+             yield line
+             raise StopIteration
+
+
+9) Write infinite loop of number that will never die using generator
+
+def g():
+	 i = 0
+   while True:
+       yield i
+
+10) Write generator expression for the square of numbers
+
+gen = (x**2 for x in range(1,10))
+
+11) Difference between generator and iterator
+genrator gives an object which is an iterator that can iterate over. uses yield
+iterator returns an iterator object . iter()
+
+
+
+NOTE:
+
+Iterable vs Iterator vs Generator
+
+-----------------------------------------------------------------
