@@ -564,5 +564,5 @@ iterator returns an iterator object . iter()
 NOTE:
 
 Iterable vs Iterator vs Generator
-
+https://nvie.com/posts/iterators-vs-generators/
 -----------------------------------------------------------------
