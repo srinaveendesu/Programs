@@ -566,3 +566,118 @@ NOTE:
 Iterable vs Iterator vs Generator
 https://nvie.com/posts/iterators-vs-generators/
 -----------------------------------------------------------------
+
+
+--------------------------- DAY 12 -----------------------------------
+
+
+
+1) what happens if i use a return statement in generator function
+StopIteration will be raised
+
+2) Generator vs iterator vs iterable
+Generator is a effective way of writing a iterator which return a iterator/generator object
+iterator is mainly used to save memory and time to iterator over elements :P
+iterable is a collection of container elements
+
+
+3)can you reset a generator?
+
+No
+
+4) can you have multiple yield keyword in a generator funtion
+the execution will stop at next element yield statement?? next element ante
+okay until we call the next yield ah?
+
+5) What happens if i do an iter() on an iterator implemented using class dunder methods
+iterator object is created
+
+
+6) create an fibonacci series generator function
+
+def fib(limit):
+    a,b = 0,1
+    count = 1
+    while True:
+    		if count >limit:
+        		return
+				yield a
+  	  	a,b = b,a+b
+        count+=1
+
+
+7) can you access elements from generator object using a dynamic index
+
+Yes using coroutines
+
+def infinite_looper(objects):
+    count = 0
+    while True:
+        if count >= len(objects):
+            count = 0
+        message = yield objects[count]
+        if message != None:
+            count = 0 if message < 0 else message
+        else:
+            count += 1
+
+>>> x = infinite_looper("A string with some words")
+>>> next(x)
+'A'
+>>> x.send(9)
+'w'
+>>> x.send(10)
+
+coroutines - yield
+
+
+
+
+8) can strings have iterator objects?
+yes
+
+9) How can you convert a recursive function to generator?
+
+# this is also co-routine topic
+def recurse(x):
+	  yield x
+	  yield from recurse(x)
+
+for (i, x) in enumerate(recurse(5)):
+	  print(i, x)
+
+
+
+10 What happens if i raise StopIteration in a generator function.
+
+def s():
+    i = 0
+    for i in range(0,2):
+        yield i
+    raise StopIteration
+
+>>
+0
+1
+StopIteration
+RuntimeError: generator raised StopIteration
+
+-----------------------------------------------------------------
+
+Notes:
+
+Coroutines
+yield from
+
+
+
+------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
