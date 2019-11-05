@@ -677,6 +677,107 @@ yield from
 
 
 
+----------------------- DAY 13 --------------------------------------
+
+1) Write Decorator example for a even functions
+
+@decorator_fun
+def decorated_fun():
+	print("decorated function")
+
+def decorator_fun(func):
+	def inner_func():
+  	func()
+  	print("extended decorated function")
+  return inner_func
+
+2) write decrorator example for a functions with arguments
+
+
+
+Output:
+
+  NAME:
+    my name is srilekhya
+  DOB : 5
+
+3) write decorator with out using '@'
+
+def decorator_fun(func):
+	def inner_func():
+  	func()
+  	print("extended decorated function")
+  return inner_func
+
+def decorated_fun():
+	print("decorated function")
+
+
+>>> a = decorator_fun(decorated_fun)
+>>> print(a)
+<function decorator_fun.<locals>.inner_func at 0x1160dd7b8>
+>>> a()
+decorated function
+extended
+
+
+
+4) wirte decorator example which takes paramenters for a function
+
+def decorator(*args):
+        def inner_dec(func):
+                def inner_inner_func(x):
+                        func()
+                        print(args[0] + "extended")
+                return inner_inner_func
+        return inner_dec
+
+
+@decorator('a',10)
+def example(x):
+  print ('this shis')
+
+example()
+
+
+
+5) wirte decorator example which takes paramenters for a function with aruguments
+
+def decorator(*args):
+        def inner_dec(func):
+                def inner_inner_func(x):
+                        func(x)
+                        print(*args )
+                        print(x)
+                return inner_inner_func
+        return inner_dec
+
+
+@decorator('a',10)
+def lekhya(sri):
+  print ('this shis')
+
+
+lekhya('l')
+
+--------------------------------------------------------------------
+NOTE:
+
+def decorator(*args):
+      def inner_dec(func):
+              func()
+              print(args[0] + "extended")
+      return inner_dec
+
+
+@decorator('a',10)
+def example():
+  print ('this shis')
+
+
+
+----------------------------------------------------------------------
+
 
 
 
