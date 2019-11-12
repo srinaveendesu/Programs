@@ -722,7 +722,7 @@ extended
 
 
 
-4) wirte decorator example which takes paramenters for a function
+4) write decorator example which takes parameters for a function
 
 def decorator(*args):
         def inner_dec(func):
@@ -741,7 +741,7 @@ example()
 
 
 
-5) wirte decorator example which takes paramenters for a function with aruguments
+5) write decorator example which takes parameters for a function with aruguments
 
 def decorator(*args):
         def inner_dec(func):
@@ -779,6 +779,107 @@ def example():
 ----------------------------------------------------------------------
 
 
+----------------------- DAY 14 -------------------------
 
+
+1) write decrorator example for a functions with arguments
+
+def decor(func):
+	def inner_func(arg):
+  	print("surname :", arg)
+    func(arg)
+  return inner_func
+
+@decor
+def lekhya(surname):
+    print ("this is lekhya's funciton")
+
+lekhya("lanka")
+output:
+
+surname : lanka
+this is lekhya's function
+
+2) write decorator with out using '@'
+
+def decor(func):
+	def inner_func():
+  	print("surname :")
+    func()
+  return inner_func
+
+def lekhya():
+    print ("this is lekhya's funciton")
+
+a = decor(lekhya)
+a()
+
+3) write decorator example which takes parameters for a function
+
+def decor(arg):
+	def inner_func(func):
+  		def inner_inner_func():
+      	print("inner inner function", arg)
+        func()
+      return inner_inner_func
+  return inner_func
+
+@decor("abc")
+def lekhya():
+	print("this is lekhya")
+
+lekhya()
+
+
+4) Write a decorator for calculating the execution time of a function?
+def decor(func):
+	def inner_func():
+  	start_time = ctime.time
+    func()
+    end_time = ctime.time
+    exec_time = end_time - start_time
+    print(exec_time)
+  return inner_func
+
+@decor
+def lekhya():
+	print("my name is lekhya")
+
+lekhya()
+
+
+----------------------------------------------------------
+
+def decorator(*args):
+      def inner_dec(func):
+              func()
+              print(args[0] + "extended")
+      return inner_dec
+
+
+@decorator('a',10)
+def example():
+  print ('this shis')
+
+
+
+e = decorator('a',10)(example)
+
+https://wsvincent.com/python-wat-integer-cache/
+
+
+
+a = 10
+b = a
+a = 15
+
+print(a is b)
+print(a is 15)
+print(id(a),id(b),a,b,)
+print(a == b)
+
+=> mark lutz
+
+----------------------------------------------------------
 
 
