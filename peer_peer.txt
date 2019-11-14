@@ -883,3 +883,160 @@ print(a == b)
 ----------------------------------------------------------
 
 
+
+
+---------------------- Day 15 -------------------------
+
+1) Write a decorator for a function which has return value
+
+def decor(func):
+    def inner_func():
+        print("in the inner function")
+        a = func()
+        print(a)
+        return a
+    return inner_func
+
+@decor
+def lekhya():
+    return 'my name is SL'
+
+
+value = lekhya()
+print (value + '= S/w engineer')
+
+2a) Write a decorator which can take variable parameters
+
+def format_name(*arg):
+        def outer_name(func):
+                def inner():
+                        func()
+                        print(*arg)
+                return inner
+        return outer_name
+
+@format_name("1", "2", "3")
+def lekhya():
+        print ('my name')
+
+lekhya()
+
+2b) Write a decorator  and function which can take variable parameters
+
+def format_name(*args):
+        def outer_name(func):
+                def inner(arg):
+                        func(arg)
+                        print(*args)
+                return inner
+        return outer_name
+
+@format_name("1", "2", "3")
+def lekhya(surname):
+        print ('my name' + surname)
+
+lekhya('sri')
+
+3) Chaining of decorators,simple, and parameterized
+
+def dob(func):
+        def inner_func():
+                print('dob')
+                func()
+        return inner_func
+
+def surname(func):
+        def inner_func1():
+                print('surname')
+                func()
+        return inner_func1
+
+
+@dob
+@surname
+def lekhya():
+        print ('my name')
+
+lekhya()
+
+@dob
+@surname
+def lekhya():
+  	print('My name is lekhya')
+
+    dob(surname(lekhya)())()
+
+lekhya()
+OUTPUT:
+  05051991
+  lanka
+  My name is lekhya
+
+def dob(args):
+        def outer_func(func):
+                def inner_func(args3):
+                        print(args)
+                        func(args3)
+                return inner_func
+        return outer_func
+
+def surname(args1):
+        def outer_func(func):
+                def inner_func1(args2):
+                        print(args1)
+                        func(args2)
+                return inner_func1
+        return outer_func
+
+
+@dob('05051991')
+@surname('lanka')
+def lekhya(surname):
+        print ('my name' + surname)
+
+lekhya('sri')
+
+
+4) write a decorator which counts Number of calls to functions
+
+def decor(func):
+        def inner():
+                inner.num += 1
+                func()
+                print(inner.__dict__)
+        inner.num = 0
+        print('out', inner.__class__)
+
+        return inner
+
+@decor
+def lekhya():
+        print('test')
+
+lekhya()
+lekhya()
+lekhya()
+print(lekhya.num)
+
+OUTPUT:
+  out <class 'function'>
+test
+{'num': 1}
+test
+{'num': 2}
+test
+{'num': 3}
+3
+
+
+5) Closures
+
+6) write a class decorator
+
+--------------------------------------------------------
+
+Notes:
+
+
+--------------------------------------------------------
+
