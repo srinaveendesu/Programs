@@ -1040,3 +1040,209 @@ Notes:
 
 --------------------------------------------------------
 
+
+
+---------------------- Day 16 -------------------------
+
+
+
+5) Closures
+
+#closure
+
+def func(val):
+    value = val
+    def inner():
+        #value = val
+        print ('wow',value)
+        #return value
+    print(func.__dict__,dir(func),locals())
+    print('locals',locals())
+    print('globals',globals())
+    return inner
+
+s = func(1504)
+print('glovlas outside',globals())
+print(s.__closure__,type(s),)
+print(s.__closure__[0].cell_contents)
+print(s.__dict__,dir(s))
+store1 = s()
+del func
+store2 = s()
+
+++++++++++++++++++++++++++++++++++
+def make_multiplier_of(n):
+
+    def multiplier(x):
+        print(x,type(n),n.__name__,dir(),locals(),globals())
+        return x * n
+    return multiplier
+
+# Multiplier of 3
+times3 = make_multiplier_of(3)
+# Multiplier of 5
+times5 = make_multiplier_of(5)
+
+# Output: 27
+print(times3(9))
+
+# Output: 15
+print(times5(3))
+
+# Output: 30
+print(times5(times3(2)))
+
+@make_multiplier_of
+def example(val):
+    print (val)
+
+a = example(10)
+
+print(a)
+
++++++++++++++++++++++++++++++++
+
+
+
+>>> def make_mul_of(n):
+...     def mul(*args):
+...             return args[0]*args[1]
+...     return mul
+...
+>>> @make_mul_of
+... def example(a, b):
+...     print(a,b)
+...
+>>> example(9,3)
+27
+
+
+++++++++++++++++++++++++++++++
+
+
+'''hello vs bye'''
+import timeit
+
+start = timeit.default_timer()
+def message(txt):
+    def out(txt2):
+        return txt + txt2
+    return out
+
+mid = timeit.default_timer()
+hello = message('Welcome to Navlan Creations: ')
+bye = message('Thank you for visiting Navlan : ')
+
+
+print(hello('naveen'),)
+print(bye('naveen'),)
+end = timeit.default_timer()
+print('total closure','{:f}'.format(end -start),end-start)
+print('creation of closure','{:f}'.format(mid- start),mid-start)
+print('call to closure','{:f}'.format(end -mid),end-mid)
+
+print(hello('lekhya'))
+
+print(bye('lekhya'))
+
+
+# rewrite this using decorator
+start = timeit.default_timer()
+def decor (func):
+    def inner(b):
+        func(b)
+
+    return inner
+
+@decor
+def example(b):
+    print('welcome to lalaland'+b)
+
+@decor
+def out(b):
+    print('exit',b)
+
+mid = timeit.default_timer()
+example('naveen')
+out('naveen')
+end = timeit.default_timer()
+print('total decors','{:f}'.format(end -start),end-start)
+print('creation of decor','{:f}'.format(mid- start),mid-start)
+print('call to decors','{:f}'.format((end -mid)),end-mid)
+
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+6) write a class decorator
+
+class dec:
+  def __init__(self, func):
+    self.func = func
+
+  def __call__(self):
+    self.func()
+    print("decorating the func")
+@dec
+def func():
+  print("my name is lekhya")
+
+func()
+
+7) memotization
+
+import time
+def fib(n):
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        return fib(n-1) + fib(n-2)
+
+
+s = time.perf_counter()
+fib(35)
+e = time.perf_counter()
+print(f"{e -s:6f}secs")
+
+def memo(func):
+
+    cache = {}
+
+    def inner(value):
+        #print('go',value)
+        if value not in cache:
+            #print('come',value)
+            cache[value] = func(value)
+            #print('huahaha')
+        #print(cache)
+        #print(locals())
+        #print(globals())
+        return cache[value]
+
+    return inner
+
+@memo
+def fibm(n):
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        return fibm(n-1) + fibm(n-2)
+
+# 19 18
+# (18 17) (17 16)
+# (17 16) (16 15) (16 15) (15 14)
+
+s = time.perf_counter()
+fibm(20)
+e = time.perf_counter()
+print(f"{e -s:6f}secs")
+
+--------------------------------------------------------
+
+Notes:
+
+
+--------------------------------------------------------
+
