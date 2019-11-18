@@ -1246,3 +1246,93 @@ Notes:
 
 --------------------------------------------------------
 
+--------------------- DAY 17 ------------------------
+
+https://medium.com/@vadimpushtaev/decorator-inside-python-class-1e74d23107f6
+
+class Dec(object):
+    """docstring for ."""
+
+    def __init__(self, func):
+        print('lekhya',func)
+
+        self.func = func
+
+    def __call__(self):
+        print("dec class")
+        self.func()
+
+@Dec
+def naveen():
+    print("he is a baby fellow")
+
+naveen()
+
+
+def naveen1():
+    print("he is jaanu fellow")
+    return naveen1
+
+# a = naveen1()
+
+n = Dec(naveen1())
+print(n)
+n()
+# n1 = Dec()
+# print(n1(naveen1))
+
+
+
+--------------------------------------------------------
+
+
+class A():
+  def func():
+    pass
+
+  print(func)  # prints '<function func at 0x7fa0cdbc75f0>'
+
+
+a = A()
+print(A.func)   # prints '<unbound method A.func>'
+print(A().func) # pr
+print(type(A), type(A()), type(a.func))
+print(type(A.func))
+print(dir(A) == dir(A()))
+print(A().__dict__)
+
+
+--------------------------------------------------------
+
+class lekhya:
+    def __init__(self, a):
+        self.a = a
+
+    def __call__(self,b):
+        print("naveen", self.a)
+        return b
+
+l = lekhya('navlan')
+print(l)
+print(l('lanka'))
+
+dec(naveen1())
+
+
+
+
+
+
+
+-----------------------------------------------------
+Note:
+ ---> why to use a class decorator over function decorator
+ ---> function vs method
+ ---> class A:
+ 				def func(self):
+        	pass
+        print(func)
+      print(A.func)
+      print(A().func)
+      why isA.func referred as function, where A().func reffered as method
+-----------------------------------------------------
