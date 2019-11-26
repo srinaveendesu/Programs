@@ -1336,3 +1336,155 @@ Note:
       print(A().func)
       why isA.func referred as function, where A().func reffered as method
 -----------------------------------------------------
+
+
+------------------------ Day 18 -------------------------
+
+
+
+
+def iter(source, sentinel=None): # known special case of iter
+    """
+    iter(iterable) -> iterator
+    iter(callable, sentinel) -> iterator
+
+    Get an iterator from an object.  In the first form, the argument must
+    supply its own iterator, or be a sequence.
+    In the second form, the callable is called until it returns the sentinel.
+    """
+    pass
+
+==================================================
+
+n = 0
+class PowTwo:
+    """Class to implement an iterator
+    of powers of two"""
+    # n = 0
+
+    # def __init__(self, max = 0):
+    #     self.max = max
+    #     self.n = 0
+
+    # def __iter__(self):
+    #     self.n = 0
+    #     return self
+
+    def __next__(self):
+        global n
+        if n <= 5:
+            result = 2 ** n
+            n += 1
+            return result
+        else:
+            raise StopIteration
+
+a = PowTwo()
+print(next(a))
+print(next(a))
+print(next(a))
+
+
+----------------------------------------------
+
+# n = 0
+class PowTwo:
+    """Class to implement an iterator
+    of powers of two"""
+    n = 0
+
+    # def __init__(self, max = 0):
+    #     self.max = max
+    #     self.n = 0
+
+    # def __iter__(self):
+    #     self.n = 0
+    #     return self
+
+    def __next__(self):
+        if PowTwo.n <= 5:
+            result = 2 ** PowTwo.n
+            PowTwo.n += 1
+            return result
+        else:
+            raise StopIteration
+
+a = PowTwo()
+print(next(a))
+print(next(a))
+print(next(a))
+
+
+----------------------------------------------------
+
+# n = 0
+class PowTwo:
+    """Class to implement an iterator
+    of powers of two"""
+
+    def __init__(self, max = 0):
+        self.max = max
+        self.n = 0
+
+    # def __iter__(self):
+    #     self.n = 0
+    #     return self
+
+    def __next__(self):
+        if self.n <= 5:
+            result = 2 ** self.n
+            self.n += 1
+            return result
+        else:
+            raise StopIteration
+
+a = PowTwo()
+
+print(next(a))
+print(next(a))
+print(next(a))
+
+-------------------------------------------------
+
+# n = 0
+class PowTwo:
+    """Class to implement an iterator
+    of powers of two"""
+
+
+    # def __init__(self, max = 0):
+    #     self.max = max
+    #     self.n = 0
+
+    def __iter__(self):
+        self.n = 0
+        return self
+
+    def __next__(self):
+        if self.n <= 5:
+            result = 2 ** self.n
+            self.n += 1
+            return result
+        else:
+            raise StopIteration
+
+a = PowTwo()
+a = iter(a)
+print(next(a))
+print(next(a))
+print(next(a))
+
+
+
+
+
+
+
+--------------------------------------------------------
+
+Notes:
+
+generator vs iterator
+
+
+----------------------------------------------------------
