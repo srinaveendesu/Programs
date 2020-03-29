@@ -177,6 +177,42 @@ class Sll(object):
             self.head = new_node
             return
 
+    def increment2(self):
+        # To store the last node in the
+        # linked list which is not equal to 9
+        last = None
+        cur = self.head
+
+        # Iterate till the last node
+        while (cur.next_node != None):
+            if (cur.data != 9):
+                last = cur
+            cur = cur.next_node
+
+        # If last node is not equal to 9
+        # add 1 to it and return the head
+        if (cur.data != 9):
+            cur.data += 1
+            return self.head
+
+            # If list is of the type 9 -> 9 -> 9 ...
+        if (last == None):
+            last = Node()
+            last.data = 0
+            last.next_node = self.head
+            self.head = last
+
+            # For cases when the rightmost node which
+        # is not equal to 9 is not the last
+        # node in the linked list
+        last.data += 1
+        last = last.next_node
+
+        while (last != None):
+            last.data = 0
+            last = last.next_node
+
+        return self.head
 
     def search(self, value):
         curr = self.head
