@@ -550,6 +550,46 @@ print(bucketSort(x))
 # Bucket Sort	    Ω(n+k)	          θ(n+k)	        O(n^2)          o(n)
 
 
+# Counting sort in Python programming
+
+
+def countingSort(array):
+    n = len(array)
+    output = [0] * n
+
+    # Initialize count array
+    count = [0] * 10
+
+    # Store the count of each elements in count array
+    for i in range(0, n):
+        count[array[i]] += 1
+
+    # Store the cummulative count
+    for i in range(1, 10):
+        count[i] += count[i - 1]
+
+    # Find the index of each element of the original array in count array
+    # place the elements in output array
+    i = n - 1
+    while i >= 0:
+        output[count[array[i]] - 1] = array[i]
+        count[array[i]] -= 1
+        i -= 1
+
+    # Copy the sorted elements into original array
+    for i in range(0, n):
+        array[i] = output[i]
+
+
+data = [4, 2, 2, 8, 3, 3, 1]
+countingSort(data)
+print("Sorted Array in Ascending Order: ")
+print(data)
+
+# https://www.programiz.com/dsa/counting-sort
+#                   Best              Average           Worst           Space
+# Counting Sort	    Ω(n+k)	          θ(n+k)	        O(n+k)          o(k)
+
 
 # Radix Sort	Ω(nk)	θ(nk)	O(nk)
 
