@@ -278,6 +278,30 @@ class Sll(object):
         # to fix the loop
         ptr2.next_node = None
 
+    def firstSecondlargest(self):
+
+        val1 = self.head.data
+        val2 = self.head.next_node.data
+        if val1 >val2:
+            max1 = val1
+            secondmax = val2
+        else:
+            max1 = val2
+            secondmax = val1
+
+        # move the head pointer to 3rd node
+        curr = self.head.next_node.next_node.next_node
+
+        while curr:
+            if curr.data >max1:
+                secondmax = max1
+                max1 = curr.data
+            elif curr.data > secondmax:
+                secondmax = curr.data
+
+            curr = curr.next_node
+        return max1,secondmax
+
     def search(self, value):
         curr = self.head
         while curr:
@@ -369,7 +393,7 @@ def add(fnode, snode, mode =0):
     snode.linked_reverse2()
     return fnode
 
-        
+
     
     
 s = Sll()
@@ -504,3 +528,15 @@ n3.head.next_node.next_node.next_node.next_node.next_node = n3.head.next_node
 print(n3.detectLoop())
 print(n3.detectAndRemoveLoop())
 print(n3)
+
+# palindrome
+n4 = Sll()
+n4.insert(1)
+n4.insert(2)
+n4.insert(3)
+n4.insert(4)
+n4.insert(3)
+n4.insert(2)
+n4.insert(1)
+print(n4.firstSecondlargest())
+print(n4)
