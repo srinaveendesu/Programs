@@ -214,6 +214,18 @@ class Sll(object):
 
         return self.head
 
+    # Floyd’s Cycle-Finding Algorithm
+    # Time Complexity: O(n)
+    # Auxiliary Space: O(1)
+    def detectLoop(self):
+        slow_p = self.head
+        fast_p = self.head
+        while (slow_p and fast_p and fast_p.next_node):
+            slow_p = slow_p.next_node
+            fast_p = fast_p.next_node.next_node
+            if slow_p == fast_p:
+                return ("Found Loop")
+
     def search(self, value):
         curr = self.head
         while curr:
@@ -423,3 +435,18 @@ n2.insert(8)
 
 res = add(n1,n2, reverse_add)
 print (res, 'add two linked list reverse order. Result will go to either first list or bigger list')
+
+
+n3 = Sll()
+n3.insert(1)
+n3.insert(2)
+n3.insert(3)
+n3.insert(4)
+n3.insert(5)
+#print(n3)
+
+# creating loop
+print(n3.head.next_node.next_node.next_node.next_node.data)
+print (n3.head.next_node.data)
+n3.head.next_node.next_node.next_node.next_node.next_node = n3.head.next_node
+print(n3.detectLoop())
