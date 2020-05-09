@@ -226,6 +226,58 @@ class Sll(object):
             if slow_p == fast_p:
                 return ("Found Loop")
 
+    def detectAndRemoveLoop(self):
+        slow_p = fast_p = self.head
+        while (slow_p and fast_p and fast_p.next_node):
+            slow_p = slow_p.next_node
+            fast_p = fast_p.next_node.next_node
+
+            # If slow_p and fast_p meet at some poin
+            # then there is a loop
+            if slow_p == fast_p:
+                self.removeLoop(slow_p)
+
+                # Return 1 to indicate that loop if found
+                return "found"
+
+                # Return 0 to indicate that there is no loop
+        return "Not found"
+
+    # Function to remove loop
+    # loop_node --> pointer to one of the loop nodes
+    # head --> Pointer to the start node of the linked list
+    def removeLoop(self, loop_node):
+        ptr1 = loop_node
+        ptr2 = loop_node
+
+        # Count the number of nodes in loop
+        k = 1
+        while (ptr1.next_node != ptr2):
+            ptr1 = ptr1.next_node
+            k += 1
+
+        # Fix one pointer to head
+        ptr1 = self.head
+
+        # And the other pointer to k nodes after head
+        ptr2 = self.head
+        for i in range(k):
+            ptr2 = ptr2.next_node
+
+        # Move both pointers at the same place
+        # they will meet at loop starting node
+        while (ptr2 != ptr1):
+            ptr1 = ptr1.next_node
+            ptr2 = ptr2.next_node
+
+        # Get pointer to the last node
+        while (ptr2.next_node != ptr1):
+            ptr2 = ptr2.next_node
+
+        # Set the next node of the loop ending node
+        # to fix the loop
+        ptr2.next_node = None
+
     def search(self, value):
         curr = self.head
         while curr:
@@ -450,3 +502,5 @@ print(n3.head.next_node.next_node.next_node.next_node.data)
 print (n3.head.next_node.data)
 n3.head.next_node.next_node.next_node.next_node.next_node = n3.head.next_node
 print(n3.detectLoop())
+print(n3.detectAndRemoveLoop())
+print(n3)
