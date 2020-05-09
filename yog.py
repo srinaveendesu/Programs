@@ -767,6 +767,136 @@ print(values)
 # 2) prarallel traverse through sequences
 # 3) zip truncates result tuples at the length of the shortest sequence when the argument lengths differ.
 
+# Enumerate
+lst = [1,2,3,4]
+
+for i,k in enumerate(lst):
+    print(i,k)
+
+# LEGB Rule
+
+# Python’s name-resolution scheme is sometimes called the LEGB rule, after the scope names:
+# When you use an unqualified name inside a function, Python searches up to four scopes—the
+# local (L) scope, then the local scopes of any enclosing (E) defs and lambdas, then the
+# global (G) scope, and then the built-in (B) scope—and stops at the first place the name is
+# found. If the name is not found during this search, Python reports an error.
+
+# The global statement and its nonlocal 3.X cousin are the only things that are remotely like
+# declaration statements in Python. They are not type or size declarations, though; they are namespace declarations.
+
+
+#Non Local
+
+# Like global, nonlocal declares that a name will be changed in an enclosing scope. Unlike global,
+# though, nonlocal applies to a name in an enclosing function’s scope, not the global module scope
+# outside all defs. Also unlike global, nonlocal names must already exist in the enclosing function’s
+# scope when declared—they can exist only in enclosing functions and cannot be created by a first assignment in a nested def.
+# nonlocal both    allows assignment to names in enclosing function scopes and limits scope lookups for such names to enclosing defs
+# nonlocal names can appear only in enclosing defs, not in the module’s global scope or built-in scopes outside the defs
+
+def tester(start):
+    state = start  # Each call gets its own state
+
+    def nested(label):
+        nonlocal state  # Remembers state in enclosing scope
+        print(label, state)
+        state += 1  # Allowed to change it if nonlocal
+
+    return nested
+
+F = tester(0)
+F('spam')  # Increments state on each call
+F('ham')
+print(F.state)
+# spam 0
+# ham 1
+# AttributeError: 'function' object has no attribute 'state'
+
+# 3.X, if we declare state in the tester scope as nonlocal within nested, we get to change it
+# inside the nested function, too. This works even though tester has returned and exited by
+# the time we call the returned nested function through the name F
+
+# nonlocal restricts the scope lookup to just enclosing defs; nonlocals are not looked up in the
+# enclosing module’s global scope or the built-in scope outside all defs, even if they are already there
+# Python must resolve nonlocals at function creation time, not function call time.
+
+# the nonlocal statement allows multiple copies of changeable state to be retained in memory. It
+# addresses simple state-retention needs where classes may not be warranted    and global variables
+# do not apply, though function attributes can often    serve similar roles more portably
+
+def tester(start):
+    def nested(label):
+        print(label, nested.state)  # nested is in enclosing scope
+        nested.state += 1  # Change attr, not nested itself
+
+    nested.state = start  # Initial state after func defined
+    return nested
+
+F = tester(10)
+F('spam')  # Increments state on each call
+F('ham')
+
+G = tester(42)
+G('spam')  # Increments state on each call
+G('ham')
+print(G.state)
+
+# spam 10
+# ham 11
+# spam 42
+# ham 43
+# 44
+
+
+# function calls
+# Function Arguments that must be passed by keyword only in calls (3.X)
+def func(*other, name):
+    pass
+
+# Function Arguments that must be passed by keyword only in calls (3.X)
+value = 10
+def func(*, name=value):
+    pass
+
+# forcing a function to take keyword arguments
+def kwonly(a, *b, c):
+    print(a, b, c)
+
+kwonly(1, 2, c=3)
+#1 (2, ) 3
+kwonly(a=1, c=3)
+#1 () 3
+kwonly(1, 2, 3)
+#TypeError: kwonly() missing 1 required keyword - only argument: 'c'
+
+
+def kwonly(a, *, b, c):
+    print(a, b, c)
+
+kwonly(1, c=3, b=2)
+kwonly(c=3, b=2, a=1)
+#1 2 3
+#1 2 3
+kwonly(1, 2, 3)
+# TypeError: kwonly() takes 1 positional argument but 3 were given
+kwonly(1)
+# TypeError: kwonly() missing 2 required keyword-only arguments: 'b' and 'c'
+
+
+def kwonly(a, *, b='spam', c='ham'):
+    print(a, b, c)
+
+kwonly(1)
+kwonly(1, c=3)
+kwonly(a=1)
+kwonly(c=3, b=2, a=1)
+kwonly(1, 2)
+# 1 spam ham
+# 1 spam 3
+# 1 spam ham
+# 1 2 3
+# TypeError: kwonly() takes 1 positional argument but 2 were given
+
 # dunder methods
 
 
