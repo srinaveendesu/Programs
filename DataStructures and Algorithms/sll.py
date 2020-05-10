@@ -302,6 +302,44 @@ class Sll(object):
             curr = curr.next_node
         return max1,secondmax
 
+    def reversepalin(self, head):
+        prev = None
+        curr = None
+        while head:
+            curr = head
+            head = curr.next_node
+            curr.next_node = prev
+            prev = curr
+        return curr
+
+
+    def isPalindrome(self):
+        # get middle pointer
+        p1 = self.head
+        p2 = self.head
+        while p2 and p2.next_node:
+            p1 = p1.next_node
+            p2 = p2.next_node.next_node
+
+        secondpart = self.reversepalin(p1)
+
+        # check palindrome
+        p1 = secondpart
+        p2 = self.head
+        while p1:
+            if p1.data == p2.data:
+                p1 = p1.next_node
+                p2 = p2.next_node
+            else:
+                return False
+
+        self.reversepalin(secondpart)
+        if secondpart:
+            return True
+        else:
+            return False
+
+
     def search(self, value):
         curr = self.head
         while curr:
@@ -535,8 +573,17 @@ n4.insert(1)
 n4.insert(2)
 n4.insert(3)
 n4.insert(4)
-n4.insert(3)
-n4.insert(2)
-n4.insert(1)
 print(n4.firstSecondlargest())
 print(n4)
+
+n5 = Sll()
+n5.insert(1)
+n5.insert(2)
+n5.insert(3)
+n5.insert(4)
+n5.insert(3)
+n5.insert(2)
+n5.insert(1)
+print(n5)
+print(n5.isPalindrome(),"plindrome ")
+print(n5)
