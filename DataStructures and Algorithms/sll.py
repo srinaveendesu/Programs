@@ -432,6 +432,27 @@ def add(fnode, snode, mode =0):
     return fnode
 
 
+def addTwoNumbers( l1: Node, l2: Node) -> Node:
+    l1.linked_reverse2()
+    l2.linked_reverse2()
+
+    l1 = l1.head
+    l2 = l2.head
+    s = Sll()
+    c = 0
+    while c != 0 or l1 != None or l2 != None:
+        val1 = l1.data if l1 else 0
+        val2 = l2.data if l2 else 0
+        tot = val1 + val2 + c
+        c = tot // 10
+
+        s.insert(tot % 10)
+
+        l1 = l1.next_node if l1 else l1
+        l2 = l2.next_node if l2 else l2
+
+    s.linked_reverse2()
+    return s
     
     
 s = Sll()
@@ -587,3 +608,18 @@ n5.insert(1)
 print(n5)
 print(n5.isPalindrome(),"plindrome ")
 print(n5)
+
+n4 = Sll()
+n4.insert(3)
+n4.insert(7)
+n4.insert(2)
+n4.insert(3)
+
+n5 = Sll()
+n5.insert(9)
+n5.insert(8)
+n5.insert(7)
+print(n4)
+print(n5)
+s = addTwoNumbers(n4,n5)
+print(s)
