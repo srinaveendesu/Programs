@@ -453,8 +453,34 @@ def addTwoNumbers( l1: Node, l2: Node) -> Node:
 
     s.linked_reverse2()
     return s
-    
-    
+
+def mergeTwoListsrecursive( a, b) :
+    if a and b:
+        if a.data > b.data:
+            a, b = b, a
+        a.next_node = mergeTwoListsrecursive(a.next_node, b)
+    return a or b
+
+def mergeTwoLists(l1, l2 ):
+    l1 = l1.head
+    l2 = l2.head
+    s =Sll()
+    s.insert(0)
+    cur = s.head
+    while l1 and l2:
+        if l1.data < l2.data:
+            cur.next_node = l1
+            l1 = l1.next_node
+        else:
+            cur.next_node = l2
+            l2 = l2.next_node
+        cur = cur.next_node
+    cur.next_node = l1 or l2
+    s.head = s.head.next_node
+    return s
+
+
+
 s = Sll()
 #print (s, s.head)
 s.insert(11)
@@ -623,3 +649,22 @@ print(n4)
 print(n5)
 s = addTwoNumbers(n4,n5)
 print(s)
+
+n4 = Sll()
+n4.insert(1)
+n4.insert(2)
+n4.insert(4)
+n4.insert(5)
+
+n5 = Sll()
+n5.insert(1)
+n5.insert(2)
+n5.insert(3)
+s= mergeTwoLists(n4,n5)
+print(s)
+
+
+# s = mergeTwoListsrecursive(n4.head,n5.head)
+# while s:
+#     print(s.data)
+#     s= s.next_node
