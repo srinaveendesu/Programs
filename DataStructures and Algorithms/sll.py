@@ -339,6 +339,41 @@ class Sll(object):
         else:
             return False
 
+    def rotateRight(self,  k):
+        if not self.head:
+            return None
+
+        lastElement = self.head
+        length = 1
+        # get the length of the list and the last node in the list
+        while (lastElement.next_node):
+            lastElement = lastElement.next_node
+            length += 1
+
+        # If k is equal to the length of the list then k == 0
+        # ElIf k is greater than the length of the list then k = k % length
+        k = k % length
+
+        # Set the last node to point to head node
+        # The list is now a circular linked list with last node pointing to first node
+        lastElement.next_node = self.head
+
+        # Traverse the list to get to the node just before the ( length - k )th node.
+        # Example: In 1->2->3->4->5, and k = 2
+        #          we need to get to the Node(3)
+        tempNode = self.head
+        for _ in range(length - k - 1):
+            tempNode = tempNode.next_node
+
+        # Get the next node from the tempNode and then set the tempNode.next as None
+        # Example: In 1->2->3->4->5, and k = 2
+        #          tempNode = Node(3)
+        #          answer = Node(3).next => Node(4)
+        #          Node(3).next = None ( cut the linked list from here )
+        self.head = tempNode.next_node
+        tempNode.next_node = None
+        return self.head
+
     def swapPairs(self):
         curr = Node(0,self.head)
         self.head = curr
@@ -395,10 +430,10 @@ class Sll(object):
                 return self.head
 
     def removeNthFromEnd(self, n):
-        curr = Node(0,self.head)
-        self.head = curr
-        fast = slow = self.head.next_node
-
+        #curr = Node(0,self.head)
+        #self.head = curr
+        #fast = slow = self.head.next_node
+        fast = slow = self.head
         for _ in range(n):
             fast = fast.next_node
 
@@ -407,7 +442,7 @@ class Sll(object):
             slow = slow.next_node
 
         slow.next_node = slow.next_node.next_node
-        self.head = self.head.next_node
+        #self.head = self.head.next_node
         return self.head
 
 
@@ -773,7 +808,7 @@ n4.insert(6)
 n4.insert(7)
 print(n4)
 n4.removeNthFromEnd(3)
-print(n4,"remove 2 from last")
+print(n4,"remove 3 from last")
 
 
 n4 = Sll()
@@ -814,7 +849,20 @@ print(n4)
 n4.reverseKGroup(3)
 print(n4,"reverse nodes in k groups")
 
-
+n4 = Sll()
+n4.insert(1)
+n4.insert(2)
+n4.insert(3)
+n4.insert(4)
+n4.insert(5)
+n4.insert(6)
+n4.insert(7)
+n4.insert(8)
+n4.insert(9)
+n4.insert(10)
+print(n4)
+n4.rotateRight(3)
+print(n4,"rotate linked list 3 times")
 
 
 # 11->21->12->None
@@ -854,5 +902,9 @@ print(n4,"reverse nodes in k groups")
 # 2->1->5->4->7->6->None swapped
 # 1->2->4->5->6->7->None second swap
 # 1->2->4->5->6->7->None
-# 1->2->4->6->7->None remove 2 from last
+# 1->2->4->6->7->None remove 3 from last
 # 1->1->2->2->2->3->3->4->4->5->5->6->6->7->None merger k sorted lists
+# 1->2->3->4->5->6->7->8->9->10->None
+# 3->2->1->6->5->4->9->8->7->10->None reverse nodes in k groups
+# 1->2->3->4->5->6->7->8->9->10->None
+# 8->9->10->1->2->3->4->5->6->7->None rotate linked list 3 times
