@@ -376,7 +376,7 @@ class Sll(object):
                 r = r.next_node
                 count += 1
             if count == k:  # if size k satisfied, reverse the inner linked list
-                fast, cur = r, l
+                cur, fast = l, r
 
                 for _ in range(k):
                     # standard reversing
@@ -392,7 +392,7 @@ class Sll(object):
 
             else:
                 self.head = self.head.next_node
-                return
+                return self.head
 
     def removeNthFromEnd(self, n):
         curr = Node(0,self.head)
