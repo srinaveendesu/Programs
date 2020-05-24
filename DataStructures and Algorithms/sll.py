@@ -339,6 +339,77 @@ class Sll(object):
         else:
             return False
 
+    def swapPairs(self):
+        curr = Node(0,self.head)
+        self.head = curr
+        while curr.next_node and curr.next_node.next_node:
+            first = curr.next_node
+            second = first.next_node
+            curr.next_node, second.next_node, first.next_node = second, first, second.next_node
+            curr = first
+        self.head = self.head.next_node
+        return self.head
+
+    def swapPairs2(self):
+        if not self.head or not self.head.next_node: return self.head
+        cur = Node(0,self.head)
+        self.head = cur
+
+        while cur.next_node and cur.next_node.next_node:
+            first = cur.next_node
+            sec = cur.next_node.next_node
+            cur.next_node = sec
+            first.next_node = sec.next_node
+            sec.next_node = first
+            cur = cur.next_node.next_node
+        self.head = self.head.next_node
+        return self.head
+
+    def reverseKGroup(self, k):
+        start = Node(0,self.head)
+        self.head = start
+        l = r = start.next_node
+
+        while True:
+            count = 0
+            while r and count < k:  # use r to locate the range
+                r = r.next_node
+                count += 1
+            if count == k:  # if size k satisfied, reverse the inner linked list
+                fast, cur = r, l
+
+                for _ in range(k):
+                    # standard reversing
+                    nexx = cur.next_node
+                    cur.next_node = fast
+                    fast = cur
+                    cur = nexx
+
+                # connect two k-groups
+                start.next_node = fast
+                start = l
+                l = r
+
+            else:
+                self.head = self.head.next_node
+                return
+
+    def removeNthFromEnd(self, n):
+        curr = Node(0,self.head)
+        self.head = curr
+        fast = slow = self.head.next_node
+
+        for _ in range(n):
+            fast = fast.next_node
+
+        while fast.next_node:
+            fast = fast.next_node
+            slow = slow.next_node
+
+        slow.next_node = slow.next_node.next_node
+        self.head = self.head.next_node
+        return self.head
+
 
     def search(self, value):
         curr = self.head
@@ -479,6 +550,18 @@ def mergeTwoLists(l1, l2 ):
     s.head = s.head.next_node
     return s
 
+def mergeKLists(lists):
+    """
+    time complexity o(nlogk)
+    space complexity o(1)
+    """
+    amount = len(lists)
+    interval = 1
+    while interval < amount:
+        for i in range(0, amount - interval, interval * 2):
+            lists[i] = mergeTwoLists(lists[i], lists[i + interval])
+        interval *= 2
+    return lists[0] if amount > 0 else lists
 
 
 s = Sll()
@@ -648,7 +731,7 @@ n5.insert(7)
 print(n4)
 print(n5)
 s = addTwoNumbers(n4,n5)
-print(s)
+print(s,"add two numbers")
 
 n4 = Sll()
 n4.insert(1)
@@ -661,10 +744,115 @@ n5.insert(1)
 n5.insert(2)
 n5.insert(3)
 s= mergeTwoLists(n4,n5)
-print(s)
+print(s,"merger two sorted lists")
 
+n4 = Sll()
+n4.insert(1)
+n4.insert(2)
+n4.insert(4)
+n4.insert(5)
+n4.insert(6)
+n4.insert(7)
+print(n4,"before swapped")
+n4.swapPairs()
+print(n4,'swapped')
+n4.swapPairs2()
+print(n4,'second swap')
 
 # s = mergeTwoListsrecursive(n4.head,n5.head)
 # while s:
 #     print(s.data)
 #     s= s.next_node
+
+n4 = Sll()
+n4.insert(1)
+n4.insert(2)
+n4.insert(4)
+n4.insert(5)
+n4.insert(6)
+n4.insert(7)
+print(n4)
+n4.removeNthFromEnd(3)
+print(n4,"remove 2 from last")
+
+
+n4 = Sll()
+n4.insert(1)
+n4.insert(2)
+n4.insert(4)
+n4.insert(5)
+
+n5 = Sll()
+n5.insert(1)
+n5.insert(2)
+n5.insert(3)
+n6 = Sll()
+n6.insert(2)
+n6.insert(4)
+n6.insert(6)
+n7 =Sll()
+n7.insert(3)
+n7.insert(5)
+n7.insert(6)
+n7.insert(7)
+s= mergeKLists([n4,n5,n6,n7])
+print(s,"merger k sorted lists")
+
+
+n4 = Sll()
+n4.insert(1)
+n4.insert(2)
+n4.insert(3)
+n4.insert(4)
+n4.insert(5)
+n4.insert(6)
+n4.insert(7)
+n4.insert(8)
+n4.insert(9)
+n4.insert(10)
+print(n4)
+n4.reverseKGroup(3)
+print(n4,"reverse nodes in k groups")
+
+
+
+
+# 11->21->12->None
+# 11->21->12->13->14->15->None 6
+# 5
+# Value not found Value found
+# ('Value found at index', 5) Value not found
+# 11->21->12->13->15->None 5
+# 10->11->21->12->13->15->None
+# 10->11->21->12->14->13->15->None
+# 9->10->11->21->12->14->13->15->None 9
+# 9->10->11->21->12->14->13->16->15->None
+# 9->10->11->21->12->14->13->16->15->99->None
+# 99->15->16->13->14->12->21->11->10->9->None 1.0013580322265625e-05
+# 9->10->11->21->12->14->13->16->15->99->None 3.0994415283203125e-06
+# 9->9->8->9->9->None
+# 9->9->9->0->0->None increment by 1
+# 9->9->9->0->1->None increment by 1 another method
+# 1->0->0->0->8->None add two linked list. Result will go to either first list or bigger list
+# 2->0->1->None add two linked list straight order. Result will go to either first list or bigger list
+# 4->0->8->None add two linked list reverse order. Result will go to either first list or bigger list
+# 5
+# 2
+# Found Loop
+# found
+# 1->2->3->4->5->None
+# (4, 2)
+# 1->2->3->4->None
+# 1->2->3->4->3->2->1->None
+# True plindrome
+# 1->2->3->4->3->2->1->None
+# 3->7->2->3->None
+# 9->8->7->None
+# 4->7->1->0->None add two numbers
+# 1->1->2->2->3->4->5->None merger two sorted lists
+# 1->2->4->5->6->7->None before swapped
+# 2->1->5->4->7->6->None swapped
+# 1->2->4->5->6->7->None second swap
+# 1->2->4->5->6->7->None
+# 1->2->4->6->7->None remove 2 from last
+# 1->1->2->2->2->3->3->4->4->5->5->6->6->7->None merger k sorted lists
