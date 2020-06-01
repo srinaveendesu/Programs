@@ -374,6 +374,43 @@ class Sll(object):
         tempNode.next_node = None
         return self.head
 
+    def partition(self,  x):
+        """
+        :type head: ListNode
+        :type x: int
+        :rtype: ListNode
+        """
+
+        # before and after are the two pointers used to create two list
+        # before_head and after_head are used to save the heads of the two lists.
+        # All of these are initialized with the dummy nodes created.
+        before = before_head = Node(0)
+        after = after_head = Node(0)
+        curr = self.head
+        while curr:
+            # If the original list node is lesser than the given x,
+            # assign it to the before list.
+            if curr.data < x:
+                before.next_node = curr
+                before = before.next_node
+            else:
+                # If the original list node is greater or equal to the given x,
+                # assign it to the after list.
+                after.next_node = curr
+                after = after.next_node
+
+            # move ahead in the original list
+            curr = curr.next_node
+
+        # Last node of "after" list would also be ending node of the reformed list
+        after.next_node = None
+        # Once all the nodes are correctly assigned to the two lists,
+        # combine them to form a single list which would be returned.
+        before.next_node = after_head.next_node
+        self.head = before_head.next_node
+        return self.head
+
+
     def swapPairs(self):
         curr = Node(0,self.head)
         self.head = curr
@@ -918,6 +955,21 @@ print(n4)
 n4.deleteOnlyDuplicates()
 print(n4,"Remove only duplicate elements")
 
+n4 = Sll()
+n4.insert(11)
+n4.insert(20)
+n4.insert(30)
+n4.insert(40)
+n4.insert(10)
+n4.insert(6)
+n4.insert(7)
+n4.insert(8)
+n4.insert(9)
+n4.insert(1)
+print(n4)
+n4.partition(10)
+print(n4,"partiion nodes based on x")
+
 # 11->21->12->None
 # 11->21->12->13->14->15->None 6
 # 5
@@ -965,3 +1017,5 @@ print(n4,"Remove only duplicate elements")
 # 2->4->5->None Remove all duplicate elements
 # 1->1->1->2->3->3->3->4->5->None
 # 1->2->3->4->5->None Remove only duplicate elements
+# 11->20->30->40->10->6->7->8->9->1->None
+# 6->7->8->9->1->11->20->30->40->10->None partiion nodes based on x
