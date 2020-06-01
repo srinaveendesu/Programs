@@ -482,6 +482,45 @@ class Sll(object):
         #self.head = self.head.next_node
         return self.head
 
+    def reverseBetween(self, m: int, n: int) :
+        """
+        :type head: ListNode
+        :type m: int
+        :type n: int
+        :rtype: ListNode
+        """
+
+        # Empty list
+        if not self.head:
+            return None
+
+        # Move the two pointers until they reach the proper starting point
+        # in the list.
+        cur, prev = self.head, None
+        while m > 1:
+            prev = cur
+            cur = cur.next_node
+            m, n = m - 1, n - 1
+
+        # The two pointers that will fix the final connections.
+        tail, con = cur, prev
+
+        # Iteratively reverse the nodes until n becomes 0.
+        while n:
+            third = cur.next_node
+            cur.next_node = prev
+            prev = cur
+            cur = third
+            n -= 1
+
+        # Adjust the final connections as explained in the algorithm
+        if con:
+            con.next_node = prev
+        else:
+            head = prev
+        tail.next_node = cur
+        return self.head
+
     def deleteDuplicates(self):
         curr = pre = Node(0,self.head)
         self.head = curr
@@ -968,7 +1007,22 @@ n4.insert(9)
 n4.insert(1)
 print(n4)
 n4.partition(10)
-print(n4,"partiion nodes based on x")
+print(n4,"partiion nodes based on x=10")
+
+n4 = Sll()
+n4.insert(1)
+n4.insert(2)
+n4.insert(3)
+n4.insert(4)
+n4.insert(5)
+n4.insert(6)
+n4.insert(7)
+n4.insert(8)
+n4.insert(9)
+n4.insert(10)
+print(n4)
+n4.reverseBetween(3,8)
+print(n4,"reverse between 3  and 8")
 
 # 11->21->12->None
 # 11->21->12->13->14->15->None 6
@@ -1018,4 +1072,6 @@ print(n4,"partiion nodes based on x")
 # 1->1->1->2->3->3->3->4->5->None
 # 1->2->3->4->5->None Remove only duplicate elements
 # 11->20->30->40->10->6->7->8->9->1->None
-# 6->7->8->9->1->11->20->30->40->10->None partiion nodes based on x
+# 6->7->8->9->1->11->20->30->40->10->None partiion nodes based on x=10
+# 1->2->3->4->5->6->7->8->9->10->None
+# 1->2->8->7->6->5->4->3->9->10->None reverse between 3  and 8
