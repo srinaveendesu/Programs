@@ -445,6 +445,31 @@ class Sll(object):
         #self.head = self.head.next_node
         return self.head
 
+    def deleteDuplicates(self):
+        curr = pre = Node(0,self.head)
+        self.head = curr
+        #curr.next = head  # also need to check head.val thus cannot let curr = head
+        dummy = pre  # which node to point to yet to be determined
+        while curr and curr.next_node:
+            if curr.data == curr.next_node.data:
+                val = curr.data  # stor the repeated value for further checking
+                while curr and curr.data == val:  # check further (the third, the fourth, ...)
+                    curr = curr.next_node
+                pre.next_node = curr  # pre -> the first curr with curr.val != val
+            else:  # increment both pre and curr
+                pre = curr
+                curr = curr.next_node
+        self.head = self.head.next_node
+        return self.head
+
+    def deleteOnlyDuplicates(self) :
+        curr = self.head
+        while curr != None and curr.next_node != None:
+            if curr.data == curr.next_node.data:
+                curr.next_node = curr.next_node.next_node
+            else:
+                curr = curr.next_node
+        return self.head
 
     def search(self, value):
         curr = self.head
@@ -865,6 +890,34 @@ n4.rotateRight(3)
 print(n4,"rotate linked list 3 times")
 
 
+n4 = Sll()
+n4.insert(1)
+n4.insert(1)
+n4.insert(1)
+n4.insert(2)
+n4.insert(3)
+n4.insert(3)
+n4.insert(3)
+n4.insert(4)
+n4.insert(5)
+print(n4)
+n4.deleteDuplicates()
+print(n4,"Remove all duplicate elements")
+
+n4 = Sll()
+n4.insert(1)
+n4.insert(1)
+n4.insert(1)
+n4.insert(2)
+n4.insert(3)
+n4.insert(3)
+n4.insert(3)
+n4.insert(4)
+n4.insert(5)
+print(n4)
+n4.deleteOnlyDuplicates()
+print(n4,"Remove only duplicate elements")
+
 # 11->21->12->None
 # 11->21->12->13->14->15->None 6
 # 5
@@ -908,3 +961,7 @@ print(n4,"rotate linked list 3 times")
 # 3->2->1->6->5->4->9->8->7->10->None reverse nodes in k groups
 # 1->2->3->4->5->6->7->8->9->10->None
 # 8->9->10->1->2->3->4->5->6->7->None rotate linked list 3 times
+# 1->1->1->2->3->3->3->4->5->None
+# 2->4->5->None Remove all duplicate elements
+# 1->1->1->2->3->3->3->4->5->None
+# 1->2->3->4->5->None Remove only duplicate elements
