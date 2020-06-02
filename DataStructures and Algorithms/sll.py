@@ -507,19 +507,50 @@ class Sll(object):
 
         # Iteratively reverse the nodes until n becomes 0.
         while n:
-            third = cur.next_node
+            nexx = cur.next_node
             cur.next_node = prev
             prev = cur
-            cur = third
+            cur = nexx
             n -= 1
 
         # Adjust the final connections as explained in the algorithm
         if con:
             con.next_node = prev
         else:
-            head = prev
+            self.head = prev
         tail.next_node = cur
         return self.head
+
+    def reorderList(self):
+        """
+        :type head: ListNode
+        :rtype: None Do not return anything, modify head in-place instead.
+        """
+        if not self.head:
+            return
+            # ensure the first part has the same or one more node
+        fast = slow = self.head
+        while fast and fast.next_node:
+            fast = fast.next_node.next_node
+            slow = slow.next_node
+        # reverse the second half
+        curr = slow.next_node
+        slow.next_node = None
+        prev = None
+        while curr:
+            nxt = curr.next_node
+            curr.next_node = prev
+            prev = curr
+            curr = nxt
+        # combine head part and node part
+        p = self.head
+
+        while prev:
+            nexx = prev.next_node
+            prev.next_node = p.next_node
+            p.next_node = prev
+            p = p.next_node.next_node  # p = node.next
+            prev = nexx
 
     def deleteDuplicates(self):
         curr = pre = Node(0,self.head)
@@ -546,6 +577,45 @@ class Sll(object):
             else:
                 curr = curr.next_node
         return self.head
+
+    def sortList(self):
+        size, node = 0, self.head
+        while node:
+            node = node.next_node
+            size += 1
+        return self.merge_sort(self.head, size)
+
+    def merge_sort(self, head, size):
+        if size <= 1:
+            return head
+
+        right = prev = head
+        left_size = size // 2
+        right_size = size - left_size
+
+        for i in range(left_size):
+            prev = right
+            right = right.next_node
+        prev.next_node = None  # divide list to two part
+
+        left = self.merge_sort(head, left_size)
+        right = self.merge_sort(right, right_size)
+        return self.merge(left, right)
+
+    def merge(self, l1, l2):
+        dummy = curr = Node(0)
+        while l1 and l2:
+            if l1.data <= l2.data:
+                curr.next_node = l1
+                l1 = l1.next_node
+            else:
+                curr.next_node = l2
+                l2 = l2.next_node
+            curr = curr.next_node
+        curr.next_node = l1 or l2
+
+        #self.head = vhead.next_node
+        return dummy.next_node
 
     def search(self, value):
         curr = self.head
@@ -1024,6 +1094,40 @@ print(n4)
 n4.reverseBetween(3,8)
 print(n4,"reverse between 3  and 8")
 
+n4 = Sll()
+n4.insert(1)
+n4.insert(2)
+n4.insert(3)
+n4.insert(4)
+n4.insert(5)
+n4.insert(6)
+n4.insert(7)
+n4.insert(8)
+n4.insert(9)
+n4.insert(10)
+n4.insert(11)
+print(n4)
+n4.reorderList()
+print(n4,"reorder odd even")
+
+
+n4 = Sll()
+n4.insert(91)
+n4.insert(82)
+n4.insert(73)
+n4.insert(64)
+n4.insert(55)
+n4.insert(46)
+n4.insert(37)
+n4.insert(28)
+n4.insert(-19)
+n4.insert(10)
+n4.insert(11)
+print(n4)
+a= n4.sortList()
+n4.head = a
+print(n4,"merge sort linked list")
+
 # 11->21->12->None
 # 11->21->12->13->14->15->None 6
 # 5
@@ -1075,3 +1179,7 @@ print(n4,"reverse between 3  and 8")
 # 6->7->8->9->1->11->20->30->40->10->None partiion nodes based on x=10
 # 1->2->3->4->5->6->7->8->9->10->None
 # 1->2->8->7->6->5->4->3->9->10->None reverse between 3  and 8
+# 1->2->3->4->5->6->7->8->9->10->11->None
+# 1->11->2->10->3->9->4->8->5->7->6->None reorder odd even
+# 91->82->73->64->55->46->37->28->-19->10->11->None
+# -19->10->11->28->37->46->55->64->73->82->91->None merge sort linked list
