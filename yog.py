@@ -897,6 +897,105 @@ kwonly(1, 2)
 # 1 2 3
 # TypeError: kwonly() takes 1 positional argument but 2 were given
 
+
+# Runtime operations that perform three distinct steps the first time a program imports a given file:
+# Find the module’s file.
+# Compile it to byte code (if needed). =>  During an import operation Python checks
+#       both file modification times and the byte code’s Python version number to decide how to proceed.
+# Run the module’s code to build the objects it defines.
+
+# Bear in mind that all three of these steps are carried out only the first time a
+# module is imported during a program’s execution; later imports of the same module
+# in a program run bypass all of these steps and simply fetch the already loaded module object in memory
+
+# compilation happens when a file is being imported. Because of this, you will not usually see a .pyc byte code file
+# for the top-level file of your program, unless it is also imported elsewhere—only imported files leave behind .pyc
+# files on your machine. The byte code of top-level files is used internally and discarded;
+# byte code of imported files is saved in files to speed future imports.
+
+# In Python 3.X, the from ...* statement form described here can be used only at the top
+# level of a module file, not within a function. Python 2.X allows it to be used within a function,
+# but issues a warning anyhow.
+
+# When you call reload, Python rereads the module file’s source code and reruns its top-level statements.
+# Perhaps the most important thing to know about reload is that it changes a module object
+# in place; it does not delete and re-create the module object. Because of that, every reference to an entire module
+# object anywhere in your program is automatically affected by a reload.
+
+# reload runs a module file’s new code in the module’s current namespace.
+# Top-level assignments in the file replace names with new values.
+# Reloads impact all clients that use import to fetch modules
+# Reloads impact future from clients only
+# Reloads apply to a single module only
+
+while i<4:  # Loop test
+    i+=1
+    pass  # Loop body
+else:  # Optional else
+    pass  # Run if didn't exit loop with break
+
+for target in object:                 # Assign object items to target
+    pass                        # Repeated loop body: use target
+else:                                 # Optional else part
+    pass                        # If we didn't hit a 'break'
+
+
+# Package initialization
+# The first time a Python program imports through a directory, it automatically runs all the code in the directory’s __init__.py file.
+#
+# Module usability declarations
+# Package __init__.py files are also partly present to declare that a directory is a Python package.
+#
+# Module namespace initialization
+# In the package import model, the directory paths in your script become real nested object paths after an import.
+
+# you can use __all__ lists in __init__.py files to define what is exported when a directory is
+# imported with the from * statement form. In an __init__.py file, the __all__ list is taken to be
+# the list of submodule names that should be automatically imported when from * is used on the package
+# (directory) name. If __all__ is not set, the from * statement does not automatically load submodules
+# nested in the directory; instead, it loads just names defined by assignments in the directory’s __init__.py file,
+# including any submodules explicitly imported by code in this file.
+
+
+# As a special case, you can prefix names with a single underscore (e.g., _X) to prevent them from
+# being copied out when a client imports a module’s names with a from * statement.
+# Underscores aren’t “private” declarations: you can still see and change such names with other import
+# forms, such as the import statement:
+
+
+# # unders.py
+# a, _b, c, _d = 1, 2, 3, 4
+#
+# >> > from unders import *  # Load non _X names only
+# >> > a, c
+# (1, 3)
+# >> > _b
+# NameError: name
+# '_b' is not defined
+#
+# >> > import unders  # But other importers get every name
+# >> > unders._b
+# 2
+
+# __all__    identifies names to be copied, while _X identifies names not to be copied.
+
+# # alls.py
+# __all__ = ['a', '_c']  # __all__ has precedence over _X
+# a, b, _c, _d = 1, 2, 3, 4
+# >> > from alls import *  # Load __all__ names only
+# >> > a, _c
+# (1, 3)
+# >> > b
+# NameError: name
+# 'b' is not defined
+# >> > from alls import a, b, _c, _d  # But other importers get every name
+# >> > a, b, _c, _d
+# (1, 2, 3, 4)
+# >> > import alls
+# >> > alls.a, alls.b, alls._c, alls._d
+# (1, 2, 3, 4)
+
+
 # dunder methods
 
 # generator send
