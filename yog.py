@@ -995,8 +995,33 @@ else:                                 # Optional else part
 # >> > alls.a, alls.b, alls._c, alls._d
 # (1, 2, 3, 4)
 
-
 # dunder methods
+
+# each module has a built-in attribute called __name__, which Python creates and assigns automatically as follows
+# If the file is being run as a top-level program file, __name__ is set to the string "__main__" when it starts.
+# If the file is being imported instead, __name__ is set to the module’s name as known by its clients.
+
+
+# the __dict__ attribute is the namespace dictionary for most class-based objects
+
+# inheritance search on attribute fetches, each instance has a link to its class that Python creates for us—it’s called __class__,
+# >>> x.__class__                       # Instance to class link
+# <class '__main__.rec'>
+
+# Classes also have a __bases__ attribute, which is a tuple of references to their superclass objects
+# rec.__bases__                     # Class to superclasses link, () in 2.X
+# (<class 'object'>,)
+#
+# These two attributes are how class trees are literally represented in memory by Python
+
+
+# __str__ for user-friendly displays and a __repr__ with extra details for developers to view. Because printing runs
+# __str__ and the interactive prompt echoes results with __repr__,
+# using __str__ instead limits a display’s scope, but leaves clients the option of adding a
+# __repr__ for a secondary display at interactive prompts and nested appearances
+
+
+
 
 # generator send
 
