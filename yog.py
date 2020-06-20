@@ -93,7 +93,6 @@ print(next(d))
 
 lst = [1,2,3,4,5,6,7,8,9]
 def func(val):
-    return val % 2
     if val%2:
         return False
     else:
@@ -406,8 +405,6 @@ def quickSort(arr, low, high):
 
     # Driver code to test above
 
-#                   Best              Average           Worst       Space
-# Quick Sort	    Ω(n log(n))	      θ(n log(n))	    O(n^2)      O(log n)
 
 arr = [10, 7, 8, 9, 1, 5]
 n = len(arr)
