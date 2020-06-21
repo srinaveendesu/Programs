@@ -30,7 +30,8 @@ _1. All data files are in `data` folder_
 
 _2. There will max of 6 coloumns and minimum of 5 columns_
 
-_3. Every bank record will have following mandatory fields which are date, transaction, to, from  and money(euro/euro,cents) columns_
+_3. Every bank record will have following mandatory fields which are 
+**date**, **transaction**, **to**, **from**  and **money**(euro or euro,cents) columns_
 
 _4. The column names **TO** and **from** and datatype of columns in point 3 will not change_
 
