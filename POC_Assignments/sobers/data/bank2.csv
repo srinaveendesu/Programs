@@ -1,0 +1,3 @@
+date,transaction,amounts,to,from
+03-10-2019,remove,99.99,182,198
+04-10-2019,add,2123.99,198,188
