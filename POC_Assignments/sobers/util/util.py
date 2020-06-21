@@ -121,7 +121,8 @@ class XmlMerger():
         else:
             self.to_xml(df=dataframe, filename=self.writefilename,mode='a')
 
-
+class SqlMerger:
+    pass
 
 class PrivateExc(Exception):
     pass
