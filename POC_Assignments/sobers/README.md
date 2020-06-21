@@ -8,6 +8,16 @@
 
 `python3 -m unittest tests/sobers_test.py`
 
+# **Extendability**
+
+With a unified structure of  `DataPreprocessor()` ,
+
+it can be used to extend/implement the required `converter()` that pre-processes csv files into appropriate 
+required format. 
+
+The `*Merger()` class can be used to implement the corresponding load/unload methods 
+based on formats like csv, json, xml etc.
+
 
 # OUTPUT
 
