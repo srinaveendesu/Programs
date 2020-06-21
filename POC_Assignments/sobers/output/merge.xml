@@ -1,0 +1,42 @@
+<record>
+  <field name="transaction">remove</field>
+  <field name="date">2019-10-01 00:00:00</field>
+  <field name="from">198</field>
+  <field name="to">182</field>
+  <field name="amount">99.1</field>
+</record>
+<record>
+  <field name="transaction">add</field>
+  <field name="date">2019-10-02 00:00:00</field>
+  <field name="from">188</field>
+  <field name="to">198</field>
+  <field name="amount">2000.1</field>
+</record>
+<record>
+  <field name="transaction">remove</field>
+  <field name="date">2019-03-10 00:00:00</field>
+  <field name="from">198</field>
+  <field name="to">182</field>
+  <field name="amount">99.99</field>
+</record>
+<record>
+  <field name="transaction">add</field>
+  <field name="date">2019-04-10 00:00:00</field>
+  <field name="from">188</field>
+  <field name="to">198</field>
+  <field name="amount">2123.99</field>
+</record>
+<record>
+  <field name="transaction">remove</field>
+  <field name="date">2019-10-05 00:00:00</field>
+  <field name="from">198</field>
+  <field name="to">182</field>
+  <field name="amount">5.44</field>
+</record>
+<record>
+  <field name="transaction">add</field>
+  <field name="date">2019-10-06 00:00:00</field>
+  <field name="from">188</field>
+  <field name="to">198</field>
+  <field name="amount">1060.44</field>
+</record>

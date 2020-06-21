@@ -68,7 +68,7 @@ class CsvMerger():
     def write(self,dataframe):
         if not os.path.isfile(self.writefilename):
             dataframe.to_csv(self.writefilename, index=False)
-        else:  # else it exists so append without writing the header
+        else:
             dataframe.to_csv(self.writefilename, mode='a', header=False, index=False)
 
 class JsonMerger():
@@ -83,13 +83,44 @@ class JsonMerger():
     def write(self,dataframe):
         if not os.path.isfile(self.writefilename):
             dataframe.to_json(self.writefilename, orient='records')
-        else:  # else it exists so append without writing the header
+        else:
             df = pd.read_json(self.writefilename)
             dfout = pd.concat([dataframe,df])
             dfout.to_json(self.writefilename, orient='records')
 
 class XmlMerger():
-    pass
+
+    def __init__(self,readfilename=None,writefilename=None):
+        self.readfilename = readfilename
+        self.writefilename = writefilename
+
+    def to_xml(self, df, filename=None, mode='w'):
+        def row_to_xml(row):
+            xml = ['<record>']
+            for i, col_name in enumerate(row.index):
+                xml.append('  <field name="{0}">{1}</field>'.format(col_name, row.iloc[i]))
+            xml.append('</record>')
+            return '\n'.join(xml)
+
+        res = '\n'.join(df.apply(row_to_xml, axis=1))
+
+        if filename is None:
+            return res
+        with open(filename, mode) as f:
+            f.write(res)
+            f.write('\n')
+
+    def read(self):
+        self.dataframe = pd.read_csv(self.readfilename, parse_dates=True, header=0)
+        return self.dataframe
+
+
+    def write(self,dataframe):
+        if not os.path.isfile(self.writefilename):
+            self.to_xml(df=dataframe,filename=self.writefilename)
+        else:
+            self.to_xml(df=dataframe, filename=self.writefilename,mode='a')
+
 
 
 class PrivateExc(Exception):

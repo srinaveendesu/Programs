@@ -21,7 +21,7 @@ based on formats like csv, json, xml etc.
 
 # OUTPUT
 
-The csv and json output files are generated in `output` folder.
+The **CSV ,JSON** and **XML** output files are generated in `output` folder.
 
 
 **Note: Assumptions made**
