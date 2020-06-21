@@ -32,13 +32,18 @@ As part of current implementation json and xml load processor have been implemen
 
 # **Performance Report** 
 
+Ran tests on 100000+ rows and processing time for same is ~1.18 seconds
 Run log
 
-`python3 -W ignore -m unittest tests/sobers_test.py
- ...(truncated)
- Processing csv data file with 100000+ rows
- Processed time 0:00:01.182847
- ...(truncated)`
+`python3 -W ignore -m unittest tests/sobers_test.py`
+
+`...(truncated output)`
+
+`Processing csv data file with 100000+ rows`
+
+`Processed time 0:00:01.182847`
+
+`...(truncated output)`
 
 # OUTPUT
 
