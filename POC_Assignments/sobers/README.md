@@ -7,17 +7,38 @@
 # Running Unit Test:
 
 `python3 -m unittest tests/sobers_test.py`
+` 
 
 # **Extendability**
 
-With a unified structure of  `DataPreprocessor()` ,
+The designed solution is generic, which provides a unified structure to meet all the business requirements and can also be reused/extended 
+to different formats such as json, xml , sql, html etc   
 
-it can be used to extend/implement the required `converter()` that pre-processes csv files into appropriate 
-required format. 
+With the unified structure of `DataPreprocessor` class, it provides a reader,a writer and a converter methods.
 
-The `*Merger()` class can be used to implement the corresponding load/unload methods 
-based on formats like csv, json, xml etc.
+Reader    -> Extract data
 
+converter -> Transform data
+
+write     -> Loads data
+
+The class can be used to extend/implement the required `converter()` method that pre-processes csv files and 
+merges all files to a unified dataframe. 
+
+The `*Merger` class can be used to implement the corresponding extract/load methods 
+to get different formatted outputs like csv, json, xml, sql etc.
+
+As part of current implementation json and xml load processor have been implemented
+
+# **Performance Report** 
+
+Run log
+
+`python3 -W ignore -m unittest tests/sobers_test.py
+ ...(truncated)
+ Processing csv data file with 100000+ rows
+ Processed time 0:00:01.182847
+ ...(truncated)`
 
 # OUTPUT
 

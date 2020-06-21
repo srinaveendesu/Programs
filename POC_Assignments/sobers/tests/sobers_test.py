@@ -103,6 +103,22 @@ class MyTestCase(unittest.TestCase):
         os.remove('./tests/testOutput.csv')
         self.assertEqual(len(data), 3)
 
+        # Test8 :
+        # Processing csv data file with 100000+ rows
+        import datetime
+        logging.getLogger().info('Processing csv data file with 100000+ rows')
+        start = datetime.datetime.now()
+        t = DataPreprocessor(CsvMerger(readfilename='./tests/test.csv'),
+                             CsvMerger(writefilename='./tests/testOutput.csv'))
+        t.process()
+        end = datetime.datetime.now()
+        print('Processed time ',end - start)
+        with open('./tests/testOutput.csv') as f:
+            data = f.readlines()
+
+        os.remove('./tests/testOutput.csv')
+        self.assertEqual(len(data), 131681)
+
 
 if __name__ == '__main__':
     unittest.main()
