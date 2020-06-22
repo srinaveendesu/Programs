@@ -6,8 +6,33 @@
 
 # Running Unit Test:
 
-`python3 -m unittest tests/sobers_test.py`
-` 
+`python3 -W ignore -m unittest tests/sobers_test.py`
+
+Run log
+
+Processing csv data file
+
+Processing csv data file and appending to output data file
+
+Processing csv data file with coloumn names (d,transact,rupees,from,to)
+
+Processing csv data file with coloumn names (timestamp,type,dollar,cents,from,to)
+
+Processing csv data file with coloumn names (day,type,dollar,cents,from,to)
+
+Processing csv data file with coloumn names (day,type,dollar,cents,to,from)
+
+Processing csv data file with coloumn names (day,type,usd,cents,to,from)
+
+Processing csv data file with 100000+ rows
+
+0:00:01.222016
+..
+----------------------------------------------------------------------
+Ran 2 tests in 1.370s
+
+OK
+
 
 # **Extendability**
 
@@ -33,7 +58,9 @@ As part of current implementation json and xml load processor have been implemen
 # **Performance Report** 
 
 Ran tests on 100000+ rows and processing time for same is ~1.18 seconds
+
 Run log
+
 
 `python3 -W ignore -m unittest tests/sobers_test.py`
 
