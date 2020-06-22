@@ -405,6 +405,8 @@ def quickSort(arr, low, high):
 
     # Driver code to test above
 
+#                   Best              Average           Worst       Space
+# Quick Sort	    Ω(n log(n))	      θ(n log(n))	    O(n^2)      O(log n)
 
 arr = [10, 7, 8, 9, 1, 5]
 n = len(arr)
@@ -1017,6 +1019,37 @@ else:                                 # Optional else part
 # using __str__ instead limits a display’s scope, but leaves clients the option of adding a
 # __repr__ for a secondary display at interactive prompts and nested appearances
 
+
+
+# 1. Creational Design Patterns in Python
+# 1.1. Abstract Factory Pattern
+# 1.2. Builder Pattern
+# 1.3. Factory Method Pattern
+# 1.4. Prototype Pattern
+# 1.5. Singleton Pattern
+#
+# 2. Structural Design Patterns in Python
+# 2.1. Adapter Pattern
+# 2.2. Bridge Pattern
+# 2.3. Composite Pattern
+# 2.4. Decorator Pattern
+# 2.5. Façade Pattern
+# 2.6. Flyweight Pattern
+# 2.7. Proxy Pattern
+# 2.8. MVC -Model view controller
+#
+# 3. Behavioral Design Patterns in Python
+# 3.1. Chain of Responsibility Pattern
+# 3.2. Command Pattern
+# 3.3. Interpreter Pattern
+# 3.4. Iterator Pattern
+# 3.5. Mediator Pattern
+# 3.6. Memento Pattern
+# 3.7. Observer Pattern
+# 3.8. State Pattern
+# 3.9. Strategy Pattern
+# 3.10. Template Method Pattern
+# 3.11. Visitor Pattern
 
 
 
