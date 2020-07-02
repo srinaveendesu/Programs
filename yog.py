@@ -1052,6 +1052,99 @@ else:                                 # Optional else part
 # 3.11. Visitor Pattern
 
 
+# CLASS CONCEPTS
+
+# class’s method can always be called either through an instance (the usual way, where Python sends the instance to the
+# self argument automatically) or through the class (the less common scheme, where you must pass the instance manually)
+
+# instance.method(args...)
+# class.method(instance, args...)
+
+# Python uses inheritance to look for and call only one __init__ method at construction time—the lowest
+# one in the class tree
+
+# Python locates and calls just one __init__. If subclass constructors need to guarantee that superclass
+# construction-time logic runs, too, they generally must call the superclass’s __init__ method
+# explicitly through the class:
+
+class Person:
+    def __init__(self,name, job, pay):
+        self.name =name
+        self.job = job
+        self.pay = pay
+
+class Manager(Person):
+    def __init__(self, name, pay):                     # Redefine constructor
+        Person.__init__(self, name, 'mgr', pay)        # Run original with 'mgr'
+
+# The built-in instance.__class__ attribute provides a link from an instance to the class from which it was created.
+# Classes in turn have a __name__, just like modules, and a __bases__ sequence that provides access to superclasses.
+
+
+# The built-in object.__dict__ attribute provides a dictionary with one key/value pair for every attribute attached
+# to a namespace object (including modules, classes, and instances
+
+# Inherited class attributes are attached to the class only, not copied down to instances
+
+# All the statements inside the class statement run when the class statement itself runs
+# Assignments to instance attributes create or change the names in the instance, rather than in the shared class.
+
+
+
+# Psuedo private class attributes
+
+# Two underscores at the front of the method name only: __gatherAttrs for us. Python automatically expands such names
+# to include the enclosing class’s name, which makes them truly unique when looked up by the inheritance search.
+# This is a feature usually called pseudoprivate class attributes,
+
+# Abstract classes
+
+# the superclass in this example is what is sometimes called an abstract superclass—a class that expects parts of its
+# behavior to be provided by its subclasses. If an expected method is not defined in a subclass, Python raises an
+# undefined name exception when the inheritance search fails.
+
+
+class Super:
+    def delegate(self):
+        self.action()
+    def action(self):
+        raise NotImplementedError('action must be defined!')
+
+X = Super()
+X.delegate()
+# NotImplementedError: action must be defined!
+
+class Sub(Super): pass
+
+X = Sub()
+X.delegate()
+# NotImplementedError: action must be defined!
+
+class Sub(Super):
+    def action(self): print('spam')
+
+X = Sub()
+X.delegate()
+# spam
+
+
+# As of Python 2.6 and 3.0, the prior section’s abstract superclasses (a.k.a. “abstract base classes”), which require
+# methods to be filled in by subclasses, may also be implemented with special class syntax.
+
+from abc import ABCMeta, abstractmethod
+
+class Super(metaclass=ABCMeta):
+    @abstractmethod
+    def method(self, *args):
+        pass
+
+# But in Python 2.6 and 2.7, we use a class attribute instead:
+
+class Super:
+    __metaclass__ = ABCMeta
+    @abstractmethod
+    def method(self, *args):
+        pass
 
 # generator send
 
