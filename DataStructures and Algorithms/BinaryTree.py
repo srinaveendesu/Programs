@@ -3,13 +3,10 @@
 import functools as fn
 
 class Node():
-    def __init__(self, data):
+    def __init__(self, data=0, left = None, right = None):
         self.data = data
-        self.right = None
-        self.left = None
-
-    def __str__(self):
-        return ('[{}] <- {} -> [{}]'.format(self.left, self.data, self.right))
+        self.right = left
+        self.left = right
 
 
 class Tree():
@@ -256,7 +253,7 @@ A = [8, 3, 6, 1, 10, 14, 13, 4, 7]
 BST = Tree()
 for val in A:
     BST.add_node(val)
-    #print(BST.root)
+    #print(BST)
 
 print(BST.root)
 # [[[None] <- 1 -> [None]] <- 3 -> [[[None] <- 4 -> [None]] <- 6 -> [[None] <- 7 -> [None]]]] <- 8 -> [[None] <- 10 -> [[[None] <- 13 -> [None]] <- 14 -> [None]]]
@@ -278,7 +275,7 @@ print((BST.postorder(BST.root)))
 # [1, 4, 7, 6, 3, 13, 14, 10, 8]
 
 
-print(BST.display(BST.root))
+# print(BST.display(BST.root))
 #   ___8_
 #  /     \
 #  3_   10___
@@ -288,64 +285,4 @@ print(BST.display(BST.root))
 #   4 7   13
 
 
-
-def decorate_tree(func):
-    fn.wraps(func)
-    def modify(data):
-        print (data,'in decorator',)
-        data = str(data)
-        reg = r'\[None\] <- (\d+) -> \[None\]'
-        m = re.search(reg,data)
-        while m:
-            if m:
-                data = re.sub(reg,m.group(1),data,1)
-                m = re.search(reg, data)
-        print (data)
-
-        return func(data)
-    return modify
-
-def modify_tree(data):
-    print (data,'in modify',)
-    #data = str(data)
-    reg = r'\[None\] <- (\d+) -> \[None\]'
-    m = re.search(reg,data)
-    while m:
-        if m:
-            data = re.sub(reg,m.group(1),data,1)
-            m = re.search(reg, data)
-    #print (data)
-
-    return data
-
-counter  =0
-def printbtre(data):
-    global counter
-    counter +=1
-
-    print(data,type(data))
-
-    l_open_b = 0
-    pos = 0
-    for i in range(0,len(data)):
-        if data[i] == '[':
-            l_open_b = l_open_b +1
-        if data[i] == ']':
-            l_open_b = l_open_b -1
-        if l_open_b ==0:
-            pos = i
-            break
-    print(pos,data[pos+1:])
-
-
-
-    m = re.findall('\d+',data[0:pos+1])
-    if m:
-        print(m)
-        print(data[1:pos])
-        printbtre(data[1:pos])
-    pass
-
-data = modify_tree(str(BST.root))
-printbtre(data)
-print (counter)
+print(BST)
