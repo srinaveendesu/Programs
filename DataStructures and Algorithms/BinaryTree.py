@@ -3,10 +3,10 @@
 import functools as fn
 
 class Node():
-    def __init__(self, data=0, left = None, right = None):
+    def __init__(self, data=0):
         self.data = data
-        self.right = left
-        self.left = right
+        self.right = None
+        self.left = None
 
 
 class Tree():
@@ -466,4 +466,4 @@ print(BST.display(inorder_postorder))
 # /  \       \
 # 1  6      14
 #   / \    /
-#   4 7   13  
+#   4 7   13
