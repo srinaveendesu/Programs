@@ -57,6 +57,61 @@ class Tree():
             nodes.append(node.data)
         return nodes
 
+    def maxDepth(self, node) -> int:
+        if node is None:
+            return 0;
+        else:
+            # Compute the depth of each subtree
+            lDepth = self.maxDepth(node.left)
+            rDepth = self.maxDepth(node.right)
+
+            # Use the larger one
+            if (lDepth > rDepth):
+                return lDepth + 1
+            else:
+                return rDepth + 1
+
+    # Traverses all the nodes in the tree
+    def minDepth(self, node) -> int:
+        # Corner Case.Should never be hit unless the code is
+        # called on root = NULL
+        if node is None:
+            return 0
+
+            # Base Case : Leaf node.This acoounts for height = 1
+        if node.left is None and node.right is None:
+            return 1
+
+        # If left subtree is Null, recur for right subtree
+        if node.left is None:
+            return self.minDepth(node.right) + 1
+
+        # If right subtree is Null , recur for left subtree
+        if node.right is None:
+            return self.minDepth(node.left) + 1
+
+        return min(self.minDepth(node.left), self.minDepth(node.right)) + 1
+
+    def levelOrder(self, root) :
+        if root is None:
+            return root
+        queue = []
+        return_list = []
+        queue.append(root)
+        while len(queue) > 0:
+            ans = []
+            l = len(queue)
+            for l in range(l):
+                node = queue.pop(0)
+                ans.append(node.data)
+                if node.left != None:
+                    queue.append(node.left)
+                if node.right != None:
+                    queue.append(node.right)
+            return_list.append(ans)
+        return return_list
+
+
     # This code has been taken from Stackoverflow
     # This code print nodes in a Binary tree format
     def printBTree(self,node, nodeInfo=None, inverted=False, isTop=True):
@@ -236,6 +291,72 @@ class Tree():
         tree_output = self.printBTree(self.root, lambda node: (str(node.data), node.left, node.right),inverted=0)
         return '\n'.join(tree_output)
 
+def buildTree_pre_in( preorder, inorder):
+    # Recursive solution
+    if inorder:
+        # Find index of root node within in-order traversal
+        index = inorder.index(preorder.pop(0))
+        root = Node(inorder[index])
+
+        # Recursively generate left subtree starting from
+        # 0th index to root index within in-order traversal
+        root.left = buildTree_pre_in(preorder, inorder[:index])
+
+        # Recursively generate right subtree starting from
+        # next of root index till last index
+        root.right = buildTree_pre_in(preorder, inorder[index + 1:])
+        return root
+
+def buildTree_pre_in2(preorder, inorder) :
+    if len(preorder) == 0:
+        return None
+
+    head = Node(preorder[0])
+    stack = [head]
+    i = 1
+    j = 0
+
+    while i < len(preorder):
+        temp = None
+        t = Node(preorder[i])
+        while stack and stack[-1].data == inorder[j]:
+            temp = stack.pop()
+            j += 1
+        if temp:
+            temp.right = t
+        else:
+            stack[-1].left = t
+        stack.append(t)
+        i += 1
+
+    return head
+
+def buildTree_in_post(inorder, postorder):
+    if inorder:
+        ind = inorder.index(postorder.pop())
+        root = Node(inorder[ind])
+        root.right = buildTree_in_post(inorder[ind + 1:], postorder)
+        root.left = buildTree_in_post(inorder[:ind], postorder)
+        return root
+
+def buildTree_in_post2( inorder, postorder):
+    oi, pi = 0,0
+    stack = []
+    cur = None
+    while pi < len(postorder):
+        if len(stack) and stack[-1].data == postorder[pi]:
+            stack[-1].right = cur
+            cur = stack.pop()
+            pi += 1
+        else:
+            stack.append(Node(inorder[oi]))
+            stack[-1].left = cur
+            cur = None
+            oi += 1
+    return cur
+
+
+
 '''
     Example
                   8
@@ -286,3 +407,63 @@ print((BST.postorder(BST.root)))
 
 
 print(BST)
+print ("Maximum depth of the tree",BST.maxDepth(BST.root))
+# Maximum depth of the tree 4
+
+print(BST)
+print ("Minimum depth of the tree",BST.minDepth(BST.root))
+# Minimum depth of the tree 3
+
+print(BST)
+print ("Level order traversal",BST.levelOrder(BST.root))
+# Level order traversal [[8], [3, 10], [1, 6, 14], [4, 7, 13]]
+
+preorder_inorder = buildTree_pre_in(BST.preorder(BST.root),BST.inorder(BST.root) )
+print("Construct from preorder - inorder ")
+print(BST.display(preorder_inorder))
+# Construct from preorder - inorder
+#   ___8_
+#  /     \
+#  3_   10___
+# /  \       \
+# 1  6      14
+#   / \    /
+#   4 7   13
+
+
+preorder_inorder2 = buildTree_pre_in2(BST.preorder(BST.root),BST.inorder(BST.root) )
+print("Construct from preorder - inorder ")
+print(BST.display(preorder_inorder2))
+# Construct from preorder - inorder
+#   ___8_
+#  /     \
+#  3_   10___
+# /  \       \
+# 1  6      14
+#   / \    /
+#   4 7   13
+
+inorder_postorder = buildTree_in_post(BST.inorder(BST.root),BST.postorder(BST.root) )
+print("Construct from inorder - postorder ")
+print(BST.display(inorder_postorder))
+# Construct from inorder - postorder
+#   ___8_
+#  /     \
+#  3_   10___
+# /  \       \
+# 1  6      14
+#   / \    /
+#   4 7   13
+
+
+inorder_postorder = buildTree_in_post2(BST.inorder(BST.root),BST.postorder(BST.root) )
+print("Construct from inorder - postorder ")
+print(BST.display(inorder_postorder))
+# Construct from inorder - postorder
+#   ___8_
+#  /     \
+#  3_   10___
+# /  \       \
+# 1  6      14
+#   / \    /
+#   4 7   13  
