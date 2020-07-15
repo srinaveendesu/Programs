@@ -184,3 +184,31 @@ print(jeep2.specification())
 # engine horsepower: 400
 # tire size: 22'
 # None
+
+
+# Example 3
+
+from copy import deepcopy
+
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __str__(self):
+        print("({}, {})".format(self.x, self.y))
+
+    def move(self, x, y):
+        self.x += x
+        self.y += y
+
+    def clone(self, move_x, move_y):
+        obj = deepcopy(self)
+        obj.move(move_x, move_y)
+
+        return obj
+
+p = Point(0,0)
+print(p)
+p1 = p.clone(1,1)
+print(p1)
