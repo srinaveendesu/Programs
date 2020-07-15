@@ -49,3 +49,51 @@ print(x)
 # {'HTTP': 'Hyper Text Transfer Protocol'}
 # {'HTTP': 'Hyper Text Transfer Protocol', 'SNMP': 'Simple Network Management Protocol'}
 # {'HTTP': 'Hyper Text Transfer Protocol', 'SNMP': 'Simple Network Management Protocol'}
+
+
+# Singleton pattern ensures that a class have only one instance and provide a global point of access to it
+# borg idiom( a.k.a monostate pattern) lets a class have as many instances as one likes, but ensures
+# that they all share the same state
+
+# __new__ is the first step of instance create; its called before __init__ and
+# is responsible for returning a new instance of your class
+
+# __init__ doesnt return ianything; responsible for intializing the instance after its been created
+
+class Singleton:
+    __instance = None
+    def __new__(cls, val=None):
+        if Singleton.__instance is None:
+            Singleton.__instance = object.__new__(cls)
+        Singleton.__instance.val = val
+        return Singleton.__instance
+
+
+class Borg:
+    __shared_state = {}
+    def __init__(self):
+        self.__dict__ = self.__shared_state
+
+s  = Singleton()
+s.val = 'foo'
+print(s.val)
+y = Singleton()
+y.val = 'boo'
+print(y.val)
+print(s.val)
+print(s is y )
+# foo
+# boo
+# boo
+# True
+
+b = Borg()
+c = Borg()
+print(b is c)
+b.val = "doo"
+c.val = "coo "
+print(b.val ,c.val)
+# False
+# coo  coo
+
+# python modules are singletons
