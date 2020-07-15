@@ -209,6 +209,9 @@ class Point:
         return obj
 
 p = Point(0,0)
-print(p)
+p.__str__()
 p1 = p.clone(1,1)
-print(p1)
+p1.__str__()
+
+# (0, 0)
+# (1, 1)
