@@ -55,3 +55,132 @@ c1 = prototype.clone('Benz')
 print(c1)
 
 # Benz | Red | Ex
+
+
+# Example 2
+
+# specify the kinds of objects to use a prototypical instance and create new objects by
+# copying this prototype
+
+from copy import deepcopy
+
+class Car:
+    def __init__(self):
+        self.__wheels  = list()
+        self.__engine  = None
+        self.__body    = None
+
+    def setBody(self, body):
+        self.__body = body
+
+    def attachWheel(self, wheel):
+        self.__wheels.append(wheel)
+
+    def setEngine(self, engine):
+        self.__engine = engine
+
+    def specification(self):
+        print("body: %s" % self.__body.shape)
+        print("engine horsepower: %d" % self.__engine.horsepower)
+        print("tire size: %d\'" % self.__wheels[0].size)
+
+    def clone(self):
+        return deepcopy(self)
+
+# === Car parts ===
+class Wheel:
+    size = None
+
+class Engine:
+    horsepower = None
+
+class Body:
+    shape = None
+
+
+class Director:
+    __builder = None
+
+    def setBuilder(self, builder):
+        self.__builder = builder
+
+    # The algorithm for assembling a car
+    def getCar(self):
+        car = Car()
+
+        # First goes the body
+        body = self.__builder.getBody()
+        car.setBody(body)
+
+        # Then engine
+        engine = self.__builder.getEngine()
+        car.setEngine(engine)
+
+        # And four wheels
+        i = 0
+        while i < 4:
+            wheel = self.__builder.getWheel()
+            car.attachWheel(wheel)
+            i += 1
+
+        return car
+
+
+class BuilderInterface:
+    def getWheel(self): pass
+    def getEngine(self): pass
+    def getBody(self): pass
+
+
+class JeepBuilder(BuilderInterface):
+    def getWheel(self):
+        wheel = Wheel()
+        wheel.size = 22
+        return wheel
+
+    def getEngine(self):
+        engine = Engine()
+        engine.horsepower = 400
+        return engine
+
+    def getBody(self):
+        body = Body()
+        body.shape = "SUV"
+        return body
+
+
+class NissanBuilder(BuilderInterface):
+    def getWheel(self):
+        wheel = Wheel()
+        wheel.size = 16
+        return wheel
+
+    def getEngine(self):
+        engine = Engine()
+        engine.horsepower = 100
+        return engine
+
+    def getBody(self):
+        body = Body()
+        body.shape = "hatchback"
+        return body
+
+d = Director()
+d.setBuilder(JeepBuilder())
+jeep = d.getCar()
+print(jeep)
+print(jeep.specification())
+jeep2 = jeep.clone()
+print(jeep2)
+print(jeep2.specification())
+
+# <__main__.Car object at 0x10166e590>
+# body: SUV
+# engine horsepower: 400
+# tire size: 22'
+# None
+# <__main__.Car object at 0x10166e9d0>
+# body: SUV
+# engine horsepower: 400
+# tire size: 22'
+# None
