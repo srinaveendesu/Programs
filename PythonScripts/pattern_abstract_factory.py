@@ -75,3 +75,76 @@ shop.show_pet()
 # Our pet is 'Dog'!
 # Our pet says hello by 'Woof!'
 # Its food is 'Dog Food!'!
+
+# Example 2
+
+# provide an interface for creating a families of realted objects without specifying their concrete class
+
+# create the family of interfaces or abstract base classes
+# create the concrete classes for each of these
+# create an abstract factory which applies to the whole family
+# create a concrete factory for each base class
+
+# abstract base class
+
+class shape2dinterface:
+	def draw(self):
+		pass
+
+class shape3dinterface:
+	def build(self):
+		pass
+
+# concrete class
+
+class circle(shape2dinterface):
+	def draw(self):
+		print('circle')
+
+class square(shape2dinterface):
+	def draw(self):
+		print('cube')
+
+class shpere(shape3dinterface):
+	def build(self):
+		print('sphare')
+
+class cube(shape3dinterface):
+	def build(self):
+		print('cube')
+
+# Abstract factory class
+
+class shapefactoryinterface:
+	def getshape(sides):
+		pass
+
+# concrete shape factores
+
+class shape2dfactory(shapefactoryinterface):
+	@staticmethod
+	def getshape(sides):
+		if sides == 1:
+			return circle()
+		if sides == 4:
+			return square()
+		raise NotImplementedError('sides not exist' + sides)
+
+class shape3dfactory(shapefactoryinterface):
+	@staticmethod
+	def getshape(faces):
+		if faces == 1:
+			return shpere()
+		if faces == 6:
+			return cube()
+		raise NotImplementedError('sides not exist' + faces)
+
+
+s = shape2dfactory()
+s.getshape(1).draw()
+
+s = shape3dfactory()
+s.getshape(6).build()
+
+# circle
+# cube
