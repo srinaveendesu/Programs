@@ -55,3 +55,35 @@ print(c.speak())
 
 
 
+# Another example for factory pattern
+
+class shapeinterface():
+	def draw(self):
+		pass
+
+class circle(shapeinterface):
+	def draw(self):
+		print('Circle ')
+
+class square(shapeinterface):
+	def draw(self):
+		print('square')
+
+
+class shapefactory:
+	@staticmethod
+	def getshape(type):
+		if type == 'circle':
+			return circle()
+		if type == 'square':
+			return square()
+		raise NotImplementedError('This shape not defined '+ type)
+
+
+f = shapefactory()
+s = f.getshape('circle')
+print(s)
+s = f.getshape('rect')
+
+# <__main__.circle object at 0x108078f50>
+# NotImplementedError: This shape not defined rect
