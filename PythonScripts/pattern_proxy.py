@@ -73,3 +73,83 @@ p.produce()
 # Producer has time to meet you now!
 # Artist checking if Producer is available ...
 # Producer is busy!
+
+
+# Example 2
+
+# A proxy provides a surrogate or place holder to provide access to an object
+
+# why
+# use an extra level of indirection to support distributed, controlled or conditional access
+# add a wrapper and delgation to protect the real component from undue complexity
+
+class SubjectInterface:
+    """
+    Define the common interface for RealSubject and Proxy so that a
+    Proxy can be used anywhere a RealSubject is expected.
+    """
+    def request(self): pass
+
+
+class Proxy(SubjectInterface):
+    """
+    Maintain a reference that lets the proxy access the real subject.
+    Provide an interface identical to Subject's.
+    """
+
+    def __init__(self, real_subject):
+        self._real_subject = real_subject
+
+    def request(self):
+        print("Proxy may be doing something, like controlling request access")
+        self._real_subject.request()
+
+
+class RealSubject(SubjectInterface):
+    """
+    Define the real object that the proxy represents.
+    """
+
+    def request(self):
+        print("The real thing is dealing with the request")
+
+
+rs = RealSubject()
+rs.request()
+p = Proxy(rs)
+p.request()
+
+# The real thing is dealing with the request
+# Proxy may be doing something, like controlling request access
+# The real thing is dealing with the request
+
+# example 3
+
+class Blog:
+    def read(self):
+        print('Read the blog')
+
+    def write(self):
+        print('Write the blog')
+
+class Proxy:
+    def __init__(self, target):
+        self.target = target
+
+    def __getattr__(self, attr):
+        return getattr(self.target, attr)
+
+class AnonUserBlogProxy(Proxy):
+    def __init__(self, blog):
+        super().__init__(blog)
+    def write(self):
+        print('Only authorized users can write blog posts.')
+
+
+b = Blog()
+b.write()
+p = AnonUserBlogProxy(b)
+p.write()
+
+# Write the blog
+# Only authorized users can write blog posts.
