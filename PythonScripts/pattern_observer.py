@@ -78,3 +78,56 @@ c1.temp = 90
 # Temperature Viewer: Core 1 has Temperature 80
 # Temperature Viewer: Core 1 has Temperature 90
 # Temperature Viewer: Core 1 has Temperature 90
+
+# Example 2
+# The Observer pattern defines a one-to-many dependency between objects, so that when one object changes state,
+# all its dependents are notified and updated automatically
+
+class Observable:
+
+    def __init__(self):
+        self.observers = []
+
+    def register(self, observer):
+        if not observer in self.observers:
+            self.observers.append(observer)
+
+    def unregister(self, observer):
+        if observer in self.observers:
+            self.observers.remove(observer)
+
+    def unregister_all(self):
+        if self.observers:
+            del self.observers[:]
+
+    def update_observers(self, *args, **kwargs):
+        for observer in self.observers:
+            observer.update(*args, **kwargs)
+
+
+class Observer:
+    def update(self, *args, **kwargs):
+        pass
+
+
+class AmericanStockMarket(Observer):
+    def update(self, *args, **kwargs):
+        print("American stock market received: {0}\n{1}".format(args, kwargs))
+
+
+class EuropeanStockMarket(Observer):
+    def update(self, *args, **kwargs):
+        print("European stock market received: {0}\n{1}".format(args, kwargs))
+
+
+company = Observable()
+american_share_market = AmericanStockMarket()
+company.register(american_share_market)
+europe_share_market = EuropeanStockMarket()
+company.register(europe_share_market)
+company.update_observers('Important message',msg='CEO resigns')
+
+# American stock market received: ('Important message',)
+# {'msg': 'CEO resigns'}
+# European stock market received: ('Important message',)
+# {'msg': 'CEO resigns'}
