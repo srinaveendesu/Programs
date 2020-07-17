@@ -709,7 +709,7 @@ def add(fnode, snode, mode =0):
     return fnode
 
 
-def addTwoNumbers( l1: Node, l2: Node) -> Node:
+def addTwoNumbers( l1, l2):
     l1.linked_reverse2()
     l2.linked_reverse2()
 
