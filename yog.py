@@ -1146,6 +1146,61 @@ class Super:
     def method(self, *args):
         pass
 
+# Dunder methods 2
+
+# instance creation first triggers the __new__ method, which creates and returns the new instance object,
+# which is then passed into __init__ for initialization.
+
+# If defined in a class (or inherited by it), the __getitem__ method is called automatically for instance-indexing
+# operations. __getitem__ is also called for slice expressions—always in 3.X, and conditionally in 2.X
+# L[slice(2, 4)]
+
+# __getitem__ also turns out to be one way to overload iteration in Python—if this method is defined, for loops call
+# the class’s __getitem__ each time through, with successively higher offsets.
+# Python 2.X only, classes can also define __getslice__ and __setslice__ methods to intercept slice fetches and
+# assignments specifically.
+
+# __index__ method in Python 3.X for index interception—this method returns an integer value for an instance when
+# needed and is used by built-ins that convert to digit strings
+
+# generator functions and expressions, as well as built-ins like map and zip, proved to be single-iterator objects,
+# thus supporting a single active scan. By contrast, the range built-in, and other built-in types like lists, support
+# multiple active iterators with independent positions.
+
+# classes may code a __contains__ method—when present, this method is preferred over __iter__, which is preferred
+# over __getitem__. the specific __contains__ intercepts membership, the general __iter__ catches other iteration
+# contexts such that __next__ (whether explicitly coded or implied by yield) is called repeatedly, and __getitem__
+# is never called:
+
+
+# The __getattr__ method intercepts attribute references. It’s called with the attribute name as a string whenever
+# you try to qualify an instance with an undefined (nonexistent) attribute name. It is not called if Python can
+# find the attribute using its inheritance tree search procedure.
+
+# the __setattr__ intercepts all attribute assignments. If this method is defined or inherited,
+# self.attr = value becomes self.__setattr__('attr', value).
+
+# __delattr__, is passed the attribute name string and invoked on all attribute deletions
+
+#
+# Python calls __radd__ only when the object on the right side of the + is your class instance, but the object on the
+# left is not an instance of your class.
+
+# >>> x + 1                      # __add__: instance + noninstance
+# add 88 1
+# 89
+# >>> 1 + y                      # __radd__: noninstance + instance
+# radd 99 1
+# 100
+# >>> x + y                      # __add__: instance + instance, triggers __radd__
+# add 88 <commuter.Commuter1 object at 0x00000000029B39E8>
+# radd 99 88
+# 187
+
+
+# the destructor method __del__, is run automatically when an instance’s
+# space is being reclaimed (i.e., at “garbage collection” time):
+
 # generator send
 
 # eval() , exec()
