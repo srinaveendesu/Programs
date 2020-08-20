@@ -59,7 +59,7 @@ class Tree():
 
     def maxDepth(self, node) -> int:
         if node is None:
-            return 0;
+            return 0
         else:
             # Compute the depth of each subtree
             lDepth = self.maxDepth(node.left)
