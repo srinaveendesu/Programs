@@ -1,0 +1,87 @@
+
+AWS
+
+Aws regions
+        aws availability zones ( 3 min, 6 max, usually 3)
+
+
+EC2 -> regional service
+IAM -> global service
+
+IAM -> Identity and access management
+      users
+      groups
+      roles
+policies written in JSON
+
+
+IAM federation -> for big enterprise -> SAML standard
+
+One IAM user per physical person
+One IAM role per application
+
+
+EC2
+
+capability of
+1) renting virtual machines (EC2)
+2) storing data on virtual drives (EBS)
+3) distributing load across machines( ELB)
+4) Scaling the services using auto-scaling group(ASG)
+
+Steps
+AMI -> amazon machine image -> instance type t2.micro -> configuration -> storage -> tags -> security group
+
+AMI -> Built for specific AWS Region
+
+pem file permission -> chmod 400
+
+security group -> inbound and outbound -> acting as firewall
+                can be to multiple instances
+                locked down to a region /VPC combination
+
+elastic IP -> its a public ipv4 own as long as we don't delete it
+                  max 5 elastic in a account
+
+EC2 User data (runs with root user ) -> bootstrapping our instances -> launching commands when machine starts
+              copy your shell script to user data field
+
+EC2 Launch types -> on demand instances -  short workload , predictable pricing
+                    reserved - (minimum 1 year or 3 year )
+                            reserved instances - 75% discount
+                            convertible reserved instances  - 54% discount
+                            scheduled reserved instances  -
+                    Spot instances - 90% discount ( can loose at any point of time ) - use if workloads are resilient to failure
+                    dedicated instances -> no other customers can share this hardware. only for u , no control in placement
+                    dedicated hosts -> Physical dedicated ec2 server , full control of ec2 instance placement , 3 year period reservation
+
+ENI -> ELastic network interface -> Bounded to specific Availability zone
+        logical component in VPC - represent a virtual network card
+        primary ipv4, one or more secondary ipv4
+        one elastic ipv4
+        one public ipv4
+        one or more security groups
+        a mac address
+
+
+EC2 Pricing -> Price per hour varies on
+            region
+            Instance type
+            on-demand vs spot vs dedicated vs reserved
+            linux vs windows vs private OS
+Billed by second with min. of 60 seconds. If instanced stopped no payment
+others factors are storage, load balancing etc etc
+
+EC2 types based on -> RAM, CPU , I/O , Network , GPU
+          M instances are balanced in everything No GPU
+          T2, T3 are burstable instances (ok CPU performance). uses burst credits(CPU credits) -> all credits used-> CPU bad
+
+For exam->
+• Know how to SSH into EC2 (and change .pem file permissions)
+• Know how to properly use security groups
+• Know the fundamental differences between private vs public vs elastic IP
+• Know how to use User Data to customize your instance at boot time
+• Know that you can build custom AMI to enhance your OS
+• EC2 instances are billed by the second and can be easily created and thrown away, welcome to the cloud!
+
+=========================================================================================================
