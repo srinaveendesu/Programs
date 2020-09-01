@@ -1,0 +1,1003 @@
+hello
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pseudoprivate Class Attributes
+
+Python today does support the notion of name “mangling” (i.e., expansion) to localize some names in classes. Mangled names are sometimes misleadingly called “private attributes,” but really this is just a way to localize a name to the class that created it—name mangling does not prevent access by code outside the class. feature is mostly intended to avoid namespace collisions in instances, not to restrict access to names in general; mangled names are therefore better called “pseudoprivate” than “private.”
+
+within a class statement only, any names that start with two underscores but don’t end with two underscores are automatically expanded to include the name of the enclosing class at their front. For instance, a name like __X within a class named Spam is changed to _Spam__X automatically: the original name is prefixed with a single underscore and the enclosing class’s name
+
+Name mangling happens only for names that appear inside a class statement’s code, and then only for names that begin with two leading underscores.
+
+Unbound (class) method objects: no self
+Accessing a function attribute of a class by qualifying the class returns an unbound method object. To call the method, you must provide an instance object explicitly as the first argument.
+
+Bound (instance) method objects: self + function pairs
+Accessing a function attribute of a class by qualifying an instance returns a bound method object.
+
+class Spam:
+    def doit(self, message):
+        print(message)
+
+object1 = Spam()
+x = object1.doit        # Bound method object: instance+function
+x('hello world')        # Same effect as object1.doit('...')
+
+
+object1 = Spam()
+t = Spam.doit           # Unbound method object (a function in 3.X: see ahead)
+t(object1, 'howdy')     # Pass in instance (if the method expects one in 3.X)
+
+Python 3.X will pass along an instance to methods only for through-instance calls. When calling through a class, you must pass an instance manually only if the method expects one:
+
+
+C:\code> c:\python33\python
+>>> class Selfless:
+        def __init__(self, data):
+            self.data = data
+        def selfless(arg1, arg2):               # A simple function in 3.X
+            return arg1 + arg2
+        def normal(self, arg1, arg2):           # Instance expected when called
+            return self.data + arg1 + arg2
+
+>>> X = Selfless(2)
+>>> X.normal(3, 4)                  # Instance passed to self automatically: 2+(3+4)
+9
+>>> Selfless.normal(X, 3, 4)        # self expected by method: pass manually
+9
+>>> Selfless.selfless(3, 4)         # No instance: works in 3.X, fails in 2.X!
+7
+
+
+In classic classes (the default until Python 3.0), the attribute search in all cases proceeds depth-first all the way to the top of the inheritance tree, and then from left to right. This order is usually called DFLR, for its depth-first, left-to-right path
+
+
+In new-style classes (optional in 2.X and standard in 3.X), the attribute search is usually as before, but in diamond patterns proceeds across by tree levels before moving up, in a more breadth-first fashion. This order is usually called the new-style MRO, for method resolution order, though it’s used for all attributes, not just methods
+
+
+Multiple Inheritance: “Mix-in” Classes
+
+mix-in classes are similar to modules: they provide packages of methods for use in their client subclasses. Unlike simple functions in modules, though, methods in mix-in classes also can participate in inheritance hierarchies, and have access to the self instance for using state information and other methods in their trees
+
+types and Class
+
+C:\code> c:\python27\python
+>>> class C(object): pass               # New-style classes in 2.X
+
+>>> I = C()                             # Type of instance is class it's made from
+>>> type(I), I.__class__
+(<class '__main__.C'>, <class '__main__.C'>)
+
+>>> type(C), C.__class__                # Classes are user-defined types
+(<type 'type'>, <type 'type'>)
+
+---------
+C:\code> c:\python33\python
+>>> class C: pass
+
+>>> I = C()                             # All classes are new-style in 3.X
+>>> type(I), I.__class__                # Type of instance is class it's made from
+(<class '__main__.C'>, <class '__main__.C'>)
+
+>>> type(C), C.__class__                # Class is a type, and type is a class
+(<class 'type'>, <class 'type'>)
+
+---------
+C:\code> c:\python33\python
+>>> class C: pass
+>>> class D: pass
+
+>>> c, d = C(), D()
+>>> type(c) == type(d)                 # 3.X: compares the instances' classes
+False
+
+>>> type(c), type(d)
+(<class '__main__.C'>, <class '__main__.D'>)
+>>> c.__class__, d.__class__
+(<class '__main__.C'>, <class '__main__.D'>)
+
+>>> c1, c2 = C(), C()
+>>> type(c1) == type(c2)
+True
+
+
+C:\code> c:\python27\python
+>>> class C: pass
+>>> class D: pass
+
+>>> c, d = C(), D()
+>>> type(c) == type(d)                 # 2.X: all instances are same type!
+True
+>>> c.__class__ == d.__class__         # Compare classes explicitly if needed
+False
+
+>>> type(c), type(d)
+(<type 'instance'>, <type 'instance'>)
+>>> c.__class__, d.__class__
+(<class __main__.C at 0x024585A0>, <class __main__.D at 0x024588D0>)
+
+
+Diamond Inheritance Change
+
+For classic classes (the default in 2.X): DFLR
+The inheritance search path is strictly depth first, and then left to right—Python climbs all the way to the top, hugging the left side of the tree, before it backs up and begins to look further to the right
+
+For new-style classes (optional in 2.X and automatic in 3.X): MRO
+The inheritance search path is more breadth-first in diamond cases
+this search proceeds across by levels before moving up. This search order is called the new-style MRO for “method resolution order”
+
+
+ the new-style search rule avoids visiting the same superclass more than once when it is accessible from multiple subclasses.
+
+
+classic classes.
+
+>>> class A:       attr = 1           # Classic (Python 2.X)
+>>> class B(A):    pass               # B and C both lead to A
+>>> class C(A):    attr = 2
+>>> class D(B, C): pass               # Tries A before C
+
+>>> x = D()
+>>> x.attr                            # Searches x, D, B, A
+1
+
+new-style classes
+
+>>> class A(object): attr = 1         # New-style ("object" not required in 3.X)
+>>> class B(A):      pass
+>>> class C(A):      attr = 2
+>>> class D(B, C):   pass             # Tries C before A
+
+>>> x = D()
+>>> x.attr                            # Searches x, D, B, C
+2
+
+
+MRO ALgorithm
+This MRO is based on the C3 superclass linearization algorithm initially developed in the Dylan programming language, but later adopted by other languages including Python 2.3 and Perl 6.
+
+MRO essentially works like this:
+
+List all the classes that an instance inherits from using the classic class’s DFLR lookup rule, and include a class multiple times if it’s visited more than once.
+
+Scan the resulting list for duplicate classes, removing all but the last occurrence of duplicates in the list.
+
+class.__mro__ attribute, which is a tuple giving the linear search order Python uses to look up attributes in superclasses.
+
+>>> class A: pass
+>>> class B(A): pass         # Diamonds: order differs for newstyle
+>>> class C(A): pass         # Breadth-first across lower levels
+>>> class D(B, C): pass
+>>> D.__mro__
+(<class '__main__.D'>, <class '__main__.B'>, <class '__main__.C'>,
+<class '__main__.A'>, <class 'object'>)
+
+
+For nondiamonds, though, the search is still as it has always been (albeit with an extra object root)—to the top, and then to the right (a.k.a. DFLR, depth first and left to right, the model used for all classic classes in 2.X):
+
+>>> class A: pass
+>>> class B(A): pass         # Nondiamonds: order same as classic
+>>> class C: pass            # Depth first, then left to right
+>>> class D(B, C): pass
+>>> D.__mro__
+(<class '__main__.D'>, <class '__main__.B'>, <class '__main__.A'>,
+<class '__main__.C'>, <class 'object'>)
+
+The class.__mro__ attribute is available only on new-style classes; it’s not present in 2.X unless classes derive from object. Strictly speaking, new-style classes also have a class.mro() method used in the prior example for variety; it’s called at class instantiation time and its return value is a list used to initialize the __mro__ attribute when the class is created
+
+
+Because a class’s __dict__ includes both normal class attributes and individual entries for the instance attributes defined by its __slots__ list, the slots attributes inherited by an instance will be correctly associated with the implementing class from which they are acquired, even though they are not physically stored in the instance’s __dict__ itself:
+
+Slots: Attribute Declarations
+
+By assigning a sequence of string attribute names to a special __slots__ class attribute, we can enable a new-style class to both limit the set of legal attributes that instances of the class will have, and optimize memory usage and possibly program speed.
+
+ assign a sequence of string names to the special __slots__ variable and attribute at the top level of a class statement: only those names in the __slots__ list can be assigned as instance attributes.
+
+
+ >>> class limiter(object):
+        __slots__ = ['age', 'name', 'job']
+
+>>> x = limiter()
+>>> x.age                                           # Must assign before use
+AttributeError: age
+
+>>> x.age = 40                                      # Looks like instance data
+>>> x.age
+40
+>>> x.ape = 1000                                    # Illegal: not in __slots__
+AttributeError: 'limiter' object has no attribute 'ape'
+
+best reserved for rare cases where there are large numbers of instances in a memory-critical application.
+
+ when slots are used, instances do not normally have an attribute dictionary—instead, Python uses the class descriptors feature introduced ahead to allocate and manage space reserved for slot attributes in the instance
+
+ Also keep in mind that without an attribute namespace dictionary, it’s not possible to assign new names to instances that are not names in the slots list:
+
+>>> class D:                             # Use D(object) for same result in 2.X
+        __slots__ = ['a', 'b']
+        def __init__(self):
+            self.d = 4                   # Cannot add new names if no __dict__
+
+>>> X = D()
+AttributeError: 'D' object has no attribute 'd'
+
+
+Properties: Attribute Accessors
+
+ a property is a type of object assigned to a class attribute name.
+
+>>> class properties(object):                     # Need object in 2.X for setters
+        def getage(self):
+            return 40
+        def setage(self, value):
+            print('set age: %s' % value)
+            self._age = value
+        age = property(getage, setage, None, None)
+
+>>> x = properties()
+>>> x.age                                         # Runs getage
+40
+>>> x.age = 42                                    # Runs setage
+set age: 42
+>>> x._age                                        # Normal fetch:  no getage call
+42
+>>> x.age                                         # Runs getage
+40
+>>> x.job = 'trainer'                             # Normal assign: no setage call
+>>> x.job                                         # Normal fetch:  no getage call
+'trainer'
+
+
+
+
+__getattribute__ and Descriptors: Attribute Tools
+
+ the __getattribute__ operator overloading method, available for new-style classes only, allows a class to intercept all attribute references, not just undefined references.
+
+>>> class AgeDesc(object):
+        def __get__(self, instance, owner): return 40
+        def __set__(self, instance, value): instance._age = value
+
+>>> class descriptors(object):
+        age = AgeDesc()
+
+>>> x = descriptors()
+>>> x.age                                         # Runs AgeDesc.__get__
+40
+>>> x.age = 42                                    # Runs AgeDesc.__set__
+>>> x._age                                        # Normal fetch: no AgeDesc call
+42
+
+properties are a simplified way to define a specific type of descriptor—one that runs functions on access
+
+Static and Class Methods
+
+static methods work roughly like simple instance-less functions inside a class, and class methods are passed a class instead of an instance.
+
+simple functions with no self argument that are nested in a class and are designed to work on class attributes instead of instance attributes. Static methods never receive an automatic self argument, whether called through a class or an instance. They usually keep track of information that spans all instances, rather than providing behavior for instances.
+
+class methods—methods of a class that are passed a class object in their first argument instead of an instance, regardless of whether they are called through an instance or a class.
+
+
+
+Both Python 2.X and 3.X produce a bound method when a method is fetched through an instance.
+
+In Python 2.X, fetching a method from a class produces an unbound method, which cannot be called without manually passing an instance.
+
+In Python 3.X, fetching a method from a class produces a simple function, which can be called normally with no instance present.
+
+---------
+In Python 2.X, we must always declare a method as static in order to call it without an instance, whether it is called through a class or an instance.
+
+In Python 3.X, we need not declare such methods as static if they will be called through a class only, but we must do so in order to call them through an instance.
+
+class Methods:
+    def imeth(self, x):            # Normal instance method: passed a self
+        print([self, x])
+
+    def smeth(x):                  # Static: no instance passed
+        print([x])
+
+    def cmeth(cls, x):             # Class: gets class, not instance
+        print([cls, x])
+
+    smeth = staticmethod(smeth)    # Make smeth a static method (or @: ahead)
+    cmeth = classmethod(cmeth)     # Make cmeth a class method (or @: ahead)
+
+
+Instance-less functions can be called through a class normally in Python 3.X, but never by default in 2.X.
+ staticmethod built-in allows such methods to also be called through an instance in 3.X and through both a class and an instance in Python 2.X
+
+
+Class methods are similar, but Python automatically passes the class (not an instance) in to a class method’s first (leftmost) argument, whether it is called through a class or an instance:
+
+class Spam:
+    numInstances = 0
+    def count(cls):                    # Per-class instance counters
+        cls.numInstances += 1          # cls is lowest class above instance
+    def __init__(self):
+        self.count()                   # Passes self.__class__ to count
+    count = classmethod(count)
+
+class Sub(Spam):
+    numInstances = 0
+    def __init__(self):                # Redefines __init__
+        Spam.__init__(self)
+
+class Other(Spam):                     # Inherits __init__
+    numInstances = 0
+
+>>> from spam_class2 import Spam, Sub, Other
+>>> x = Spam()
+>>> y1, y2 = Sub(), Sub()
+>>> z1, z2, z3 = Other(), Other(), Other()
+>>> x.numInstances, y1.numInstances, z1.numInstances             # Per-class data!
+(1, 2, 3)
+>>> Spam.numInstances, Sub.numInstances, Other.numInstances
+(1, 2, 3)
+
+metaclass
+
+class Meta(type):
+    def __new__(meta, classname, supers, classdict):
+        ...extra logic + class creation via type call...
+
+class C(metaclass=Meta):
+    ...my creation routed to Meta...            # Like C = Meta('C', (), {...})
+
+
+class C:
+    __metaclass__ = Meta
+    ... my creation routed to Meta...
+
+
+ classname = Meta(classname, superclasses, attributedict)
+
+
+ SUPER
+
+ it operates today by inspecting the call stack in order to automatically locate the self argument and find the superclass, and pairs the two in a special proxy object that routes the later call to the superclass version of the method.
+
+ In single inheritance trees, a superclass is available from self via the path self.__class__.__bases__[0]
+
+  but will naively pick just the leftmost superclass having the method being run (technically, the first per the MRO),
+
+>>> class A:                      # In Python 3.X
+        def act(self): print('A')
+>>> class B:
+        def act(self): print('B')
+
+>>> class C(A):
+        def act(self):
+            super().act()         # super applied to a single-inheritance tree
+>>> X = C()
+>>> X.act()
+A
+
+
+
+
+>>> class C(A, B):                # Add a B mix-in class with the same method
+        def act(self):
+            super().act()         # Doesn't fail on multi-inher, but picks just one!
+>>> X = C()
+>>> X.act()
+A
+
+>>> class C(B, A):
+        def act(self):
+            super().act()         # If B is listed first, A.act() is no longer run!
+>>> X = C()
+>>> X.act()
+B
+
+
+super is generally an all-or-nothing feature:
+
+
+keep in mind that method defs cannot see the local scope of the enclosing class; they can see only the local scopes of enclosing defs.That’s why methods must go through the self instance or the class name to reference methods and other attributes defined in the enclosing class statement.
+
+
+
+try/except/finally
+
+Python clears the memory of any functions that were exited as a result of the exception,
+
+
+try:
+    statements              # Run this main action first
+except name1:
+    statements              # Run if name1 is raised during try block
+except (name2, name3):
+    statements              # Run if any of these exceptions occur
+except name4 as var:
+    statements              # Run if name4 is raised, assign instance raised to var
+except:
+    statements              # Run for all other exceptions raised
+else:
+    statements              # Run if no exception was raised during try block
+
+
+
+>>> class AlreadyGotOne(Exception): pass    # User-defined exception
+
+>>> def grail():
+        raise AlreadyGotOne()               # Raise an instance
+
+>>> try:
+...     grail()
+... except AlreadyGotOne:                   # Catch class name
+...     print('got exception')
+...
+got exception
+
+
+>>> class Career(Exception):
+        def __str__(self): return 'So I became a waiter...'
+
+>>> raise Career()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+__main__.Career: So I became a waiter...
+
+there may be any number of except clauses, but you can code else only if there is at least one except, and there can be only one else and one finally.
+
+try:
+    action()
+except Exception:
+    ...                   # Catch all possible exceptions, except exits
+
+try:                               # Merged form
+    main-action
+except Exception1:
+    handler1
+except Exception2:                 # Catch exceptions
+    handler2
+...
+else:                              # No-exception handler
+    else-block
+finally:                           # The finally encloses all else
+    finally-block
+
+where the else and finally are optional, and there may be zero or more excepts, but there must be at least one except if an else appears.
+
+raise instance               # Raise instance of class
+raise class                  # Make and raise instance of class: makes an instance
+raise                        # Reraise the most recent exception
+
+
+Unlike comprehension loop variables, though, this variable is removed after the except block exits in 3.X. It does so because it would otherwise retain a reference to the runtime call stack, which would defer garbage collection and thus retain excess memory space
+
+an assert can be thought of as a conditional raise statement. A statement of the form:
+
+assert test, data              # The data part is optional
+
+if __debug__:
+    if not test:
+        raise AssertionError(data)
+
+assert statements may be removed from a compiled program’s byte code if the -O
+
+the __debug__ flag is a built-in name that is automatically set to True unless the -O flag is used. Use a command line like python –O main.py to run in optimized mode and disable (and hence skip) asserts
+
+with A() as a, B() as b:
+    ...statements...
+
+
+
+ catching an exception named Exception has almost the same effect as an empty except, but ignores exceptions related to system exits:
+
+try:
+    action()
+except Exception:
+    ...                   # Catch all possible exceptions, except exits
+
+
+Class exceptions are matched by superclass relationships: the raised exception matches an except clause if that except clause names the exception instance’s class or any superclass of it.
+
+That is, when a try statement’s except clause lists a superclass, it catches instances of that superclass, as well as instances of all its subclasses lower in the class tree. The net effect is that class exceptions naturally support the construction of exception hierarchies: superclasses become category names, and subclasses become specific kinds of exceptions within a category.
+
+ In the class exception model, we always raise and catch a class instance object. If we list a class name without parentheses in a raise, Python calls the class with no constructor argument to make an instance for us. Exception instances can be created before the raise, as done here, or within the raise statement itself.
+
+BaseException: topmost root, printing and constructor defaults
+
+Exception: root of user-defined exceptions -> superclass to every other built-in exception, except the system exit event classes (SystemExit, KeyboardInterrupt, and GeneratorExit).
+
+ArithmeticError: root of numeric errors
+
+LookupError: root of indexing errors
+
+OSError : common file and system error numbers (python 3.3)
+
+>>> raise IndexError                    # Same as IndexError(): no arguments
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+IndexError
+
+>>> raise IndexError('spam')            # Constructor argument attached, printed
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+IndexError: spam
+
+Note that exception instance objects are not strings themselves, but use the __str__ operator overloading protocol
+
+CUSTOM PRINT
+
+>>> class MyBad(Exception):
+...     def __str__(self):
+...         return 'Always look on the bright side of life...'
+...
+>>> try:
+...     raise MyBad()
+... except MyBad as X:
+...     print(X)
+...
+Always look on the bright side of life...
+
+>>> raise MyBad()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+__main__.MyBad: Always look on the bright side of life..
+
+you generally must redefine __str__ for exception display purposes, because the built-in exception superclasses already have a __str__ method, and __str__ is preferred to __repr__ in some contexts—including error message displays.
+
+
+built-in exception superclasses provide a default constructor that automatically saves constructor arguments in an instance tuple attribute named args.Although the default constructor is adequate for many cases, for more custom needs we can provide a constructor of our own.
+
+Python passes the class instance object along with the exception. Code in try statements can access the raised instance by listing an extra variable after the as keyword in an except handler.
+
+
+
+ the raised instance object assigned to exc in this code is also available generically as the second item in the result tuple of the sys.exc_info() call—a tool that returns information about the most recently raised exception
+
+ This interface must be used if you do not list an exception name in an except clause but still need access to the exception that occurred
+
+
+Python stacks try statements at runtime. When an exception is raised, Python returns to the most recently entered try statement with a matching except clause.
+
+
+all errors are exceptions, but not all exceptions are errors.
+
+sys.exc_info result used in the last two sections allows an exception handler to gain access to the most recently raised exception generically
+
+try:
+    ...
+except:
+    # sys.exc_info()[0:2] are the exception class and instance
+If no exception is being handled, this call returns a tuple containing three None values. Otherwise, the values returned are (type, value, traceback)
+
+type is the exception class of the exception being handled.
+
+value is the exception class instance that was raised.
+
+traceback is a traceback object that represents the call stack at the point where the exception originally occurred, and used by the traceback module to generate error messages.
+
+
+import traceback
+
+def inverse(x):
+    return 1 / x
+
+
+try:
+    inverse(0)
+except Exception:
+    traceback.print_exc(file=open('badly.exc', 'w'))
+print('Bye')
+
+
+To profile from a system shell command line, use a command of the form python -m profile main.py args
+To launch pdb from a system shell command line, use a command of the form python -m pdb main.py args. pdb also includes a useful postmortem analysis call, pdb.pm(),
+
+
+ASCII defines character codes from 0 through 127 and allows each character to be stored in one 8-bit byte, only 7 bits of which are actually used.
+
+To accommodate special characters, some standards use all the possible values in an 8-bit byte, 0 through 255, to represent characters, and assign the values 128 through 255 (outside ASCII’s range) to special characters.
+
+One such standard, known as the Latin-1 character set, is widely used in Western Europe
+
+
+-------------
+
+Property
+
+Properties
+The property protocol allows us to route a specific attribute’s get, set, and delete operations to functions or methods we provide, enabling us to insert code to be run automatically on attribute access, intercept attribute deletions, and provide documentation for the attributes if desired.
+
+Accordingly, they are inherited by subclasses and instances, like any other class attributes. Their access-interception functions are provided with the self instance argument, which grants access to state information and class attributes available on the subject instance.
+
+attribute = property(fget, fset, fdel, doc)
+
+ For the first three, this None means that the corresponding operation is not supported, and attempting it will raise an AttributeError exception automatically.
+
+ we pass fget a function for intercepting attribute fetches, fset a function for assignments, and fdel a function for attribute deletions.
+
+class Person:
+    @property
+    def name(self): ...             # Rebinds: name = property(name)
+
+class Person:
+   def name(self): ...
+   name = property(name)
+
+
+class Person:
+    def __init__(self, name):
+        self._name = name
+
+    @property
+    def name(self):                 # name = property(name)
+        "name property docs"
+        print('fetch...')
+        return self._name
+
+    @name.setter
+    def name(self, value):          # name = name.setter(name)
+        print('change...')
+        self._name = value
+
+    @name.deleter
+    def name(self):                 # name = name.deleter(name)
+        print('remove...')
+        del self._name
+
+Descriptors
+Descriptors provide an alternative way to intercept attribute access;
+
+the descriptor protocol allows us to route a specific attribute’s get, set, and delete operations to methods of a separate class’s instance object that we provide.
+
+Their access-interception methods are provided with both a self for the descriptor instance itself, as well as the instance of the client class whose attribute references the descriptor object. Because of this, they can retain and use state information of their own, as well as state information of the subject instance.
+
+class Descriptor:
+    "docstring goes here"
+    def __get__(self, instance, owner): ...        # Return attr value
+    def __set__(self, instance, value): ...        # Return nothing (None)
+    def __delete__(self, instance): ...            # Return nothing (None)
+
+Unlike properties, however, omitting a __set__ allows the descriptor attribute’s name to be assigned and thus redefined in an instance, thereby hiding the descriptor—to make an attribute read-only, you must define __set__ to catch assignments and raise an exception.
+
+a descriptor with a __set__ is known formally as a data descriptor, and is given precedence over other names located by normal inheritance rules. The inherited descriptor for name __class__, for example, overrides the same name in an instance’s namespace dictionary. This also works to ensure that data descriptors you code in your own classes take precedence over others.
+
+
+>>> class Descriptor:                        # Add "(object)" in 2.X
+        def __get__(self, instance, owner):
+            print(self, instance, owner, sep='\n')
+
+>>> class Subject:                           # Add "(object)" in 2.X
+        attr = Descriptor()                  # Descriptor instance is class attr
+
+>>> X = Subject()
+>>> X.attr
+<__main__.Descriptor object at 0x0281E690>
+<__main__.Subject object at 0x028289B0>
+<class '__main__.Subject'>
+
+
+X.attr  ->  Descriptor.__get__(Subject.attr, X, Subject)
+
+
+
+To make a descriptor-based attribute read-only, catch the assignment in the descriptor class and raise an exception to prevent attribute assignment
+
+
+>>> class D:
+        def __get__(*args): print('get')
+        def __set__(*args): raise AttributeError('cannot set')
+
+>>> class C:
+        a = D()
+
+>>> X = C()
+>>> X.a                                 # Routed to C.a.__get__
+get
+>>> X.a = 99                            # Routed to C.a.__set__
+AttributeError: cannot set
+
+__delete__ method with the general __del__ method. The former is called on attempts to delete the managed attribute name on an instance of the owner class; the latter is the general instance destructor method, run when an instance of any kind of class is about to be garbage-collected
+
+its self.data retains per-attribute information, while its instance.data can vary per client instance:
+
+
+__getattr__ is run for undefined attributes—because it is run only for attributes not stored on an instance or inherited from one of its classes, its use is straightforward
+
+__getattribute__ is run for every attribute—because it is all-inclusive, you must be cautious when using this method to avoid recursive loops by passing attribute accesses to a superclass.
+
+
+def __getattr__(self, name):        # On undefined attribute fetch [obj.name]
+def __getattribute__(self, name):   # On all attribute fetch [obj.name]
+def __setattr__(self, name, value): # On all attribute assignment [obj.name=value]
+def __delattr__(self, name):        # On all attribute deletion [del obj.name]
+
+The two get methods normally return an attribute’s value, and the other two return nothing (None).
+
+Because __getattr__ is called for undefined attributes only, it can freely fetch other attributes within its own code. However, because __getattribute__ and __setattr__ are run for all attributes, their code needs to be careful when accessing other attributes to avoid calling themselves again and triggering a recursive loop.
+
+another attribute fetch run inside a __getattribute__ method’s code will trigger __getattribute__ again, and the code will usually loop until memory is exhausted
+
+
+def __getattribute__(self, name):
+        x = self.other                                # LOOPS!
+
+
+a self attribute reference run anywhere in a class that defines this method will trigger __getattribute__
+
+assigning any attribute inside this method triggers __setattr__ again and may create a similar loop:
+
+def __setattr__(self, name, value):
+        self.other = value                            # Recurs (and might LOOP!)
+
+self attribute assignments anywhere in a class defining this method trigger __setattr__ as well, though the potential for looping is much stronger when they show up in __setattr__ itself.
+
+
+To work around this problem, you can assign the attribute as a key in the instance’s __dict__ namespace dictionary instead. This avoids direct attribute assignment:
+
+def __setattr__(self, name, value):
+        self.__dict__['other'] = value                # Use attr dict to avoid me
+
+
+we cannot use the __dict__ trick to avoid loops in __getattribute__:
+def __getattribute__(self, name):
+        x = self.__dict__['other']                    # Loops!
+
+Fetching the __dict__ attribute itself triggers __getattribute__ again, causing a recursive loop. Strange but true!
+
+
+
+DECORATORs
+
+
+One subtle point about the prior class-based coding is that while it works to intercept simple function calls, it does not quite work when applied to class-level method functions:
+
+class decorator:
+    def __init__(self, func):           # func is method without instance
+        self.func = func
+    def __call__(self, *args):          # self is decorator instance
+        # self.func(*args) fails!       # C instance not in args!
+
+class C:
+    @decorator
+    def method(self, x, y):             # method = decorator(method)
+        ...                             # Rebound to decorator instance
+When coded this way, the decorated method is rebound to an instance of the decorator class, instead of a simple function.
+
+The problem with this is that the self in the decorator’s __call__ receives the decorator class instance when the method is later run, and the instance of class C is never included in *args. This makes it impossible to dispatch the call to the original method—the decorator object retains the original method function, but it has no instance to pass to it.
+
+To support both functions and methods, the nested function alternative works better:
+
+Decorator syntax of this form:
+
+@A
+@B
+@C
+def f(...):
+    ...
+runs the same as the following:
+
+def f(...):
+    ...
+f = A(B(C(f)))
+
+
+class-based tracer function decorator
+
+When applied to a class’s method, the first version of the tracer fails, because self is the instance of the decorator class and the instance of the decorated subject class is not included in *args at all.
+
+
+Python passes the implied subject instance to self when a method name is bound to a simple function only; when it is an instance of a callable class, that class’s instance is passed instead. Technically, Python makes a bound method object containing the subject instance only when the method is a simple function, not when it is a callable instance of another class.
+
+Metaclasses
+
+they allow us to insert logic to be run automatically at the end of a class statement, when a class object is being created.
+
+the metaclass mechanism doesn’t rebind the class name to a decorator callable’s result, but rather routes creation of the class itself to specialized logic.
+
+decorators and metaclasse - the main functional difference between these two tools is simply their place in the timing of class creation
+
+class decorators run after the decorated class has already been created. Thus, they are often used to add logic to be run at instance creation time. When they do provide behavior for a class, it is typically through changes or proxies, instead of a more direct relationship.
+
+metaclasses, by contrast, run during class creation to make and return the new client class. Therefore, they are often used for managing or augmenting classes themselves, and can even provide methods to process the classes that are created from them, via a direct instance relationship.
+
+This is exactly what metaclasses do—by declaring a metaclass, we tell Python to route the creation of the class object to another class we provide:
+
+decorators technically correspond to metaclass __init__ methods, used to initialize newly created classes. Metaclasses have additional customization hooks beyond class initialization, though, and may perform arbitrary class construction tasks that might be more difficult with decorators.
+
+to control the way classes are created and augment their behavior, all we need to do is specify that a user-defined class be created from a user-defined metaclass instead of the normal type class.
+
+
+Python follows a standard protocol to make this happen: at the end of a class statement, and after running all its nested code in a namespace dictionary corresponding to the class’s local scope, Python calls the type object to create the class object like this:
+
+class = type(classname, superclasses, attributedict)
+
+The type object in turn defines a __call__ operator overloading method that runs two other methods when the type object is called:
+
+type.__new__(typeclass, classname, superclasses, attributedict)
+type.__init__(class, classname, superclasses, attributedict)
+
+The __new__ method creates and returns the new class object, and then the __init__ method initializes the newly created object.
+
+class Eggs: ...                  # Inherited names here
+
+class Spam(Eggs):                # Inherits from Eggs
+    data = 1                     # Class data attribute
+    def meth(self, arg):         # Class method attribute
+        return self.data + arg
+
+Spam = type('Spam', (Eggs,), {'data': 1, 'meth': meth, '__module__': '__main__'})
+
+
+
+class Spam(metaclass=Meta):                   # 3.X version (only)
+
+class Spam(Eggs, metaclass=Meta):             # Normal supers OK: must list first
+
+In this form, superclasses must be listed before the metaclass; in effect, the ordering rules used for keyword arguments in function calls apply here.
+
+class Spam(object):                           # 2.X version (only), object optional?
+    __metaclass__ = Meta
+
+class Spam(Eggs, object):                     # Normal supers OK: object suggested
+    __metaclass__ = Meta
+
+class = Meta(classname, superclasses, attributedict)
+
+Meta.__new__(Meta, classname, superclasses, attributedict)
+Meta.__init__(class, classname, superclasses, attributedict)
+
+the simplest metaclass
+
+class Meta(type):
+    def __new__(meta, classname, supers, classdict):
+        # Run by inherited type.__call__
+        return type.__new__(meta, classname, supers, classdict)
+
+class MetaOne(type):
+    def __new__(meta, classname, supers, classdict):
+        print('In MetaOne.new:', meta, classname, supers, classdict, sep='\n...')
+        return type.__new__(meta, classname, supers, classdict)
+notice how the metaclass is invoked at the end of the class statement, before we ever make an instance—metaclasses are for processing classes, and classes are for processing normal instances:
+
+Metaclasses can also tap into the __init__ protocol invoked by the type object’s __call__. In general, __new__ creates and returns the class object, and __init__ initializes the already created class passed in as an argument.
+
+class MetaTwo(type):
+    def __new__(meta, classname, supers, classdict):
+        print('In MetaTwo.new: ', classname, supers, classdict, sep='\n...')
+        return type.__new__(meta, classname, supers, classdict)
+
+    def __init__(Class, classname, supers, classdict):
+        print('In MetaTwo.init:', classname, supers, classdict, sep='\n...')
+        print('...init class object:', list(Class.__dict__.keys()))
+
+
+the class initialization method is run after the class construction method, but both run at the end of the class statement before any instances are made.
+
+any callable object can in principle be used as a metaclass, provided it accepts the arguments passed and returns an object compatible with the intended class.
+
+
+# A simple function can serve as a metaclass too
+
+def MetaFunc(classname, supers, classdict):
+    print('In MetaFunc: ', classname, supers, classdict, sep='\n...')
+    return type(classname, supers, classdict)
+
+ classes acquire metaclass attributes through their __class__ link, in the same way that normal instances inherit from classes through their __class__, which makes sense, given that classes are also instances of metaclasses. The chief distinction is that instance inheritance does not follow a class’s __class__, but instead restricts its scope to the __dict__ of each class in a tree per the MRO—following __bases__ at each class only, and using only the instance’s __class__ link once:
+
+
+To look up an explicit attribute name:
+
+From an instance I, search the instance, then its class, and then all its superclasses, using:
+
+The __dict__ of the instance I
+
+The __dict__ of all classes on the __mro__ found at I’s __class__, from left to right
+
+From a class C, search the class, then all its superclasses, and then its metaclasses tree, using:
+
+The __dict__ of all classes on the __mro__ found at C itself, from left to right
+
+The __dict__ of all metaclasses on the __mro__ found at C’s __class__, from left to right
+
+In both rule 1 and 2, give precedence to data descriptors located in step b sources (see ahead).
+
+In both rule 1 and 2, skip step a and begin the search at step b for built-in operations (see ahead).
+
+
+To look up an explicit attribute name:
+
+From an instance I, search the instance, its class, and its superclasses, as follows:
+
+Search the __dict__ of all classes on the __mro__ found at I’s __class__
+
+If a data descriptor was found in step a, call its __get__ and exit
+
+Else, return a value in the __dict__ of the instance I
+
+Else, call a nondata descriptor or return a value found in step a
+
+From a class C, search the class, its superclasses, and its metaclasses tree, as follows:
+
+Search the __dict__ of all metaclasses on the __mro__ found at C’s __class__
+
+If a data descriptor was found in step a, call its __get__ and exit
+
+Else, call a descriptor or return a value in the __dict__ of a class on C’s own __mro__
+
+Else, call a nondata descriptor or return a value found in step a
+
+In both rule 1 and 2, built-in operations essentially use just step a sources (see ahead)
+
+metaclass methods are not accessible except through the class, and do not require an explicit classmethod class-level data declaration in order to be bound with the class.
+
+
+
+Class decorators rebind class names to the result of a function at the end of a class statement, after the new class has been created.
+
+Metaclasses work by routing class object creation through an object at the end of a class statement, in order to create the new class.
+
+ class decorators correspond directly to metaclass __init__ methods called to initialize newly created classes. Decorators have no direct analog to the metaclass __new__ (called to make classes in the first place) or to metaclass methods (used to process instance classes), but many or most use cases for these tools do not require these extra steps.
+
+ Class decorators can manage both classes and instances, but don’t create classes normally.
+
+Metaclasses can manage both classes and instances, but instances require extra work.
+
