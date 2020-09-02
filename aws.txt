@@ -85,3 +85,152 @@ For exam->
 • EC2 instances are billed by the second and can be easily created and thrown away, welcome to the cloud!
 
 =========================================================================================================
+
+AWS - ELB - ASG
+
+scalability -> horizontal and vertical
+          horizontal - auto scaling, load balancer
+
+High availability -> running in atleast 2 datacenters( availability zones)
+          auto scaling group multiple AZ
+          load balancer multi AZ
+
+Load balancer
+      - Expose single point of access (DNS) to your app
+      - handle failures of downstream instances and do health checks
+
+ELB -> Elastic load balancing ( EC2 load balancer)
+      forward traffic to multiple servers( EC2 instances) downstream
+
+      Health checks (/health is common) done on a port and route -> 200 OK check
+
+      trobuleshooting
+      4xx errors are client induced
+      5xx errors are Application induced
+      503 means at capacity or no registered target
+
+      Monitoring
+      ELB acces logs
+      Cloudwatch metrics
+
+Types -> Classic load balancer -> v1 -> http, https, tcp
+         application load balancer -> v2 -> http, https, , websocket
+         Network load balancer -> v2 -> TCP, TLS (secure TCP), UDP
+
+         can be internal or external load balancer
+
+Load balancer Security group
+Application security group -> allow traffic only from load balancer
+
+CLB -> Classic load balancer
+      -> TCP ( layer 4), HTTP/HTTPS (layer 7)
+      -> health checks are tcp or http based
+      -> exposes static DNS(URL) fixed hostname xxx.region.elb.amazonaws.com
+
+ALB -> Application load balancer
+      - Layer 7 (http)
+      - load balancing to multiple http apps across machines (target groups)
+      - load balancing to multiple apps on same machine (containers)
+      - support http/2 and websocket
+      - supports redirects ( from http to https )
+      - Routing
+            - based on path in URL
+            - based on hostnamme in URl
+            - based on query strings and headers
+      - Best fit for micro-services and container based application
+      - Port mapping feature for redirection to Dynamic port
+      - exposes static DNS(URL) fixed hostname xxx.region.elb.amazonaws.com
+      - the application servers don't see the ip of client directly ( true ip in X-forwarded-for, port - x-forwarded-port, proto- x-frowarded-proto)
+      - Create a security group and attach to the ALB security group
+      Target group
+          - EC2 instances ( managed by auto scaling group ) - http
+          - ECS tasks ( manaeged by ECS ) - HTTP
+          - lambda functions - http request is translated into json event
+          - IP addresses - must be private IP
+          - health checks are at target group level
+
+
+
+NLB -> Network load balancer
+        - Layer 4 - TCP and UDP
+        - handles millions of requests and less latency ~ 100ms ( vs 400ms ALB )
+        - Has one static IP per AZ and supports assigning Elastic IP
+
+
+        create tcp RULE in security target group to accept traffic
+
+
+Stickiness -> Same client always redirected to same instance behind LB ( works for CLB and ALB)
+           -> Cookie used for stickiness has an expiration date you control
+           -> may bring imbalance to loads over instances
+
+Cross-Zone -> Each LB will distribute evenly across all Registered instances in all AZ
+            -> If not works for only its AZ only
+
+            CLB -> Disabled by default -> No charges for inter AZ data if enabled
+            ALB -> Always on ( cant disable) -> No charges for inter AZ data
+            NLB -> Disabled by default -> pay charges for inter AZ data if enabled
+
+SSL/TLS -> traffic between client and LB is encrypted in transit
+          - Public SSL certificates are issued by CA
+          - have expiration date
+
+ACM - aws certificate manager ,LB uses X.509 certificate
+
+SNI -> Server Name indication
+     - Solves the problem of  loading multiple SSL certificates onto one web server (to serve multiple websites)
+     -> ONLY works for ALB, NLB , Cloudfront
+     -> Doest not work for CLB ( older generation )
+
+SSL certificates ->
+            CLB
+                  - Support only one SSL certificate
+                  - must use multiple CLB for multiple hostname with multiple SSL certificates
+            ALB
+                  - supports multiple listeners with multiple SSL certificates
+                  - uses SNI to make it work
+            NLB
+                  - supports multiple listeners with multiple SSL certificates
+                  - uses SNI to make it work
+
+Connection Draining - time to complete 'in-flight' requests while instance if de-registering or unhealthy
+      Naming
+            CLB -> Connection Draining
+            target group - De-registration delay ( for ALB, NLB)
+      - Stops sending new requests to instance which is de-registering
+      - default is 300 seconds - 1 to 3600 seconds - can be disabled also (0 value)
+
+ASG -> Auto Scaling Groups - min size - actual/desired size - max size
+      - Scale out - ( Add instances)
+      - scale In - ( remove EC2 instances)
+      - min - max number of ec2
+      - automatically register instances to load balancer
+      - Its free
+      - resiliency inbuilt
+      - IAM roles attached to ASG attached to instances
+      Attributes
+          - launch Configuration / Launch templates
+              - AMI + instance type
+              - EC2 user data
+              - EBS volumes
+              - security groups
+              - ssh key-pair
+          - min/max/ intial capcity
+          - network + subnet info
+          - LB info
+          - scaling policies
+
+Auto Scaling Alarms -> cloudwatch alarms
+Auto Scaling rules
+Auto scaling custom metric
+
+Scaling policies
+      - target tracking scaling ( avg cpu at around 40%)
+      - Simple/step scaling (clouldwatch alarm1 - if cpu > 70% add 2 ) (cloudwatch alarm2 - if <30 remove 1 )
+      - scheduled actions ( based on usage patterns )
+
+ASG Scaling cooldowns - default is 300 sec - Scaling specific cooldown period to 180 sec if needed
+      - ASG does not launch or terminate instances before previous scaling activity takes place
+      - Can apply cooldowns to specific simple scaling policy
+
+===============================================================================================================
