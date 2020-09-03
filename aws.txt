@@ -234,3 +234,102 @@ ASG Scaling cooldowns - default is 300 sec - Scaling specific cooldown period to
       - Can apply cooldowns to specific simple scaling policy
 
 ===============================================================================================================
+
+AWS - EBS Volumes
+
+EBS -  ELASTIC Block storage - Network drive we can attack to instances while they run
+    - EC2 loses its root volume when it is terminated
+    - Persist data
+
+EBS Volume
+      - Network drive ( not a physical drive )
+            uses network to communicate to instance and hence latency.
+            can be detached and attached to different instances
+      - Its locked to an AZ
+          can be moved across by creating a snapshot
+      - have a provisioned capacity ( GBs and IOPS)
+          Billed for provisioned capacity
+      - attached to only one instance at a time
+
+
+cmds -> lsblk
+      -> sudo file -s /dev/xvdb
+      -> sudo mkfs -t ext4 /dev/xvdb
+      -> sudo mkdir /data
+      -> sudo mount /dev/xvdb /data
+
+EBS volume Tpes:
+      - GP2 (SDD) general purpose balances price and performance - cheap
+              - most recommended and used for system boot volumes.
+              - virtual desktops
+              - low latency interactive apps
+              - dev test env
+              - 1gb - 16 tb
+              - burst IOPS to 3000 , min 100 IOPS
+              - 3 IOPS per GB at 5334GB at max 16000 IOPS
+
+      - IO1 (SSD) high performance - mission critical low lantency or high-throughput workloads - expensive
+              - critical PIOPS performance or more than 16000 IOPS
+              - large DB like mongo, sql, postgres
+              - 4Gb- 16 TB
+              -  IOPS is provisioned (PIOPS) - min 100-64000 (nitro instances) else 32000
+              - max ratio of provisioned IOPS to volume size is 50:1
+              - Size of volume and IOPS are independent ( PIOPS) - provisioned IOPS
+
+      - STI (HDD) - LOW cost HDD - frequently accessed throughput intensive workloads - throughput optimized HDD
+              - Streaming workloads requiring consistent fast throughput at low price
+              - Big data, data warehouse , log processing
+              - Apache , Kafka
+              - cannot be boot volume
+              - 500 GB - 16 TB, MAX IOPS 500 , max throughput of 500 MiB/s - can burst
+      - SCI (HDD) - Lowest cost HDD - less frequently accessed workloads but still  high throughput
+              - throughput oriented but less frequently accessed
+              - cannot be boot volume
+              - 500 GB - 16 TB, MAX IOPS 250 , max throughput of 250 MiB/s - can burst
+
+      - characterized by size| throughput | IPOS
+      - ONLY GP2 and IO1 are used as boot volumes
+
+
+Instance Store
+        - some instance no root EBS volumes but come with 'instance store '( ephemeral storage)
+        - Instance store is physically attached to machine ( EBS network drive )
+        Pros:
+            - Better I/O performance (HIGH IOPS)
+            - good for buffer/cache/temp content
+            - data survives reboots
+        Cons:
+            - on stop/termination instance store is lost
+            - no resizing of instance store (no resize)
+            - backups must be operated by user
+
+        - disks upto 7.5 TB , stripped to reach 30 TB (can change)
+        - risk of data loss if hardware fails
+
+EFS -> Elastic FIle system
+        - managed NFS(network file system)  - can be mounted on many EC2
+        - EFS works with multi - AZ
+        - highly available, scalable , expensive (3 * gp2), pay per use
+        - uses NFSv4.1 protocol
+        - security group to control access to EFS- add inbound rules to accept the security group
+        - compatible with linux based AMI (NOT windows)
+        - ex. content management, web serving, data sharing, wordpress
+        - POSIX file system - only for linux systems
+        - file system scales automatically , pay-per use , no capacity planning
+
+
+EFS -> Performance and storage classes
+      - EFS Scale
+            1000s of concurrent NFS clients , 10GB+s throughput
+            grow to petabyte-scale
+      - Performance mode ( set at EFS creation time )
+            - general purpose (default) - lantency sensitive use cases ( web server, CMS)
+            - MAX I/O - higher latency , throughput, highly parallel  (big data, media processing)
+      - Storage Tiers ( lifecycle management feature - move file after N days)
+          - standard : frequently accessed files
+          - Infrequent access (EFS-IA) : cost to retrieve files, lower price to store
+
+amazon-efs-utils package
+
+migrate steps ->   EBS -> snapshot -> restore to diff AZ
+========================================================================================================================
