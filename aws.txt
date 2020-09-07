@@ -333,3 +333,151 @@ amazon-efs-utils package
 
 migrate steps ->   EBS -> snapshot -> restore to diff AZ
 ========================================================================================================================
+AWS RDS
+
+RDS -> Relational data service - managed DB service
+    - SQL - query language
+    - Postgress, mySQL, mariaDB, Oracle, Microsoft SQL server, AURORA ( AWS proprietary DB)
+
+RDS vs DB on EC2
+      - Automated provisioning, OS patching
+      - continuous backup and restore to specific creationTimestamp
+      - monitoring dashboard
+      - read replica for improved performance
+      - MULTI AZ setup for disaster recovery
+      - maintanance windows for upgrades
+      - scaling capability (vertical and horizontal)
+      - storage backed by EBS (gp2 and IO1)
+
+      -> Cannot SSH into instances
+
+RDS Backups -> Automatically enabled
+    - daily full backup of db
+    - transaction logs backed up every 5 mins
+    - 7 day retention period ( upto 35 days )
+
+    - DB snapshots -> manually triggered -> retention as long as user wants
+
+RDS read replica for read scalability -> Scaling our reads
+    -> upto 5 read replicas
+    - within AZ, cross AZ, cross Region
+    - Replication is ASYNC so reads are eventually consistent
+    - replicas can be promoted to their own DB
+    - app must update conn string to leverage read replica
+    - only SELECT (not UPDATE,INSERT, DELETE )
+    - Network cost when data goes from one AZ to another AZ ($$$ cost)
+
+RDS MULTI AZ
+      - SYNC replication
+      - one DNS name - automatic app failover to standby
+      - increase availability- failover possible
+      - no manual intervention in apps
+      - not used for scaling
+
+Note : We can have read replica's in MULTI AZ for disaster recovery
+
+RDS Security - Encryption
+    -> at rest encryption
+              - ( can encrypt master and read replicas with aws KMS- AES encryption)
+              - if master is not encrypted the read replicas cannot be encrypted
+              - TDE - transparent data Encryption available for oracle and SQL server
+    -> In-flight Encryption
+            - SSL certificates to encrypt data to RDS in flight
+            - provide SSL options with trust certificate when conencting to DB
+            - to enforce SSL - postgress -> thrugh AWS
+                            - mySQL -> within DB (send a command GRANT ...REQUIRE SSL)
+    -> Operations - Encypting RDS backups
+              - snapshots of un-encrypted RDS db is unencrypted
+              - snapshots of encrypted RDS db is encrypted
+              - snapshot copy from  unencrypted to encrypted
+                   - create snapshot of unencrypted db - copy snapshot and enable encryption - restore db from encrypted snapshot - migrate
+
+RDS Security - Network and IAM
+      - usually with private subnet not a public
+      - leverage security groups
+
+      - IAM Policies
+      - IAM based authentication for RDS mySQL and PostgresSQL only (uses authentication token - lifetime of 15 mins - obtained by RDS API call)
+      - Allow only SSL connections
+
+AURORA (not open sourced )  -> AWS DB  ( compatible with mysql and PostgresSQL)
+    - Cloud optimized - 5x performance over mysql and 3x over postgress
+    - storage automatically grows from 10GB to 64TB
+    - can have 15 replicas and faster replication
+    - failover is instantaneous . HA native
+    - aurora costs 20% more than RDS - but more efficient
+    - 6 copies of data in 3 AZ
+            - 4 copies of 6 writes
+            - 3 copies of 6 for reads
+            - self healing with peer - peer replication
+            - storage stripped across 100s of volumes
+    - One aurora instance takes writes (master )
+    - master + upto 15 Aurora read replicas serves reads - supports cross region replication
+
+Aurora DB cluster
+      - writer endpoint - pointing to master ( DNS Name)
+      - reader endpoint - connection load balancing ( happens at connection level)
+
+Aurora Serverless
+      - automated db instantiation and auto-scaling based on actual usage
+      - good for infrequent , intermittent or unpredicatable workloads
+      - no capacity planning
+      - pay per second - cost-effective
+
+GLobal Aurora
+    - AURORA cross region read replicas
+    - Aurora global database ( recommended)
+            - 1 primary region (read/write) - 1 writer multiple readers
+            - upto 5 secondary (read only)
+            - upto 16 read replicas per secondary region
+            - helps decreasing latency
+            - RTO recovery time objective < 1min (disaster recovery)
+
+ElasticsCache
+      - Get manged redis or Memcached
+      - Caches are in-memory DB with really high performance, low latency
+      - helps to make apps stateless, reduce load of read intensive workloads
+      - write scaling using shards
+      - read scaling with replicas, and multi AZ with failover capability
+      - aws takes care of OS-maintanance patching etc
+      - Use cases - DB cache , User Session store ,
+
+Redis vs Memcached
+        - Redis
+            - MUTLTI AZ with auto- failover
+            - read replicas to scale reads and have HA
+            - dada durability using AOF persistance  ( cached data can be stored )
+            - backup and restore features
+        - Memcached
+            - multi-node for patitioning of data (sharding)
+            - non persistent
+            - no backup and restore
+            - multi-threaded architecture
+
+Caching strategies
+    - is it safe to cache data?
+    - is caching effective for that data?
+    - is data structured well for caching ?
+
+Lazy loading / Cache Aside / Lazy population ( all are same ) -CONS-  read penalty ( 3 calls) - stale
+    - request record
+          - cache hit return record
+          - cache miss - request db - return record - app writes to cache
+
+Write through  - Add or update cache when database is updated  -CONS - write penalty ( 2 calls) - cache churn
+    - request data
+        - cache hit return data
+    - write data
+        - write to db - write cache
+    - this has longer writes, but the reads are quick and the data is always updated in the cache
+
+cache evictions -
+    - 3 ways
+        - delete item explicity
+        - LRU
+        - set TTL (time to live)
+
+Multi AZ keeps the same connection string regardless of which database is up.
+Read Replicas imply we need to reference them individually in our application as each read replica will have its own DNS name
+===============================================================================================================
+      
