@@ -480,4 +480,71 @@ cache evictions -
 Multi AZ keeps the same connection string regardless of which database is up.
 Read Replicas imply we need to reference them individually in our application as each read replica will have its own DNS name
 ===============================================================================================================
-      
+AWS Route 53
+
+-> Managed DNS (domain name system)
+
+-> Most common records
+    - A : hostname to IPv4
+    - AAAA - hostanme to IPv6
+    - CNAME - hostname to hostname
+    - Alias: hostanme to aws resource
+
+    - public domainname
+    - private domainname
+
+    - load balancing ( through DNS also called client load balancing)
+    - health checks
+    - routing policy (simple, failover ,geolocation, latency, weighted, multi value)
+
+    - $0.5 per month per hosted zone
+
+    - global selction - no region specific
+
+route 53 setup
+      - buy domain
+      - ec2 setup
+      - TTL (time to live - HIGH TTL ( less traffic on dns, possibly outdated ) - Low TTL - mandatory field
+
+CNAME vs Alias
+    - CNAME : hostname to hostname (app.mydomain.com => blablabla.anything.com)
+         ONly for NON ROOT DOMAIN ( something.mydomain.com)
+    - ALIAS : Hostname to aws resource ( app.mydomain.com => blablah.amazon.com)
+          - Works for both ROOT DOMAIN and NON ROOT domain
+          - free of charge
+          - native health check
+Health checks
+    - have x health checks failed => unhealthy (default 3)
+    - after X health checks passed => health (default 3)
+    - default health check intervals : 30s (can set to 10s - higher cost)
+    - about 15 health checkers will check the endpoint health => one request every 2 secs on avg
+    - can be http , tcp and https health checks (no SSL verification)
+    - possibility of integrating the health check with cloudwatch
+    - can be integrated to route 53 DNS
+
+
+Routing Policy
+      - Simple
+          - no health checks
+          - need to redirect to single resource
+          - if multiple values are returned , a random is choosen by client
+      - Weighted
+          - control the % of requests that go to specific endpoint
+          - helpful to split traffic between two regions
+          - can be associated with health checks
+      - latency
+          - redirect to the server that has the least latency close to us
+          - super helpful when latency of users is a priority
+          - latency is evaluated in terms of user to designated aws region
+      - failover
+      - Geolocation
+          - Diff from latency based. Based on user location
+          - traffic from uk to specific IP - default policy for no location specified
+      - Multi-Value
+          - routing traffic to multiple resources
+          - want to associate a route 53 health checks with records
+          - upto 8 healthy records are returned for multivalue query
+          - multivalue is not substitute for having an ELB
+
+======================================================================================================
+          
