@@ -547,4 +547,83 @@ Routing Policy
           - multivalue is not substitute for having an ELB
 
 ======================================================================================================
-          
+
+AWS VPC
+
+ 1- 3 questions
+Virtual private cloud
+    -  VPC , Subnets, Internet gateways and NAT gateways
+    - Security groups, Network ACL( NACL), VPC Flow logs
+    - VPC peering, VPC Endpoints
+    - site to site VPN & Direct Connect
+
+
+VPC & Subnets Primer
+      - Private network to deploy your resources (regional resource)
+      - Subnets allow you to partition your network inside you VPC ( availability zone resource)
+      - Public subnet is a subnet that is accessible from the internet
+      - private subnet is a subnet that is not accessible from the internet
+      - to define access to the internet and between subnets , we use route tables
+
+Internet Gateway & NAT Gateways
+      - Internet gateways help our VPC instances connect with the internet (VPC LEVEL)
+      - Public subnets have route to the internet gateway
+
+      - NAT gateways ( AWS- Managed) & NAT instances ( self-managed ) allow your
+        instances in your private subnet to access the internet while remaining private
+
+Network ACL & Security Groups
+    - NACL - subnet level
+          - A firewall which controls traffic from and to subnet
+          - Can have ALLOW and DENY rules
+          - Are attached at subnet Level
+          - rules only include IP addresses
+          - stateless - return traffic must be explicitly allowed by rules
+    - Security Groups - Instance level
+          - A firewall that controls traffic to and from an ENI/ an EC2 instance
+          - can have only ALLOW rules
+          - Rules include IP addresses and other Security Groups
+          - stateful  - return traffic is automatically allowed, regardless of any rules
+
+VPC FLOW logs
+    - Capture info about IP traffic going into your interfaces
+          - vpc flow logs
+          - subnet flow logs
+          - elastic network interface flow logs
+    - can go to S3/ cloudwatch logs
+
+VPC Peering
+      - connect two VPC privately using AWS network ( region to region )
+      - Must not have overlapping CIDR ( ip address range )
+      - VPC peering connection is not transitive ( must be established for each VPC that need to communicate with each other)
+
+VPC Endpoints
+      - Endpoints allow you to connect to AWS service using private network instead of the public www network
+      - Enhanced security and lower latency to access AWS services
+      - VPC Endpoints gateway : S3 & Dynamo DB only
+      - VPC Endpoints interface : the Rest of services
+      - Only used within your VPC
+
+Site-to-site VPN (premise -> public www -> site to site vpn -> public www -> VPC)
+      - connect an on-premise VPN to AWS
+      - the connection is automatically encrypted
+      - Goes over the public internet
+
+Direct Connect (DX)
+      - establish a physical connection between on-premise and AWS
+      - the connection is private, secure and fast
+      - Goes over private network
+      - Takes at least a month to establish
+
+Note: Site-to-ste VPN and DIrect connect cannot access VPC Endpoints
+
+LAMP Stack on EC2
+  - Linux os for EC2 Instances
+  - Apache : Web server that run on linux (ec2)
+  - MySQL- database on RDS
+  - PHP: application logic (on EC2)
+
+  - Can add redis/memcached( Elastic Cache) to include a caching tech
+  - To store local app data and software: EBS drive (root
+
+===============================================================================================================
