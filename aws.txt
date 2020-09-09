@@ -627,3 +627,144 @@ LAMP Stack on EC2
   - To store local app data and software: EBS drive (root
 
 ===============================================================================================================
+
+AWS S3
+
+- Amazon s3 is one of the main building blocks of AWS
+- Infinitely scaling
+- many websites use s3
+- S3 is global level
+
+S3 - Buckets - Region level
+  - Allows people to store objects (files) in "buckets" (directory)
+  - Must be globally unique name
+  - Defined at region level
+  - Naming convention
+      - No uppercase
+      - No underscore
+      - 3-63 chars long
+      - Not an IP
+      - Must start with lowercase letter or number
+
+S3 - Objects
+    - Obects( file) have a key
+    - The key is the full path (prefix + object name )
+    - There is no concept of directories within buckets
+    - object values are content of body
+          - Max object size is 5TB
+          - if uploading more than 5GB, use "multi part" upload
+
+    - metadata ( list of text key/value pairs - system or user metadata)
+    - Tags ( unicode Key/Valye pair - up to 10) - useful for security/lifecyle
+    - version ID ( if versioning enable)
+
+presigned url - accessing the bucket object
+
+S3 versioning
+      - version you files
+      - Enabled at bucket level
+      - same key will overwrite will increment the version
+      - it is best practice to version you buckets
+            - restore
+            - roll back
+      - Notes : any file not versioned prior to enabling versioning will have version 'null'
+                suspending versioning does not delete the previous versions
+
+S3 Encryption
+    4 methods for encrypting objects in s3
+      - SSE-S3 - encrypts s3 objects using keys handled and managed by AWS
+      - SSE-KMS - leverage aws key management service to manage encryption keys
+      - SSE-C - When you want to manage you own encryption keys
+      - Client side encryption
+
+SSE-S3
+    - object encrypted server side
+    - AES-256 algo
+    - must set header : "x-amz-server-side-encryption": "AES256"
+
+SSE-KMS  - KMS Customer master key (CMK)
+    - user control + audit trail (advantages)
+    - Object is encrypted server side
+    - must set header : "x-amz-server-side-encryption": "aws:kms"
+
+SSE-C - (done through AWS CLI )
+    - server side encryption using data keys fully managed by customer outside of AWS
+    - Amazon S3 does not store the encryption key you provide
+    - https must be used
+    - Encryption key must provided in http headers for every http request made
+
+Client-Side
+    - client library such as amazon s3 Encryption client
+    - must encrypt/decrypt before sending/receiving to/from S3
+    - Customer fully manages the keys and encryption cycle
+
+Encrpyption in transit (SSL/TLS)
+    - Amazon S3 exposes
+          - hTTP endpoint: non encrypted
+          - HTTPS endpoint: encryption in flight
+    - HTTPS is mandatory for SSE-C
+    - Encrpyption in flight is also called SSL/TLS
+
+S3 security
+      - user based
+            - IAM policies - which API calls should be allowed for a specific user from IAM console
+      - Resource based
+            - bucket policies - bucket wide rules from s3 console- allows cross account
+            - Object Access Control List(ACL) - finger grain
+            - Bucket access control list(ACL) - less Common
+      - Note: An IAM principal can access an S3 object if
+                - User IAM permission allow it OR the resource policy ALLOWS it
+                - AND there's no explicit DENY
+
+S3 BUcket policy
+    - JSON based policies
+          - resources : buckets and objects
+          - actions : set of API to allow or deny
+          - Effect: ALLOW or Deny
+          - principal- the account or user to apply the policy to
+    - Use S3 bucket policy to
+          - grant public access to the bucket
+          - force objects to be encrypted at upload
+          - grant access to another account(cross account)
+
+Bucket settings for block public access
+    - Block public access to buckets and objects granted through
+      - New ACLs
+      - any ACLs
+      - new public bucket or access point policies
+
+    - Block public and cross-account access to buckets and objects through any public bucket or access point policy
+    - can be set at account level
+
+    Networking
+      - supports VPC endpoints
+    Loggin and Audit
+      - S3 access logs can be stored in other s3 bucket
+      - API calls can be logged in AWS cloudTrail
+    UserSecurity
+      - MFA Delete : Multi factor authentication can be Required in versioned buckets to delete objects
+      - Pre-signed URLs: URL are valid for limited time
+
+S3 Websites
+      - Can host static websites
+      - 403 forbidden error - make sure bucket policy allows
+
+S3 Cors (cross origin resource sharing)
+      - An origin is a scheme (protocol), host(domain) and port. Ex https://www.example.com ( port is 443 for https, 80 for http)
+      - Web browser based mechanism to allow requests to other origins while visiting the main origin
+      - same origin : example.com/app1 and example.com/app2
+      - diff origin : example.com and other.example.com
+      - the request wont be fulfilled unless other origin allows for the requests using CORS header (ACCESS-Control-ALLOW-Origin)
+      - Enable correct CORS headers for cross-origin request
+
+S3 - Consistency model
+      - read after write Consistency for PUTS of NEW objects
+            - PUT 200 OK - GET 200 OK ( as soon as new object is written we can retrieve it)
+            - Get 404 -> PUT 200 -> GET 200 (eventually consistent)
+     - eventually consistency for DELETES and PUTs of EXISTING objects
+            - PUT 200 -> PUT 200 -> GET 200 (might get older version)
+            - DELETE 200 -> GET 200
+     - Note : There's no way to request "strong consistency"
+
+=============================================================================================================================
+     
