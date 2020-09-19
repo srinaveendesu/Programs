@@ -1,0 +1,522 @@
+Clients of this file that use import get a module with attributes, while clients that use from get copies of the file’s names:
+
+python
+>>> import threenames                    # Grab the whole module: it runs here
+dead parrot sketch
+>>>
+>>> threenames.b, threenames.c           # Access its attributes
+('parrot', 'sketch')
+>>>
+>>> from threenames import a, b, c       # Copy multiple names out
+>>> b, c
+('parrot', 'sketch')
+
+
+Formally, a negative index is simply added to the string’s length,
+
+>>> S[-1]                # The last item in S
+'m'
+>>> S[len(S)-1]          # Negative indexing, the hard way
+'m'
+
+very object in Python is classified as either immutable (unchangeable) or not. In terms of the core types, numbers, strings,
+and tuples are immutable; lists, dictionaries, and sets are not
+
+
+
+text is encoded to bytes when stored in a file, and decoded into characters (a.k.a. code points) when read back into memory. Once it is loaded, we usually process text as strings in decoded form only.
+
+Technically speaking, Python has a feature known as garbage collection that cleans up unused memory as your program runs and frees you from having to manage such details in your code. In standard Python (a.k.a. CPython), the space is reclaimed immediately, as soon as the last reference to an object is removed.
+
+an object is iterable if it is either a physically stored sequence in memory, or an object that generates one item at a time in the context of an iteration operation—a sort of “virtual” sequence.
+
+The generator comprehension expression we saw earlier is such an object: its values aren’t stored in memory all at once, but are produced as requested, usually by iteration tools. Python file objects similarly iterate line by line when used by an iteration tool: file content isn’t in a list, it’s fetched on demand.
+
+A file’s contents are always a string in your script, regardless of the type of data the file contains:
+
+text files represent content as normal str strings and perform Unicode encoding and decoding automatically when writing and reading data, while binary files represent content as a special bytes string and allow you to access file content unaltered
+
+
+the interactive prompt’s automatic result echo shows more digits than the print statement here only because it uses a different algorithm. It’s the same number in memory. If you don’t want to see all the digits, use print;
+
+• In 3.X, the / now always performs true division, returning a float result that includes any remainder, regardless of operand types. The // performs floor division, which truncates the remainder and returns an integer for integer operands or a float if any operand is a float.
+• In 2.X, the / does classic division, performing truncating integer division if both operands are integers and float division (keeping remainders) otherwise. The // does floor division and works as it does in 3.X, performing truncating division for integers and floor division for floats.
+
+The eval function, which you’ll meet later in this book, treats strings as though they were Python code. Therefore, it has a similar effect, but usually runs more slowly it actually compiles and runs the string as a piece of a program, 
+
+decimals are fixed-precision floating-point values.with decimals, we can have a floating-point value that always retains just two decimal digits
+
+Finally, although the set expressions shown earlier generally require two sets, their method-based counterparts can often work with any iterable type as well:
+
+
+given that sets are essentially like valueless dictionaries—because a set’s items are unordered, unique, and immutable, the items behave much like a dictionary’s keys.
+
+Sets themselves are mutable too, and so cannot be nested in other sets directly; if you need to store a set inside another set, the frozenset built-in call works just like set but creates an immutable set that cannot change and thus can be embedded in other sets.
+
+Sets can be used to isolate differences in lists, strings, and other iterable objects too—simply convert to sets and take the difference—though again the unordered nature of sets means that the results may not match that of the originals.
+
+
+True and False, are just customized versions of the integers 1 and 0 that print themselves differently.
+
+
+True and False behave exactly like the integers 1 and 0, except that they have customized printing logic—they print themselves as the words True and False, instead of the digits 1 and 0. bool accomplishes this by redefining str and repr string formats for its two objects.
+
+
+Because True is just the integer 1 with a custom display format, True + 4 yields integer 5 in Python!
+
+
+Variables always link to objects and never to other      variables, but larger objects may link to other objects (for instance, a      list object has links to the objects it contains).
+
+
+
+
+A variable (also known in Python as a name), like a, is created when your code first assigns it a value.
+
+A variable never has any type information or constraints            associated with it. The notion of type lives with objects, not            names.
+When a variable appears in an expression, it is immediately replaced            with the object that it currently refers to, whatever that may be.
+
+
+In sum, variables are created when assigned, can reference any      type of object, and must be assigned before they are referenced. This      means that you never need to declare names used by your script, but you      must initialize names before you can update them;
+
+
+These links from variables to objects are called references in Python—that is, a reference is a kind of association, implemented as a pointer in memory.1
+
+
+Variables are entries in a system table, with spaces for links to          objects.
+Objects are pieces of allocated memory, with enough space to represent the          values for which they stand.
+References are automatically followed pointers from variables to          objects.
+
+objects have more structure than just enough      space to represent their values. Each object also has two standard      header fields: a type designator used to mark the type of the object, and a reference      counter used to determine when it’s OK to reclaim the object.
+
+ in python, things      work more simply. Names have no types; as stated      earlier, types live with objects, not names. In the preceding listing,      we’ve simply changed a to reference      different objects. Because variables have no type, we haven’t actually      changed the type of the variable a;      we’ve simply made the variable reference a different type of object. In      fact, again, all we can ever say about a variable in Python is that it      references a particular object at a particular point in time.
+
+Objects, on the other hand, know what type      they are—each object contains a header field that tags the object with      its type. The integer object 3, for      example, will contain the value 3,      plus a designator that tells Python that the object is an integer      (strictly speaking, a pointer to an object called int, the name of the integer type). The type      designator of the 'spam' string      object points to the string type (called str) instead. Because objects know their      types, variables don’t have to.
+
+ whenever a name is assigned to a new object, the space held by the prior object is reclaimed if it is not referenced by any other name or object. This automatic reclamation of objects’ space is known as garbage collection, 
+
+Internally, Python accomplishes this feat by keeping a counter in      every object that keeps track of the number of references currently      pointing to that object. As soon as (and exactly when) this counter      drops to zero, the object’s memory space is automatically reclaimed. In      the preceding listing, we’re assuming that each time x is assigned to a new object, the prior      object’s reference counter drops to zero, causing it to be      reclaimed.
+
+ Python’s garbage collection is based        mainly upon reference counters, as        described here; however, it also has a component that detects and        reclaims objects with cyclic references in time.        This component can be disabled if you’re sure that your code doesn’t        create cycles, but it is enabled by default.
+
+with multiple names referencing the same object—is usually called a shared reference (and sometimes just a shared object).
+
+there are objects and operations that perform in-place object changes—Python’s mutable types, including lists, dictionaries, and sets. For instance, an assignment to an offset in a list actually changes the list object itself in place, rather than generating a brand-new list object.
+
+
+This behavior only occurs for mutable objects that support      in-place changes, and is usually what you want, but you should be aware      of how it works, so that it’s expected. It’s also just the default: if      you don’t want such behavior, you can request that Python      copy objects instead of making references.
+
+L1 = [2, 3, 4]
+>>> L2 = L1[:]            # Make a copy of L1 (or list(L1), copy.copy(L1), etc.)
+>>> L1[0] = 24
+
+
+import copy
+X = copy.copy(Y)          # Make top-level "shallow" copy of any object Y
+X = copy.deepcopy(Y)      # Make deep copy of any object Y: copy all nested parts
+
+
+the      is operator, instead tests for object      identity—it returns True only if both names point to the exact      same object, so it is a much stronger form of equality testing and is      rarely applied in most programs.
+
+you can always ask Python how many references there are to an object: the getrefcount function in the standard sys module returns the object’s reference count
+
+
+str is used for Unicode text (including          ASCII), bytes is used for binary          data (including encoded text), and bytearray is a mutable variant of bytes. Files          work in two modes: text, which represents content as str and          implements Unicode encodings, and binary, which          deals in raw bytes and does no          data translation.
+
+Python has no distinct type for individual    characters; instead, you just use one-character strings.
+
+Note that the comma is important here. Without it, Python automatically concatenates adjacent string literals in any expression,
+
+>>> title = "Meaning " 'of' " Life"        # Implicit concatenation
+>>> title
+'Meaning of Life'
+
+a raw string cannot end in an odd number of backslashes. If        you need to end a raw string with a single backslash, you can use two        and slice off the second
+
+S[−2] fetches the second item from the end (like S[len(S)−2]).
+
+S[:] fetches items at offsets 0 through the end—making a top-level copy of S.
+
+ it is also possible to convert a single character to its        underlying integer code (e.g., its ASCII byte value) by passing it to        the built-in ord        function -this returns the actual numeric value used to represent the corresponding character in memory
+
+The chr function performs the inverse operation, taking an integer code        and converting it to the corresponding character
+
+>>> ord('s')
+115
+>>> chr(115)
+'s'
+
+Like every operation that yields a new string value, string      methods generate new string objects. If you want to retain those      objects, you can assign them to variable names.
+
+
+'That is {0} {1} bird!'.format(1, 'dead')
+'That is 1 dead bird!'
+
+Python 3.0 and 2.6        introduced a new string type known as bytearray, which is        mutable and so may be changed in place. bytearray objects aren’t really text        strings; they’re sequences of small, 8-bit integers
+
+
+%s is often the only code you need to remember for the formatting expression.
+
+ Within the subject string, curly braces designate      substitution targets and arguments to be inserted either by position      (e.g., {1}), or keyword (e.g.,      {food}),
+
+
+>>> template = '{0}, {1} and {2}'                             # By position
+>>> template.format('spam', 'ham', 'eggs')'spam, ham and eggs'
+
+>>> template = '{motto}, {pork} and {food}'                   # By keyword
+>>> template.format(motto='spam', pork='ham', food='eggs')'spam, ham and eggs'
+
+>>> template = '{motto}, {0} and {food}'                      # By both
+>>> template.format('ham', motto='spam', food='eggs')'spam, ham and eggs'
+
+>>> template = '{}, {} and {}'                                # By relative position
+>>> template.format('spam', 'ham', 'eggs')                    # New in 3.1 and 2.7'spam, ham and eggs'
+
+
+The only differences worth noting are that the +, *, and slicing operations return new tuples when applied to tuples, and that tuples don’t provide the same methods you saw for strings, lists, and dictionaries
+
+
+• Text files represent content as normal str strings, perform Unicode encoding and decoding automatically, and perform end-of-line translation by default.
+• Binary files represent content as a special bytes string type and allow programs to access file content unaltered.
+
+you must use bytes strings for binary files, and normal str strings for text files.
+
+The pickle module is a more advanced tool that allows us to store almost any Python object in a file directly
+
+The pickle module performs what is known as object serialization—converting objects to and from strings of bytes—but requires very little work on our part. 
+
+
+shelve is a tool that uses      pickle to store Python objects in an      access-by-key filesystem,
+
+Notice that I opened the file used to store the pickled object in binary mode; binary mode is always required in Python 3.X, because the pickler creates and uses a bytes string object, and these objects imply binary-mode files
+
+strings are all Unicode in JSON to support text      drawn from international character sets
+
+the struct module knows how to both compose and parse packed binary data. In a sense, this is another data-conversion tool that interprets strings in files as binary data.
+
+
+empty-limit slices and the dictionary copy method only make top-level copies; that is, they do not copy nested data structures, if any are present.
+
+
+S1='spam'
+S2='spam'
+print(S1==S2,S1isS2)
+(True,True)
+
+
+S1='alongerstring'
+S2='alongerstring'
+print(S1==S2,S1isS2)
+(True,False)
+
+
+>>> L = [1, 2, 3]
+>>> M = ['X', L[:], 'Y']        # Embed a copy of L (or list(L), or L.copy())
+>>> L[1] = 0                    # Changes only L, not M
+>>> L
+[1, 0, 3]
+>>> M
+['X', [1, 2, 3], 'Y']
+
+
+>>> L = [4, 5, 6]
+>>> X = L * 4                   # Like [4, 5, 6] + [4, 5, 6] + ...
+>>> Y = [L] * 4                 # [L] + [L] + ... = [L, L,...]
+>>> X
+[4, 5, 6, 4, 5, 6, 4, 5, 6, 4, 5, 6]
+>>> Y
+[[4, 5, 6], [4, 5, 6], [4, 5, 6], [4, 5, 6]]
+Because L was nested in the second repetition, Y winds up embedding references back to the original list assigned to L, and so is open to the same sorts of side effects noted in the preceding section:
+>>> L[1] = 0                    # Impacts Y but not X
+>>> X
+[4, 5, 6, 4, 5, 6, 4, 5, 6, 4, 5, 6]
+>>> Y
+[[4, 0, 6], [4, 0, 6], [4, 0, 6], [4, 0, 6]]
+
+
+>>> L = [4, 5, 6]
+>>> Y = [list(L)] * 4           # Embed a (shared) copy of L
+>>> L[1] = 0
+>>> Y
+[[4, 5, 6], [4, 5, 6], [4, 5, 6], [4, 5, 6]]
+
+
+>>> Y[0][1] = 99                # All four copies are still the same
+>>> Y
+[[4, 99, 6], [4, 99, 6], [4, 99, 6], [4, 99, 6]]
+>>> L = [4, 5, 6]
+>>> Y = [list(L) for i in range(4)]
+>>> Y
+[[4, 5, 6], [4, 5, 6], [4, 5, 6], [4, 5, 6]]
+>>> Y[0][1] = 99
+>>> Y
+[[4, 99, 6], [4, 5, 6], [4, 5, 6], [4, 5, 6]]
+
+
+
+
+We actually encountered this concept in a prior exercise: if a collection object contains a reference to itself, it’s called a cyclic object. Python prints a [...] whenever it detects a cycle in the object, rather than getting stuck in an infinite loop (as it once did long ago):
+
+>>> L = ['grail']                # Append reference to same object
+>>> L.append(L)                  # Generates cycle in object: [...]
+>>> L
+['grail', [...]]
+
+
+
+
+
+
+
+
+no switch or      case statement in Python that selects      an action based on a variable’s value.
+
+Python ignores their contents, but they are automatically        attached to objects at runtime and may be displayed with documentation        tools like PyDoc.
+
+
+Statements may span multiple lines if          you’re continuing an open syntactic pair.
+
+
+ if two string      literals appear next to each other, they are concatenated as if a      + had been added between them—when      used in conjunction with the open pairs rule, wrapping in parentheses      allows this form to span multiple lines.
+
+Also, Boolean and and or operators return a true or false object in Python, not the values True or False.
+
+the and and or operators always return an object—either the object on the left side of the operator or the object on the right.
+ If we test their results in if or other statements, they will be as expected (remember, every object is inherently true or false), but we won’t get back a simple True or False.
+
+A = Y if X else Z
+
+Python runs expression Y only if X    turns out to be true, and runs expression Z only if X    turns out to be false. T
+
+A = ((X and Y) or Z)
+
+
+>>> L = [1, 0, 2, 0, 'spam', '', 'ham', []]
+>>> list(filter(bool, L))                    # Get true values
+[1, 2, 'spam', 'ham']
+>>> [x for x in L if x]                      # Comprehensions
+[1, 2, 'spam', 'ham']
+>>> any(L), all(L)                           # Aggregate truth
+(True, False)
+
+break
+Jumps out of the closest enclosing loop (past the entire loop statement)
+continue
+Jumps to the top of the closest enclosing loop (to the loop’s header line)
+pass
+Does nothing at all: it’s an empty statement placeholder
+Loop else block
+Runs if and only if the loop is exited normally (i.e., without hitting a break)
+
+Python 3.X (but not 2.X) allows ellipses coded as ... (literally, three consecutive dots) to appear any place an expression can. Because ellipses do nothing by themselves, this can serve as an alternative to the pass statement, especially for code to be filled in later—a sort of Python “TBD”:
+
+>>> X = ...               # Alternative to None
+>>> X
+Ellipsis
+
+
+ you’ll see that input also raises an exception at end-of-file (e.g., if the user types Ctrl-Z on Windows or Ctrl-D on Unix); if this matters, wrap input in try statements.
+
+
+x = y // 2                                # For some y > 1
+while x > 1:
+    if y % x == 0:                        # Remainder
+        print(y, 'has factor', x)
+        break                             # Skip else
+    x -= 1
+else:                                     # Normal exit
+    print(y, 'is prime')
+
+The loop else clause is also run if the body of the loop is never executed, as you don’t run a break in that event either; 
+
+The name used as the assignment target in a for header line is usually a (possibly new) variable in the scope where the for statement is coded. There’s not much unique about this name; it can even be changed inside the loop’s body, but it will automatically be set to the next item in the sequence when control returns to the top of the loop again. After the loop this variable normally still refers to the last item visited, which is the last item in the sequence unless the loop exits with a break statement.
+
+In Python 3.X, because a sequence can be assigned to a more general set of names with a starred name to collect multiple items, we can use the same syntax to extract parts of nested sequences in the for loop:
+
+The only difference is that slicing returns a type-specific result, whereas starred names always are assigned lists:
+
+
+an object is considered iterable if it is either a physically stored sequence, or an object that produces one result at a time in the context of an iteration tool like a for loop. In a sense, iterable objects include both physical sequences and virtual sequences computed on demand.
+
+term iterable to refer to an object that supports the iter call, and iterator to refer to an object returned by an iterable on iter that supports the next(I) call. 
+
+
+ this may run slower than the iterator-based for loop version, because iterators run at C language speed inside Python, whereas the while loop version runs Python byte code through the Python virtual machine. 
+
+
+• def is executable code. Python functions are written with a new statement, the def. Unlike functions in compiled languages such as C, def is an executable statement—your function does not exist until Python reaches and runs the def. In fact, it’s legal (and even occasionally useful) to nest def statements inside if statements, while loops, and even other defs. In typical operation, def statements are coded in module files and are naturally run to generate functions when the module file they reside in is first imported.
+• def creates an object and assigns it to a name. When Python reaches and runs a def statement, it generates a new function object and assigns it to the function’s name. As with all assignments, the function name becomes a reference to the function object. There’s nothing magic about the name of a function—as you’ll see, the function object can be assigned to other names, stored in a list, and so on. Function objects may also have arbitrary user-defined attributes attached to them to record data.
+• lambda creates an object but returns it as a result. Functions may also be created with the lambda expression, a feature that allows us to in-line function definitions in places where a def statement won’t work syntactically. This is a more advanced concept that we’ll defer until Chapter 19.
+• return sends a result object back to the caller. When a function is called, the caller stops until the function finishes its work and returns control to the caller. Functions that compute a value send it back to the caller with a return statement; the returned value becomes the result of the function call. A return without a value simply returns to the caller (and sends back None, the default result).
+• yield sends a result object back to the caller, but remembers where it left off. Functions known as generators may also use the yield statement to send back a value and suspend their state such that they may be resumed later, to produce a series of results over time. This is another advanced topic covered later in this part of the book.
+• global declares module-level variables that are to be assigned. By default, all names assigned in a function are local to that function and exist only while the function runs. To assign a name in the enclosing module, functions need to list it in a global statement. More generally, names are always looked up in scopes—places where variables are stored—and assignments bind names to scopes.
+• nonlocal declares enclosing function variables that are to be assigned. Similarly, the nonlocal statement added in Python 3.X allows a function to assign a name that exists in the scope of a syntactically enclosing def statement. This allows enclosing functions to serve as a place to retain state—information remembered between function calls—without using shared global names.
+• Arguments are passed by assignment (object reference). In Python, arguments are passed to functions by assignment (which, as we’ve learned, means by object reference). As you’ll see, in Python’s model the caller and function share objects by references, but there is no name aliasing. Changing an argument name within a function does not also change the corresponding name in the caller, but changing passed-in mutable objects in place can change objects shared by the caller, and serve as a function result.
+• Arguments are passed by position, unless you say otherwise. Values you pass in a function call match argument names in a function’s definition from left to right by default. For flexibility, function calls can also pass arguments by name with name=value keyword syntax, and unpack arbitrarily many arguments to send with *pargs and **kargs starred-argument notation. Function definitions use the same two forms to specify argument defaults, and collect arbitrarily many arguments received.
+• Arguments, return values, and variables are not declared. As with everything in Python, there are no type constraints on functions. In fact, nothing about a function needs to be declared ahead of time: you can pass in arguments of any type, return any kind of object, and so on. As one consequence, a single function can often be applied to a variety of object types—any objects that sport a compatible interface (methods and expressions) will do, regardless of their specific types.
+
+
+The def statement creates a function object and assigns it to a name.
+The def header line specifies a function name that is assigned the function object, along with a list of zero or more arguments (sometimes called parameters) in parentheses. The argument names in the header are assigned to the objects passed in parentheses at the point of call.
+
+The return statement consists of an optional object value expression that gives the function’s result. If the value is omitted, return sends back a None.
+The return statement itself is optional too; if it’s not present, the function exits when the control flow falls off the end of the function body. Technically, a function without a return statement also returns the None object automatically, but this return value is usually ignored at the call.
+
+
+Python def is a true executable statement: when it runs, it creates a new function object and assigns it to a name. (Remember, all we have in Python is runtime; there is no such thing as a separate compile time.) Because it’s a statement, a def can appear anywhere a statement can—even nested in other statements.
+
+One way to understand this code is to realize that the def is much like an = statement: it simply assigns a name at runtime. Unlike in compiled languages such as C, Python functions do not need to be fully defined before the program runs. More generally, defs are not evaluated until they are reached and run, and the code inside defs is not evaluated until the functions are later called.
+Because function definition happens at runtime, there’s nothing special about the function name. 
+
+Python, functions are just objects; they are recorded explicitly in memory at program execution time. In fact, besides calls, functions allow arbitrary attributes to be attached to record information for later use:
+
+type-dependent behavior is known as polymorphism, a term we first met in Chapter 4 that essentially means that the meaning of an operation depends on the objects being operated upon. Because it’s a dynamically typed language, polymorphism runs rampant in Python. In fact, every operation is a polymorphic operation in Python: printing, indexing, the * operator, and much more.
+
+This polymorphic behavior has in recent years come to also be known as 
+duck typing
+—the essential idea being that your code is not supposed to care if an object is a 
+duck
+, only that it 
+quacks
+. Anything that quacks will do, duck or not, and the implementation of quacks is up to the object, 
+
+
+ 
+objects implement the 
+in
+ operator either by providing the specific 
+__contains__
+ method or by supporting the general iteration protocol with the 
+__iter__
+ or older 
+__getitem__
+ methods;
+
+
+
+
+Just about everything related to names, including scope classification, happens at assignment    time in Python. As we’ve seen, names in Python spring into existence when    they are first assigned values, and they must be assigned before they are    used. Because names are not declared ahead of time, Python uses the    location of the assignment of a name to associate it with (i.e.,    bind it to) a particular namespace. In other words,    the place where you assign a name in your source code determines the    namespace it will live in, and hence its scope of    visibility.
+
+
+Python’s name-resolution scheme is sometimes called the LEGB rule, after the scope names:
+• When you use an unqualified name inside a function, Python searches up to four scopes—the local (L) scope, then the local scopes of any enclosing (E) defs and lambdas, then the global (G) scope, and then the built-in (B) scope—and stops at the first place the name is found. If the name is not found during this search, Python reports an error.
+
+
+
+reallyruntimeoperationsthatperformthreedistinctstepsthefirsttimeaprogramimportsagivenfile:
+
+Findthemodule’sfile.
+
+Compileittobytecode(ifneeded).=>DuringanimportoperationPythonchecksbothfilemodificationtimesandthebytecode’sPythonversionnumbertodecidehowtoproceed.
+
+Runthemodule’scodetobuildtheobjectsitdefines.
+
+Bearinmindthatallthreeofthesestepsarecarriedoutonlythefirsttimeamoduleisimportedduringaprogram’sexecution;laterimportsofthesamemoduleinaprogramrunbypassallofthesestepsandsimplyfetchthealreadyloadedmoduleobjectinmemory
+
+compilationhappenswhenafileisbeingimported.Becauseofthis,youwillnotusuallyseea.pycbytecodefileforthetop-levelfileofyourprogram,unlessitisalsoimportedelsewhere—onlyimportedfilesleavebehind.pycfilesonyourmachine.Thebytecodeoftop-levelfilesisusedinternallyanddiscarded;bytecodeofimportedfilesissavedinfilestospeedfutureimports.
+
+whilei<4:#Looptest
+i+=1
+pass#Loopbody
+else:#Optionalelse
+pass#Runifdidn'texitloopwithbreak
+
+fortargetinobject:#Assignobjectitemstotarget
+pass#Repeatedloopbody:usetarget
+else:#Optionalelsepart
+pass#Ifwedidn'thita'break'
+
+
+InPython3.X,thefrom...*statementformdescribedherecanbeusedonlyatthetoplevelofamodulefile,notwithinafunction.Python2.Xallowsittobeusedwithinafunction,butissuesawarninganyhow.
+
+Whenyoucallreload,Pythonrereadsthemodulefile’ssourcecodeandrerunsitstop-levelstatements.Perhapsthemostimportantthingtoknowaboutreloadisthatitchangesamoduleobjectinplace;itdoesnotdeleteandre-createthemoduleobject.Becauseofthat,everyreferencetoanentiremoduleobjectanywhereinyourprogramisautomaticallyaffectedbyareload.
+
+reloadrunsamodulefile’snewcodeinthemodule’scurrentnamespace.
+Top-levelassignmentsinthefilereplacenameswithnewvalues.
+Reloadsimpactallclientsthatuseimporttofetchmodules
+Reloadsimpactfuturefromclientsonly
+Reloadsapplytoasinglemoduleonly
+
+
+Packageinitialization
+ThefirsttimeaPythonprogramimportsthroughadirectory,itautomaticallyrunsallthecodeinthedirectory’s__init__.pyfile.Becauseofthat,thesefilesareanaturalplacetoputcodetoinitializethestaterequiredbyfilesinapackage.
+
+Moduleusabilitydeclarations
+Package__init__.pyfilesarealsopartlypresenttodeclarethatadirectoryisaPythonpackage.
+
+Modulenamespaceinitialization
+Inthepackageimportmodel,thedirectorypathsinyourscriptbecomerealnestedobjectpathsafteranimport.
+
+youcanuse__all__listsin__init__.pyfilestodefinewhatisexportedwhenadirectoryisimportedwiththefrom*statementform.Inan__init__.pyfile,the__all__lististakentobethelistofsubmodulenamesthatshouldbeautomaticallyimportedwhenfrom*isusedonthepackage(directory)name.If__all__isnotset,thefrom*statementdoesnotautomaticallyloadsubmodulesnestedinthedirectory;instead,itloadsjustnamesdefinedbyassignmentsinthedirectory’s__init__.pyfile,includinganysubmodulesexplicitlyimportedbycodeinthisfile.
+
+
+
+
+
+Python 3.X introduces two changes:
+• It modifies the module import search path semantics to skip the package’s own directory by default. Imports check only paths on the sys.path search path. These are known as absolute imports.
+• It extends the syntax of from statements to allow them to explicitly request that imports search the package’s directory only, with leading dots. This is known as relative import syntax.
+
+
+
+In both Python 3.X and 2.X, from statements can now use leading dots (“.”) to specify that they require modules located within the same package (known as package relative imports), instead of modules located elsewhere on the module import search path (called absolute imports). 
+
+
+As a special case, you can prefix names with a single underscore (e.g., _X) to prevent them from being copied out when a client imports a module’s names with a from * statement. 
+
+Underscores aren’t “private” declarations: you can still see and change such names with other import forms, such as the import statement:
+
+# unders.py
+a, _b, c, _d = 1, 2, 3, 4
+>>> from unders import *                 # Load non _X names only
+>>> a, c
+(1, 3)
+>>> _b
+NameError: name '_b' is not defined
+>>> import unders                        # But other importers get every name
+>>> unders._b
+2
+
+
+you can achieve a hiding effect similar to the _X naming convention by assigning a list of variable name strings to the variable __all__ at the top level of the module. When this feature is used, the from * statement will copy out only those names listed in the __all__ list. 
+
+__all__ identifies names to be copied, while _X identifies names not to be copied.
+
+# alls.py
+__all__ = ['a', '_c']                    # __all__ has precedence over _X
+a, b, _c, _d = 1, 2, 3, 4
+>>> from alls import *                   # Load __all__ names only
+>>> a, _c
+(1, 3)
+>>> b
+NameError: name 'b' is not defined
+>>> from alls import a, b, _c, _d        # But other importers get every name
+>>> a, b, _c, _d
+(1, 2, 3, 4)
+>>> import alls
+>>> alls.a, alls.b, alls._c, alls._d
+(1, 2, 3, 4)
+
+
+
+
+
+
+
+The built-in instance.__class__ attribute provides a link from an instance to the class from which it was created. Classes in turn have a __name__, just like modules, and a __bases__ sequence that provides access to superclasses. 
+
+
+The built-in object.__dict__ attribute provides a dictionary with one key/value pair for every attribute attached to a namespace object (including modules, classes, and instances
+
+
+
+two underscores at the front of the method name only: __gatherAttrs for us. Python automatically expands such names to include the enclosing class’s name, which makes them truly unique when looked up by the inheritance search. This is a feature usually called pseudoprivate class attributes, 
+
+
+All the statements inside the class statement run when the class statement itself runs
+
+Assignments to instance attributes create or change the names in the instance, rather than in the shared class.
+
+
+roughly, at diamonds they are searched across before up, and more breadth-first than depth-first. This attribute search order, known as the MRO, can be traced with a new __mro__ attribute available on new-style classes.
+
+
