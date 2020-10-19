@@ -1,0 +1,28 @@
+version: '3.3'  # version of compose format
+
+services:
+  hello-world-service:
+    build: ./service1  # path is relative to docker-compose.yml location
+    hostname: hello-world-service
+    ports:
+      - 5050:5050  # host:container
+    networks:
+      sample:
+        aliases:
+          - hello-world-service
+
+  welcome-service:
+    build: ./service2
+    hostname: welcome-service
+    ports:
+      - 5051:5051  # host:container
+    depends_on:
+      - hello-world-service  # website is not going to work
+                             # unless observatory-service is running
+    networks:
+      sample:
+        aliases:
+          - welcome-service
+
+networks:
+  sample:
