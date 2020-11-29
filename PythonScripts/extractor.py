@@ -84,27 +84,38 @@ if __name__ == '__main__':
     flag = True
     while True:
         user =input()
-
+        limit = 100
         dat = user.split(' ')
         if len(dat) == 2:
             user = dat[0]
             page = int(dat[1])
+
+        elif len(dat) ==3:
+            user = dat[0]
+            page = int(dat[1])
+            flag = False
+            limit = int(dat[2])
         else:
             user = dat[0]
             page =3
 
+
         print(user, page)
-        lst_urls = get_all_links(user)
+        lst_urls = []
+        if flag:
+            lst_urls = get_all_links(user)
+        else:
+            lst_urls = get_all_links(user)
+            lst_urls = lst_urls[:limit]
         print(lst_urls)
         for u in lst_urls:
             urls =get_urls(
                 u, page
             )
             for url in urls:
-                main(url, "new23.txt")
+                main(url, "new48.txt")
 
         print ('DONE!!!!!!!!')
 
-
 # input
-# <link> <num of pages>
+# <link> <num of pages> <no of dabbas>
