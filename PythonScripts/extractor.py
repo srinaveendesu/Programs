@@ -118,4 +118,4 @@ if __name__ == '__main__':
         print ('DONE!!!!!!!!')
 
 # input
-# <link> <num of pages> <no of dabbas>
+# <link> <num of pages> <no of dabbas> <no of pages to fetch>
