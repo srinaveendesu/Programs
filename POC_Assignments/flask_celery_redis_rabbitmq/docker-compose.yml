@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+
+  web:
+    build: .
+    image: web
+    container_name: web
+    ports:
+      - 5004:5000
+    command: python manage.py run -h 0.0.0.0
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - FLASK_DEBUG=1
+      - APP_SETTINGS=project.server.config.DevelopmentConfig
+      - CELERY_BROKER_URL=amqp://admin:mypass@rabbit//
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - redis
+      - rabbit
+
+  worker:
+    build: .
+    command: celery worker --app=project.server.tasks.celery --loglevel=info --logfile=project/logs/celery.log
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - FLASK_DEBUG=1
+      - APP_SETTINGS=project.server.config.DevelopmentConfig
+      - CELERY_BROKER_URL=amqp://admin:mypass@rabbit//
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - web
+      - redis
+      - rabbit
+
+  dashboard:
+    build: .
+    command:  flower --app=project.server.tasks.celery --port=5555 --broker=amqp://admin:mypass@rabbit//
+    ports:
+      - 5556:5555
+    environment:
+      - FLASK_DEBUG=1
+      - APP_SETTINGS=project.server.config.DevelopmentConfig
+      - CELERY_BROKER_URL=amqp://admin:mypass@rabbit//
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - web
+      - redis
+      - worker
+      - rabbit
+
+  redis:
+    image: redis:6-alpine
+
+  rabbit:
+    hostname: rabbit
+    image: rabbitmq:latest
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=mypass
