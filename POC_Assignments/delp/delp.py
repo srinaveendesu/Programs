@@ -10,7 +10,6 @@ from datetime import datetime
 from functools import wraps
 from pytz import timezone
 
-
 _LOGGER = logging.getLogger(__name__)
 
 time_format = '%Y-%m-%dT%H:%M:%S%z'
@@ -21,23 +20,33 @@ tmz = 'Asia/Kolkata'
 numer_of_trains = 10
 
 
+class CustomError(Exception):
+    def __init__(self, trace):
+        self.trace = trace
+
+    def __str__(self):
+        self.message = "\n".join(self.trace)
+        return self.message
+
+
 def exception(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         try:
             return func(*args, **kwargs)
         except requests.exceptions.RequestException:
-            print(traceback.format_exc().split('\n'))
+            raise CustomError(traceback.format_exc().split('\n'))
         except requests.exceptions.ConnectTimeout:
-            print(traceback.format_exc().split('\n'))
+            raise CustomError(traceback.format_exc().split('\n'))
         except ConnectionError:
-            print(traceback.format_exc().split('\n'))
+            raise CustomError(traceback.format_exc().split('\n'))
         except IndexError:
-            print(traceback.format_exc().split('\n'))
+            raise CustomError(traceback.format_exc().split('\n'))
         except KeyError:
-            print(traceback.format_exc().split('\n'))
+            raise CustomError(traceback.format_exc().split('\n'))
         except Exception:
-            print(traceback.format_exc().split('\n'))
+            raise CustomError(traceback.format_exc().split('\n'))
+
     return wrapper
 
 
@@ -90,6 +99,18 @@ class Utilities:
                 print(station_map[station[0]], ':', f'{station[1]} minutes to departure')
             print()
 
+    @exception
+    def pretty_print_static(self, departure_map, station_map):
+        print('=' * 32)
+        print(self._get_current_time())
+        print('=' * 32)
+        print()
+        for line, stations in departure_map.items():
+            print('=' * 15, line, '=' * 15)
+            for station in stations:
+                print(station_map[line][station[2]], ':', f'{station[1]} minutes to departure')
+            print()
+
 
 class RequestHandler(metaclass=Singleton):
     _instance = None
@@ -139,7 +160,7 @@ class JsonParser(Utilities):
             attr = predict_d.get('attributes', None)
             if attr and attr.get('departure_time', None) and c <= count:
                 dt_local = self._convert_to_local_tmz(attr['departure_time'])
-                departure_in_mins = (dt_local - dt_now).total_seconds()//60
+                departure_in_mins = (dt_local - dt_now).total_seconds() // 60
                 if departure_in_mins > 0:
                     relations = predict_d.get('relationships', None)
                     if relations:
@@ -147,13 +168,15 @@ class JsonParser(Utilities):
                         stop = relations.get('stop', None)
 
                         temp = departure_map.get(route['data']['id'], None)
-                        t = (stop['data']['id'], departure_in_mins)
+                        t = (stop['data']['id'], departure_in_mins, attr['direction_id'])
                         if temp:
                             departure_map[route['data']['id']].append(t)
+                            station_list.add(stop['data']['id'])
                         else:
                             departure_map[route['data']['id']] = [t]
                             station_list.add(stop['data']['id'])
                         c += 1
+
         return departure_map, station_list
 
     @exception
@@ -167,6 +190,18 @@ class JsonParser(Utilities):
                 name = attr.get('attributes', None)
                 station_map[station] = name['platform_name'] if name.get('platform_name', None) else 'No name'
         return station_map
+
+    @exception
+    def get_static_station_names(self, data):
+        incl = data.get('included', None)
+        line_map = {}
+        if incl:
+            for d in incl:
+                g = d['attributes'].get('direction_destinations', None)
+                if g:
+                    line_map[d['id']] = d['attributes']['direction_destinations']
+        return line_map
+
 
 ###
 # Api methods
@@ -186,7 +221,6 @@ class API(metaclass=ABCMeta):
 class Schedule(API):
 
     def get_api(self, parameters):
-
         data = self.request_service.send_request('/schedules', parameters)
         return data
 
@@ -204,31 +238,45 @@ class Stops(API):
         data = self.request_service.send_request(f'/stops/{id}', parameters)
         return data
 
+
 @exception
 def main(register):
     # TODO: Validate filters, Include parameters, Addtional params
-    filters = {'direction_id': 0, 'stop': 'place-pktrm'}
+    # filters = {'direction_id': 0, 'stop': 'place-pktrm'}
+    filters = {'stop': 'place-pktrm'}
     include = ['route', 'stop']
     params = {'sort': 'departure_time'}
     j = JsonParser()
+    try:
+        p = Prediction(register)
+        parameters = j.parameter_processor(filters, include, params)
+        predicted_data = p.get_api(parameters)
+        departure_map, s_list = j.get_departure_times(predicted_data, numer_of_trains)
+        # Getting station names from WEB
+        # station_map1 = j.get_station_name(r, s_list)
+        # Getting names from preset data
+        station_map = j.get_static_station_names(predicted_data)
 
-    p = Prediction(register)
-    parameters = j.parameter_processor(filters, include, params)
-    predicted_data = p.get_api(parameters)
-    departure_map, s_list = j.get_departure_times(predicted_data, numer_of_trains)
-    station_map = j.get_station_name(r, s_list)
+        # If prediction fails to get all stations we could use
+        # schedule endpoint to get future departing trains list
+        count = sum([len(v) for k, v in departure_map.items()])
+        if count >= 10:
+            # Use when getting stations from web
+            # j.pretty_print(departure_map, station_map1)
+            j.pretty_print_static(departure_map, station_map)
+        else:
+            s = Schedule(r)
+            schedule_data = s.get_api(parameters)
+            departure_map, s_list = j.get_departure_times(schedule_data, numer_of_trains)
 
-    # If prediction fails to get all stations we could use
-    # schedule endpoint to get future departing trains list
-    count = sum([len(v) for k, v in departure_map.items()])
-    if count >= 10:
-        j.pretty_print(departure_map, station_map)
-    else:
-        s = Schedule(r)
-        schedule_data = s.get_api(parameters)
-        departure_map, s_list = j.get_departure_times(schedule_data, numer_of_trains)
-        station_map = j.get_station_name(register, s_list)
-        j.pretty_print(departure_map, station_map)
+            # Use when getting stations from web
+            # station_map1 = j.get_station_name(register, s_list)
+            # j.pretty_print(departure_map, station_map1)
+
+            station_map = j.get_static_station_names(predicted_data)
+            j.pretty_print_static(departure_map, station_map)
+    except CustomError as e:
+        print(e.trace)
 
 
 class TestStations(unittest.TestCase):
@@ -247,7 +295,7 @@ class TestStations(unittest.TestCase):
         filters = {'direction_id': 0, 'stop': 'place-pktrm'}
         include = ['route', 'stop']
         params = {'sort': 'departure_time'}
-        response = Utilities.parameter_processor(filters,include, params)
+        response = Utilities.parameter_processor(filters, include, params)
         self.assertIn('filter[stop]', response)
         self.assertIn('filter[direction_id]', response)
         self.assertEqual(response['include'], 'route,stop')
@@ -267,6 +315,7 @@ class TestStations(unittest.TestCase):
 
     def test_validate_no_of_schedules(self):
         filters = {'direction_id': 0, 'stop': 'place-pktrm'}
+        filters = {'stop': 'place-pktrm'}
         include = ['route', 'stop']
         params = {'sort': 'departure_time'}
         parameters = Utilities.parameter_processor(filters, include, params)
@@ -282,10 +331,11 @@ class TestStations(unittest.TestCase):
 
 if __name__ == '__main__':
     r = RequestHandler(api_key=dev_api_key)
-    unittest.main()
+
     if platform.python_version() >= '3.8.5':
         main(r)
     else:
         print('The module can run on and above python version 3.8.5')
 
-
+    # To run unit test cases uncomment the below line
+    # unittest.main()
