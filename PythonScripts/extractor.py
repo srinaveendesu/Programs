@@ -113,9 +113,10 @@ if __name__ == '__main__':
                 u, page
             )
             for url in urls:
-                main(url, "new48.txt")
+                main(url, "stored1/neha_shetty.txt")
 
         print ('DONE!!!!!!!!')
 
-# input
-# <link> <num of pages> <no of dabbas> <no of pages to fetch>
+
+# link <no.of.pages>
+# link <no.of.pages> <no.of.follow.links>
