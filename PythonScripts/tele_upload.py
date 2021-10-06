@@ -1,6 +1,6 @@
 import telebot
 
-API_TOKEN = '1422982570:AAFYYZEPob4NofXrkRhb_BklrVl5bkWIUsA'
+API_TOKEN = ''
 
 import telegram
 
@@ -14,14 +14,11 @@ bot = telegram.Bot(token=API_TOKEN)
 # chat_id = bot.get_updates()[-1].message.chat_id
 # print(chat_id)chat_id
 
-# id_ss = 1189087561
-# id_dat2 = 1346702683
-# id_dat1 = 1347513281
+
 
 
 import os
 import time
-# D:\Epam\Videos\New folder\New folder (4)
 
 cur_path = ''
 def remote_send_photo():
