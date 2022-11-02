@@ -34,25 +34,6 @@ def rotate(mat):
 
     return new_mat
 
-def second_rotate(mat):
-    m = len(mat) # rows
-    n = len(mat[0]) # columns
-    #print(mat)
-    new_mat = []
-    for _ in range(n):
-        tmp = []
-        for _ in range(m):
-            tmp.append('0')
-        new_mat.append(tmp)
-    #new_mat = [['0'] * m] * n
-    #print(new_mat)
-
-    for c in range(n):
-        for r in range(m):
-            new_mat[c][r] = mat[r][c]
-    #print(new_mat)
-
-    return new_mat
 
 def build_matrix(block):
     lst = []
