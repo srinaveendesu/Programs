@@ -41,6 +41,7 @@ def jpg_getter(list_links):
         response = requests.get(url)
         soup = BeautifulSoup(response.text, 'html.parser')
         #print(soup)
+        tt_lst = []
         try:
             if soup.findAll('td')[1].div.attrs['id'] == 'galdiv':
                 for jp in soup.findAll('td')[1].contents[0].contents:
@@ -48,8 +49,20 @@ def jpg_getter(list_links):
                         #print(jp)
                         tmp_lst.append(jp.img.attrs['src'].replace('t.jpg', '.jpg'))
                         #tmp_lst.append(jp.attrs['href'])
+                        tt_lst.append(jp.img.attrs['src'].replace('t.jpg', '.jpg'))
         except:
             pass
+        if not bool(tt_lst):
+            try:
+                if soup.findAll('td')[2].div.attrs['id'] == 'galdiv':
+                    for jp in soup.findAll('td')[2].contents[0].contents:
+                        if isinstance(jp, bs4.element.Tag):
+                            # print(jp)
+                            tmp_lst.append(jp.img.attrs['src'].replace('t.jpg', '.jpg'))
+                            # tmp_lst.append(jp.attrs['href'])
+                            tt_lst.append(jp.img.attrs['src'].replace('t.jpg', '.jpg'))
+            except:
+                pass
 
     return tmp_lst
 
@@ -97,6 +110,6 @@ def file_builder(filename, url):
 #"https://www.ragalahari.com/stars/profile/1289/hamsa-nandini.aspx"
 
 file_builder(
-    filename="hamsa_nandhini",
-    url="https://www.ragalahari.com/stars/profile/1289/hamsa-nandini.aspx"
+    filename="chitra_shukla",
+    url="https://www.ragalahari.com/stars/profile/55995/chitra-shukla.aspx"
 )
