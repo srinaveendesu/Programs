@@ -46,7 +46,7 @@ def jpg_getter(list_links):
                 for jp in soup.findAll('td')[1].contents[0].contents:
                     if isinstance(jp, bs4.element.Tag):
                         #print(jp)
-                        tmp_lst.append(jp.img.attrs['src'].replace('t', ''))
+                        tmp_lst.append(jp.img.attrs['src'].replace('t.jpg', '.jpg'))
                         #tmp_lst.append(jp.attrs['href'])
         except:
             pass
@@ -81,10 +81,10 @@ def file_builder(filename, url):
     ls1, lst2 = all_thumbs(url)
     f_list = []
     tot_jps = 0
-    for link in lst2:
+    for i, link in enumerate(lst2):
         p_list = page_getter(link)
         j_list = jpg_getter(p_list)
-        print(len(p_list), len(j_list), link)
+        print(i, len(p_list), len(j_list), link)
         tot_jps = tot_jps + len(j_list)
         f_list.extend(j_list)
 
@@ -97,6 +97,6 @@ def file_builder(filename, url):
 #"https://www.ragalahari.com/stars/profile/1289/hamsa-nandini.aspx"
 
 file_builder(
-    filename="shraddha_das",
-    url="https://www.ragalahari.com/stars/profile/1651/shraddha-das.aspx"
+    filename="hamsa_nandhini",
+    url="https://www.ragalahari.com/stars/profile/1289/hamsa-nandini.aspx"
 )
